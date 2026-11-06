@@ -225,10 +225,20 @@ window.WCF_SESSIONS = [
   "e": "15:40",
   "color": "#96C263",
   "title": "패널 토크",
-  "speakers": [],
+  "speakers": [
+   {
+    "name": "탁승희",
+    "role": "Bean Voyage 대표 · 모더레이터",
+    "photo": "",
+    "bio": "(예시) 모더레이터 소개 문구가 들어갈 자리입니다."
+   }
+  ],
   "overview": [
-   "(예시) 더 스테이지 연사들이 함께하는 패널 토크입니다. 진행자와 참여 연사가 정해지면 업데이트됩니다."
-  ]
+   "더 스테이지 연사들이 함께하는 패널 토크입니다. (예시) 패널 토크에서 다룰 질문이 정해지면 업데이트됩니다."
+  ],
+  "speakerLabel": "모더레이터",
+  "overviewLabel": "소개",
+  "metaLabel": "진행"
  },
  {
   "id": "stage-award",
