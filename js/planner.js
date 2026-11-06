@@ -56,8 +56,10 @@
     var c = cred || {};
     root.innerHTML =
       (MOCK ? '<div class="mock-note"><b>테스트 계정</b>' +
-        '<button type="button" class="mk" data-n="김커피" data-p="01012345678"><span>MB 티켓 보유자</span>김커피 · 010-1234-5678</button>' +
-        '<button type="button" class="mk" data-n="이단권" data-p="01022223333"><span>단권 보유자</span>이단권 · 010-2222-3333</button></div>' : '') +
+        mk('MB 구매자 · 수요조사 응답', '김커피', '01012345678') +
+        mk('MB 구매자 · 미응답', '최구매', '01044445555') +
+        mk('MB 초청자 · 미응답', '박엠비', '01033334444') +
+        mk('단권 구매자', '이단권', '01022223333') + '</div>' : '') +
       '<form class="lk-form" id="lkf" novalidate>' +
       '<div class="fld"><label for="lk-n">이름</label><input id="lk-n" autocomplete="name" placeholder="티켓에 등록한 이름" value="' + esc(c.name) + '"></div>' +
       '<div class="fld"><label for="lk-p">휴대전화</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>' +
@@ -83,6 +85,7 @@
       }, function () { viewLogin('연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
     });
   }
+  function mk(label, n, ph) { return '<button type="button" class="mk" data-n="' + n + '" data-p="' + ph + '"><span>' + label + '</span>' + n + ' · ' + fmtPhone(ph) + '</button>'; }
   function showErr(m) { var el = document.getElementById('lk-err'); if (el) el.textContent = m; }
   function busy(id, label) { var b = document.getElementById(id); if (b) { b.disabled = true; b.textContent = label; } }
 
@@ -195,6 +198,8 @@
     '01012345678': { person: { name: '김커피', contact: '010-****-5678', tickets: ['Master Blend Pass'], isMB: true }, access: MB_ACCESS,
       survey: { responded: true, q1: '참석', picks: ['F_Q1', 'F_S3', 'F_O2', 'F_NAS'], lastAt: '11.03 14:22', edited: false } },
     '01033334444': { person: { name: '박엠비', contact: '010-****-4444', tickets: ['Master Blend Pass (초청)'], isMB: true }, access: MB_ACCESS,
+      survey: { responded: false, q1: '', picks: [], lastAt: '', edited: false } },
+    '01044445555': { person: { name: '최구매', contact: '010-****-5555', tickets: ['Master Blend Pass'], isMB: true }, access: MB_ACCESS,
       survey: { responded: false, q1: '', picks: [], lastAt: '', edited: false } },
     '01022223333': { person: { name: '이단권', contact: '010-****-3333', tickets: ['The Sessions (목요일권)', 'Champion Live'], isMB: false },
       access: ['F_S3', 'F_S4', 'F_S5', 'F_NAS', 'F_PAN'], survey: null }
