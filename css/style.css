@@ -629,3 +629,12 @@ body.dr-open .dr-panel{transform:none}
 
 .contact span{width:28px}
 .contact .ofc{font-weight:500}
+
+/* ---------- 층위 정리: 섹션 제목(h2) > 소제목(h3) > 설명(sub-d) ---------- */
+.sec .sh{margin-bottom:8px}
+.sec .sub-h{font-size:17px;font-weight:600;letter-spacing:-.015em;margin:36px 0 4px;padding-bottom:10px;border-bottom:1px solid var(--k);display:block}
+.sec .sh + .sub-h{margin-top:24px}
+.sec .sub-d{font-size:13px;line-height:1.6;color:var(--mut);margin:10px 0 16px}
+.subsec{margin-top:8px}
+#venue .sub-h,#venue .sub-h:first-of-type{font-size:17px;margin:36px 0 4px}
+#venue .sh + .sub-h{margin-top:24px}
