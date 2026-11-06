@@ -664,3 +664,8 @@ body.dr-open .dr-panel{transform:none}
 .pt-hd img,.pt-hd .pt-ph{width:56px;height:56px;flex:none}
 .pt-hd .dt-t{margin:0}
 .page .pt-ft{margin-top:16px}
+
+/* 로그인 안내 캡션 */
+.lk-cap{list-style:none;margin-top:14px}
+.lk-cap li{font-size:12px;color:var(--mut);line-height:1.6;padding-left:12px;text-indent:-12px}
+.lk-cap li::before{content:"* "}

@@ -71,21 +71,22 @@
         mk(T('MB 초청자 · 미응답', 'MB pass (invited) · not responded'), '박엠비', '01033334444') +
         mk(T('단권 구매자', 'Single-program ticket'), '이단권', '01022223333') + '</div>' : '') +
       '<form class="lk-form" id="lkf" novalidate>' +
-      '<div class="fld"><label for="lk-n">' + T('이름', 'Name') + '</label><input id="lk-n" autocomplete="name" placeholder="' + T('티켓에 등록한 이름', 'Name on your ticket') + '" value="' + esc(c.name) + '"></div>' +
-      '<div class="fld"><label for="lk-p">' + T('휴대전화', 'Mobile (Korea)') + '</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>' +
-      '<div class="fld"><label for="lk-e">' + T('이메일<small>해외 번호인 경우</small>', 'Email<small>for non-Korean numbers</small>') + '</label><input id="lk-e" type="email" autocomplete="email" placeholder="name@example.com" value="' + esc(c.email) + '"></div>' +
+      '<div class="fld"><label for="lk-n">' + T('이름', 'Name<small>first name, then last name</small>') + '</label><input id="lk-n" autocomplete="name" placeholder="' + T('김포럼', 'Jane Smith') + '" value="' + esc(c.name) + '"></div>' +
+      (EN ? '' : '<div class="fld"><label for="lk-p">' + T('휴대전화', 'Mobile (Korea)') + '</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>') +
+      '<div class="fld"><label for="lk-e">' + T('이메일<small>해외 번호인 경우</small>', 'Email') + '</label><input id="lk-e" type="email" autocomplete="email" placeholder="name@example.com" value="' + esc(c.email) + '"></div>' +
       '<p class="lk-err" id="lk-err">' + esc(err || '') + '</p>' +
       '<button class="lk-btn" id="lk-go">' + T('로그인', 'Log in') + '</button>' +
-      '<p class="lk-hint">' + T('티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있습니다.', 'Log in with the details you registered when purchasing or receiving your ticket to see the sessions included in your ticket.') + '</p></form>';
-    var p = document.getElementById('lk-p');
+      '<ul class="lk-cap">' + T('<li>국내 등록자는 휴대전화 번호로 로그인할 수 있습니다.</li><li>해외 번호로 등록하신 분은 이메일 주소로 로그인할 수 있습니다.</li>', '<li>Please enter the name and email address you registered with.</li>') + '</ul></form>';
+    var p = document.getElementById('lk-p') || { value: '', addEventListener: function () {} };
     p.addEventListener('input', function () { p.value = fmtPhone(p.value); });
     [].forEach.call(root.querySelectorAll('.mk'), function (btn) {
-      btn.onclick = function () { document.getElementById('lk-n').value = btn.dataset.n; p.value = fmtPhone(btn.dataset.p); document.getElementById('lk-e').value = ''; };
+      btn.onclick = function () { document.getElementById('lk-n').value = btn.dataset.n; p.value = fmtPhone(btn.dataset.p); document.getElementById('lk-e').value = EN ? btn.dataset.e : ''; };
     });
     document.getElementById('lkf').addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('lk-n').value.trim(), phone = digits(p.value), email = document.getElementById('lk-e').value.trim();
       if (!name) return showErr(T('이름을 입력해 주십시오.', 'Please enter your name.'));
+      if (EN && !email) return showErr('Please enter your email address.');
       if (phone.length < 10 && !email) return showErr(T('휴대전화 번호 전체를 입력해 주십시오. 해외 번호는 이메일로 로그인할 수 있습니다.', 'Please enter your full mobile number, or log in with email if you have a non-Korean number.'));
       cred = { name: name, phone: phone, email: email };
       busy('lk-go', T('확인 중…', 'Checking…'));
@@ -95,7 +96,7 @@
       }, function () { viewLogin(T('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.', 'Connection failed. Please try again shortly.')); });
     });
   }
-  function mk(label, n, ph) { return '<button type="button" class="mk" data-n="' + n + '" data-p="' + ph + '"><span>' + label + '</span>' + n + ' · ' + fmtPhone(ph) + '</button>'; }
+  function mk(label, n, ph) { var em = 'test' + ph.slice(-4) + '@example.com'; return '<button type="button" class="mk" data-n="' + n + '" data-p="' + ph + '" data-e="' + em + '"><span>' + label + '</span>' + n + ' · ' + (EN ? em : fmtPhone(ph)) + '</button>'; }
   function showErr(m) { var el = document.getElementById('lk-err'); if (el) el.textContent = m; }
   function busy(id, label) { var b = document.getElementById(id); if (b) { b.disabled = true; b.textContent = label; } }
 
@@ -217,7 +218,8 @@
   function mockApi(pl) {
     return new Promise(function (res) {
       setTimeout(function () {
-        var u = mockDb[digits(pl.phone)];
+        var key = digits(pl.phone) || Object.keys(mockDb).filter(function (k) { return pl.email && pl.email === 'test' + k.slice(-4) + '@example.com'; })[0];
+        var u = mockDb[key];
         if (!u || u.person.name !== pl.name) return res({ ok: false, error: 'not_found' });
         if (pl.action === 'save') {
           u.survey.responded = true; u.survey.q1 = pl.q1; u.survey.edited = true; u.survey.lastAt = '11.06 21:30';

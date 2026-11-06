@@ -8,6 +8,7 @@
   var R = document.body.getAttribute('data-root') || '';
   var page = (location.pathname.split('/').pop() || '') + location.search;
   var MENU = EN ? [
+    ['my', 'Session Planner Login', 'planner.html'],
     ['', 'Home', '#home'],
     ['', 'About the Forum', 'about.html'],
     ['', 'World Coffee Forum at a Glance', '#glance'],
@@ -21,9 +22,9 @@
     ['h', 'Partner Event'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', 'Information'],
-    ['', 'Venue · Contact', '#venue'],
-    ['my', 'Session Planner Login', 'planner.html']
+    ['', 'Venue · Contact', '#venue']
   ] : [
+    ['my', '세션 플래너 로그인', 'planner.html'],
     ['', '홈', '#home'],
     ['', '포럼 개요', 'about.html'],
     ['', '한눈에 보는 월드커피포럼', '#glance'],
@@ -37,8 +38,7 @@
     ['h', '연계 행사'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', '안내'],
-    ['', '베뉴 · 문의', '#venue'],
-    ['my', '세션 플래너 로그인', 'planner.html']
+    ['', '베뉴 · 문의', '#venue']
   ];
   function href(h) { return h.charAt(0) === '#' ? base + h : h; }
 
