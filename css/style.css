@@ -573,7 +573,8 @@ body.dr-open .dr-panel{transform:none}
 #glance{border-top:0}
 /* Show Guide: 화면 하단 고정, 스크롤 시작하면 사라짐, 차분하게 한 번씩 */
 .cue{position:fixed;left:50%;bottom:0;z-index:25;transform:translate(-50%,62%);animation:peek 4.2s ease-in-out 1.2s infinite;transition:opacity .25s}
-.home-page.bar-on .cue{opacity:0;pointer-events:none}
+.cue.pulling{animation:none;transform:translate(-50%,calc(62% * (1 - var(--pull,0))));opacity:var(--fade,1);transition:none}
+.cue.gone{opacity:0;pointer-events:none}
 @keyframes peek{0%,60%,100%{transform:translate(-50%,62%)}75%{transform:translate(-50%,38%)}85%{transform:translate(-50%,52%)}}
 .vig{z-index:1;height:52%;background:linear-gradient(rgba(10,10,10,0) 0%,rgba(10,10,10,.35) 30%,rgba(10,10,10,.8) 60%,#0A0A0A 80%)}
 .cover::after{height:16px}

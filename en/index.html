@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
-<link rel="stylesheet" href="../css/style.css?v=11070812">
+<link rel="stylesheet" href="../css/style.css?v=11070820">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
 <link rel="manifest" href="../manifest.webmanifest">
@@ -171,7 +171,15 @@
   addEventListener('hashchange',fromHash);fromHash();
   // 스크롤을 시작하면 바로 상단 바 표시
   var cover=document.getElementById('top');
-  function onCover(){document.body.classList.toggle('bar-on',scrollY>8);}
+  var cue=document.querySelector('.cue');
+  function onCover(){document.body.classList.toggle('bar-on',scrollY>8);
+    if(!cue)return;var y=scrollY;
+    // 스크롤을 시작하면 버튼이 끌려 올라오듯 다 보였다가, 조금 더 내리면 사라진다
+    if(y<=2){cue.classList.remove('pulling','gone');cue.style.removeProperty('--pull');cue.style.removeProperty('--fade');return;}
+    cue.classList.add('pulling');
+    var p=Math.min(y/90,1),f=y<120?1:Math.max(0,1-(y-120)/80);
+    cue.style.setProperty('--pull',p.toFixed(3));cue.style.setProperty('--fade',f.toFixed(3));
+    cue.classList.toggle('gone',f<=0);}
   addEventListener('scroll',onCover,{passive:true});onCover();
   // 카드 → 세션 상세
   document.querySelectorAll('[data-id]').forEach(function(el){
@@ -181,7 +189,7 @@
   });
 })();
 </script>
-<script src="../js/nav.js?v=11070812"></script>
-<script src="../js/fx.js?v=11070812"></script>
+<script src="../js/nav.js?v=11070820"></script>
+<script src="../js/fx.js?v=11070820"></script>
 </body>
 </html>
