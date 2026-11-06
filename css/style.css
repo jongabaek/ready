@@ -672,3 +672,5 @@ body.dr-open .dr-panel{transform:none}
 .dr-sp{height:18px}
 #contact{scroll-margin-top:70px}
 #venue .rooms + .map-f{margin-top:24px}
+.map.iso .hdv{stroke:#fff;stroke-width:2.5}
+.map.iso .hl.a1{fill:#1A1A1A;font-weight:600}
