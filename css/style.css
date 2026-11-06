@@ -590,3 +590,4 @@ body.dr-open .dr-panel{transform:none}
 .cover{padding-top:18vh}
 .cover::after{height:96px;background:linear-gradient(rgba(10,10,10,.72),#0A0A0A);position:relative}
 .vig{bottom:96px;height:30%;background:linear-gradient(rgba(10,10,10,0),rgba(10,10,10,.28) 45%,rgba(10,10,10,.72))}
+.cover{padding-top:4vh}
