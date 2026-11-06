@@ -49,6 +49,14 @@
 
   var cred = null;   // 마지막 조회 입력값
   var data = null;   // 마지막 조회 결과
+  // 같은 탭 안에서는 상세 페이지를 다녀와도 조회 결과를 유지한다 (탭을 닫으면 사라짐)
+  function save() { try { sessionStorage.setItem('wcf_my', JSON.stringify(data)); sessionStorage.setItem('wcf_cred', JSON.stringify(cred)); } catch (e) {} }
+  function clear() { try { sessionStorage.removeItem('wcf_my'); sessionStorage.removeItem('wcf_cred'); } catch (e) {} }
+  function detailHref(k) {
+    if (k === 'F_Q1') return 'session.html?prog=stage';
+    var x = (window.WCF_SESSIONS || []).filter(function (y) { return y.key === k; })[0];
+    return x ? 'session.html?id=' + x.id : '';
+  }
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function digits(s) { return String(s || '').replace(/\D/g, ''); }
@@ -103,7 +111,7 @@
   };
   function onResult(res) {
     if (!res || !res.ok) return viewForm(ERR[res && res.error] || '조회 중 문제가 생겼어요.');
-    data = res; viewResult();
+    data = res; save(); viewResult();
   }
 
   // ---------- 화면: 결과 ----------
@@ -118,10 +126,10 @@
         var label = STATE_L[s.state] || '-';
         if (s.state === 'part' && s.n) label += ' (' + s.n + '명)';
         if (s.state === 'wait' && s.rank) label += ' ' + s.rank + '번';
-        rows += '<li><span class="t">' + esc(it.t) + '</span><span class="m">' + esc(it.d) + ' · ' + esc(g.room) + '</span><span class="st ' + esc(s.state) + '">' + esc(label) + '</span></li>';
+        rows += '<li><a href="' + esc(detailHref(it.k)) + '"><span class="t">' + esc(it.t) + '</span><span class="m">' + esc(it.d) + ' · ' + esc(g.room) + '</span><span class="st ' + esc(s.state) + '">' + esc(label) + '</span><i class="go" aria-hidden="true">›</i></a></li>';
       });
     });
-    var q1 = p.q1 && p.q1 !== '참석' ? '<li><span class="t">The Stage</span><span class="m">' + esc(p.q1) + '</span><span class="st none">' + esc(p.q1) + '</span></li>' : '';
+    var q1 = p.q1 && p.q1 !== '참석' ? '<li><a href="session.html?prog=stage"><span class="t">The Stage</span><span class="m">11.12 목 · 4F 401호</span><span class="st none">' + esc(p.q1) + '</span><i class="go" aria-hidden="true">›</i></a></li>' : '';
     root.innerHTML =
       (MOCK ? '<p class="mock-note">테스트 모드 · 예시 데이터입니다.</p>' : '') +
       (msg ? '<p class="mock-note" style="color:var(--gd);background:#F1F6EA">' + esc(msg) + '</p>' : '') +
@@ -131,7 +139,7 @@
       '<p class="ed-note">「대기」는 정원보다 신청이 많을 때의 순서예요. 유료 구매자가 먼저 배정되고, 무료 초청은 응답 순서대로 배정됩니다. 당일 불참이 많아 현장에서 입장할 수 있는 경우가 많아요.</p>' +
       '<div class="lk-row"><button class="lk-link" id="lk-back">다른 이름으로 조회</button>' +
       (p.editable ? '<button class="lk-btn" id="lk-edit" style="margin:0;padding:11px 20px">신청 수정</button>' : '') + '</div>';
-    document.getElementById('lk-back').onclick = function () { data = null; viewForm(); };
+    document.getElementById('lk-back').onclick = function () { data = null; clear(); viewForm(); };
     var eb = document.getElementById('lk-edit'); if (eb) eb.onclick = viewEdit;
   }
 
@@ -163,7 +171,7 @@
       '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">취소</button><button class="lk-btn" id="ed-ok">저장</button></div>';
     root.innerHTML = html;
     document.body.classList.add('editing');
-    root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollTo(0, 0);
     document.getElementById('ed-x').onclick = function () { viewResult(); };
     document.getElementById('ed-ok').onclick = function () {
       var q1 = (root.querySelector('input[name=q1]:checked') || {}).value || '미정';
@@ -172,8 +180,8 @@
       api({ action: 'update', name: cred.name, phone: cred.phone, email: cred.email, q1: q1, keys: keys })
         .then(function (res) {
           if (!res || !res.ok) { showErr(ERR[res && res.error] || '저장하지 못했어요. 잠시 후 다시 시도해 주세요.'); var b = document.getElementById('ed-ok'); b.disabled = false; b.textContent = '저장'; return; }
-          data = res; viewResult('저장했어요. 바뀐 내용으로 다시 계산한 결과예요.');
-          root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          data = res; save(); viewResult('저장했어요. 바뀐 내용으로 다시 계산한 결과예요.');
+          scrollTo(0, 0);
         }, function () { showErr('연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
     };
   }
@@ -202,5 +210,9 @@
     });
   }
 
-  viewForm();
+  try {
+    data = JSON.parse(sessionStorage.getItem('wcf_my') || 'null');
+    cred = JSON.parse(sessionStorage.getItem('wcf_cred') || 'null');
+  } catch (e) { data = null; }
+  if (data && cred) viewResult(); else viewForm();
 })();
