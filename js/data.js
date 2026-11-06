@@ -883,7 +883,7 @@ window.WCF_SESSIONS = [
    {
     "name": "조원진",
     "role": "커피 칼럼니스트",
-    "photo": "assets/sp/cho-wonjin.jpg",
+    "photo": "assets/sp/cho-wonjin.jpg?v=2",
     "bio": "‘베이루트’라는 필명으로 활동하는 회사원이자 커피 칼럼니스트. 조선일보·중앙일보·월간커피 등 여러 매체에 커피 글을 기고하고, 폴인·트레바리·서울카페쇼·SCA 리테일 서밋 등에서 모더레이터를 맡았다. 『열아홉 바리스타, 이야기를 로스팅하다』, 『스페셜티커피, 샌프란시스코에서 성수까지』, 『Korea Specialty Coffee Guide』, 2026년 신간 『사사로운 커피사』 등을 썼다."
    },
    {
