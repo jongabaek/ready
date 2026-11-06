@@ -41,7 +41,7 @@
         (x.speakers.length ? '<span class="sl-s">' + esc(speakersLine(x)) + '</span>' : '') + '</span>' +
         '<span class="sl-r">' + badge(x.key) + '<i aria-hidden="true">›</i></span></a></li>';
     });
-    if (!list.length) html += '<p class="lk-hint" style="padding:28px 0">내 티켓으로 참관할 수 있는 세션이 없어요. <a href="planner.html">세션 플래너</a>에서 참관 가능한 프로그램을 확인하세요.</p>';
+    if (!list.length) html += '<p class="lk-hint" style="padding:28px 0">내 티켓으로 참관할 수 있는 세션이 없습니다. <a href="planner.html">세션 플래너</a>에서 참관 가능한 프로그램을 확인할 수 있습니다.</p>';
     root.innerHTML = html + (list.length ? '</ul>' : '');
   }
 
@@ -61,12 +61,12 @@
       (x.speakers.length ? '<div><dt>' + (x.metaLabel ? x.metaLabel : x.speakerLabel ? x.speakerLabel : x.prog === 'futures' ? '심사' : x.prog === 'sca' ? '강사' : '연사') + '</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
     if (x.key && !me()) {
-      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에 로그인하면 내 티켓으로 참관할 수 있는지 확인할 수 있어요</span><i aria-hidden="true">›</i></a>';
+      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에 로그인하면 내 티켓으로 참관할 수 있는지 확인할 수 있습니다</span><i aria-hidden="true">›</i></a>';
     } else if (x.key) {
       var ok = can(x.key), m = me();
       html += '<a class="my-st" href="planner.html"><span class="acc-l"><span class="dot ' + (ok ? 'on' : 'off') + '"></span>' +
-        (ok ? '내 티켓으로 참관 가능' : '내 티켓으로는 참관할 수 없어요') + '</span>' + (ok ? cong(x.key) : '') + '<i aria-hidden="true">›</i></a>';
-      if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션이에요.' : '수요조사에 담지 않은 세션이에요. 세션 플래너에서 추가할 수 있어요.') + '</p>';
+        (ok ? '내 티켓으로 참관 가능' : '내 티켓으로는 참관할 수 없습니다') + '</span>' + (ok ? cong(x.key) : '') + '<i aria-hidden="true">›</i></a>';
+      if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션입니다.' : '수요조사에 담지 않은 세션입니다. 세션 플래너에서 추가할 수 있습니다.') + '</p>';
     }
 
     html += '<h2 class="dt-h">' + (x.overviewLabel ? x.overviewLabel : x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
@@ -104,7 +104,7 @@
     scrollTo(0, 0);
   }
 
-  function notFound() { root.innerHTML = '<a class="back" href="index.html">‹ 홈</a><p class="lk-hint" style="padding:40px 0">세션을 찾지 못했어요.</p>'; }
+  function notFound() { root.innerHTML = '<a class="back" href="index.html">‹ 홈</a><p class="lk-hint" style="padding:40px 0">세션을 찾지 못했습니다.</p>'; }
 
   if (id) { var x = S.filter(function (y) { return y.id === id; })[0]; x ? viewDetail(x) : notFound(); }
   else viewList(prog || 'sessions');

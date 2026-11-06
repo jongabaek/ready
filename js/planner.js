@@ -19,7 +19,7 @@
   ];
   var CONG = { ok: '여유', near: '보통', full: '혼잡' };
   var Q1_L = ['참석', '미정', '불참'];
-  var MB_NOTE = '세션별 좌석은 한정되어 있어요. 좌석이 부족할 경우 수요조사에 미리 응답하신 분께 우선 착석을 안내해 드려요. 일부 세션은 시음 가능 인원이 정해져 있어, 참석 인원이 많을 때는 모든 분께 시음을 제공해 드리기 어려울 수 있는 점 양해 부탁드려요.';
+  var MB_NOTE = '세션별 좌석은 한정되어 있습니다. 좌석이 부족할 경우 수요조사에 미리 응답하신 분께 우선 착석을 안내해 드립니다. 일부 세션은 시음 가능 인원이 정해져 있어, 참석 인원이 많을 때는 모든 분께 시음을 제공해 드리기 어려울 수 있는 점 양해 부탁드립니다.';
 
   var cred = null, data = null;
   function save() { try { sessionStorage.setItem('wcf_my', JSON.stringify(data)); sessionStorage.setItem('wcf_cred', JSON.stringify(cred)); } catch (e) {} }
@@ -45,10 +45,10 @@
       .then(function (r) { return r.json(); });
   }
   var ERR = {
-    not_found: '일치하는 티켓 정보를 찾지 못했어요. 티켓 구매·초청 시 등록한 이름과 번호를 확인해 주세요.',
-    locked: '로그인 시도가 많아 잠시 막아 두었어요. 10분 뒤에 다시 시도해 주세요.',
-    bad_request: '입력값을 확인해 주세요.',
-    no_survey: '이 티켓은 수요조사 대상이 아니에요.'
+    not_found: '일치하는 티켓 정보를 찾지 못했습니다. 티켓 구매·초청 시 등록한 이름과 번호를 확인해 주십시오.',
+    locked: '로그인 시도가 많아 잠시 제한되었습니다. 10분 뒤에 다시 시도해 주십시오.',
+    bad_request: '입력값을 확인해 주십시오.',
+    no_survey: '이 티켓은 수요조사 대상이 아닙니다.'
   };
 
   // ---------- 로그인 ----------
@@ -66,7 +66,7 @@
       '<div class="fld"><label for="lk-e">이메일<small>해외 번호인 경우</small></label><input id="lk-e" type="email" autocomplete="email" placeholder="name@example.com" value="' + esc(c.email) + '"></div>' +
       '<p class="lk-err" id="lk-err">' + esc(err || '') + '</p>' +
       '<button class="lk-btn" id="lk-go">로그인</button>' +
-      '<p class="lk-hint">티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있어요.</p></form>';
+      '<p class="lk-hint">티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있습니다.</p></form>';
     var p = document.getElementById('lk-p');
     p.addEventListener('input', function () { p.value = fmtPhone(p.value); });
     [].forEach.call(root.querySelectorAll('.mk'), function (btn) {
@@ -75,14 +75,14 @@
     document.getElementById('lkf').addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('lk-n').value.trim(), phone = digits(p.value), email = document.getElementById('lk-e').value.trim();
-      if (!name) return showErr('이름을 입력해 주세요.');
-      if (phone.length < 10 && !email) return showErr('휴대전화 번호 전체를 입력해 주세요. 해외 번호는 이메일로 로그인할 수 있어요.');
+      if (!name) return showErr('이름을 입력해 주십시오.');
+      if (phone.length < 10 && !email) return showErr('휴대전화 번호 전체를 입력해 주십시오. 해외 번호는 이메일로 로그인할 수 있습니다.');
       cred = { name: name, phone: phone, email: email };
       busy('lk-go', '확인 중…');
       api({ action: 'login', name: name, phone: phone, email: email }).then(function (res) {
-        if (!res || !res.ok) return viewLogin(ERR[res && res.error] || '로그인 중 문제가 생겼어요.');
+        if (!res || !res.ok) return viewLogin(ERR[res && res.error] || '로그인 중 문제가 발생했습니다.');
         data = res; save(); viewHome();
-      }, function () { viewLogin('연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
+      }, function () { viewLogin('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.'); });
     });
   }
   function mk(label, n, ph) { return '<button type="button" class="mk" data-n="' + n + '" data-p="' + ph + '"><span>' + label + '</span>' + n + ' · ' + fmtPhone(ph) + '</button>'; }
@@ -123,12 +123,12 @@
       if (sv.responded) {
         var keys = (sv.q1 === '참석' ? ['F_Q1'] : []).concat(sv.picks.filter(function (k) { return k !== 'F_Q1'; }));
         html += '<p class="sv-st"><span class="dot on"></span>응답 완료 · ' + (sv.edited ? '마지막 수정 ' : '마지막 응답 ') + esc(sv.lastAt) + '</p>' +
-          (keys.length ? '<ul class="rs">' + keys.map(function (k) { return row(k); }).join('') + '</ul>' : '<p class="lk-hint" style="padding:12px 0">선택한 세션이 없어요.</p>') +
+          (keys.length ? '<ul class="rs">' + keys.map(function (k) { return row(k); }).join('') + '</ul>' : '<p class="lk-hint" style="padding:12px 0">선택한 세션이 없습니다.</p>') +
           (sv.q1 && sv.q1 !== '참석' ? '<p class="lk-meta">The Stage · ' + esc(sv.q1) + '</p>' : '') +
           '<button class="lk-btn ghost wide" id="lk-edit">응답 수정</button>';
       } else {
-        html += '<p class="sv-st"><span class="dot off"></span>아직 응답하지 않았어요</p>' +
-          '<p class="lk-hint">참여를 희망하는 세션을 미리 선택해 주세요. 좌석과 현장 운영 준비에 활용하며, 아직 정하지 않았다면 「미정」으로 응답하고 나중에 수정할 수 있어요.</p>' +
+        html += '<p class="sv-st"><span class="dot off"></span>아직 응답하지 않았습니다</p>' +
+          '<p class="lk-hint">참여를 희망하는 세션을 미리 선택해 주십시오. 응답 내용은 좌석과 현장 운영 준비에 활용되며, 아직 정하지 않았다면 「미정」으로 응답한 뒤 나중에 수정할 수 있습니다.</p>' +
           '<button class="lk-btn wide" id="lk-edit">수요조사 응답하기</button>';
       }
       html += '<p class="ed-note">' + MB_NOTE + '</p>';
@@ -172,7 +172,7 @@
       });
       html += '</div>';
     });
-    html += '<p class="ed-note">실제 참석이 가능한 세션만 선택해 주세요. ' + MB_NOTE + ' SCA 교육 All about Q는 별도 등록이 필요해요.</p><p class="lk-err" id="lk-err"></p>' +
+    html += '<p class="ed-note">실제 참석이 가능한 세션만 선택해 주십시오. ' + MB_NOTE + ' SCA 교육 All about Q는 별도 등록이 필요합니다.</p><p class="lk-err" id="lk-err"></p>' +
       '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">취소</button><button class="lk-btn" id="ed-ok">' + (sv.responded ? '저장' : '응답 제출') + '</button></div>';
     root.innerHTML = html;
     document.body.classList.add('editing');
@@ -183,10 +183,10 @@
       var keys = [].slice.call(root.querySelectorAll('input[name=k]:checked')).map(function (i) { return i.value; });
       busy('ed-ok', '저장 중…');
       api({ action: 'save', name: cred.name, phone: cred.phone, email: cred.email, q1: q1, keys: keys }).then(function (res) {
-        if (!res || !res.ok) { showErr(ERR[res && res.error] || '저장하지 못했어요. 잠시 후 다시 시도해 주세요.'); var b = document.getElementById('ed-ok'); b.disabled = false; b.textContent = '저장'; return; }
+        if (!res || !res.ok) { showErr(ERR[res && res.error] || '저장하지 못했습니다. 잠시 후 다시 시도해 주십시오.'); var b = document.getElementById('ed-ok'); b.disabled = false; b.textContent = '저장'; return; }
         var wasNew = !data.survey.responded;
-        data = res; save(); viewHome(wasNew ? '수요조사 응답을 제출했어요.' : '응답을 수정했어요.'); scrollTo(0, 0);
-      }, function () { showErr('연결에 실패했어요. 잠시 후 다시 시도해 주세요.'); });
+        data = res; save(); viewHome(wasNew ? '수요조사 응답이 제출되었습니다.' : '응답이 수정되었습니다.'); scrollTo(0, 0);
+      }, function () { showErr('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.'); });
     };
   }
 

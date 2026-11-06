@@ -543,3 +543,18 @@ body.dr-open .dr-panel{transform:none}
 .home .theme{margin-bottom:26px}
 .intro p{font-size:15px;line-height:1.85;color:var(--k2)}
 .intro p+p{margin-top:14px}
+/* 랜딩 v3: 포스터 가로 꽉 차게(아래 정렬, 위는 같은 색으로 확장) + 화면 밖에서 튀어오르는 Show Guide */
+.cover img{position:absolute;left:0;bottom:0;width:100%;height:auto;object-fit:initial}
+.cue{bottom:0;transform:translate(-50%,62%);animation:peek 3.2s cubic-bezier(.3,.7,.4,1) 1s infinite}
+.cue i{display:none}
+.cue span{padding:16px 9px 46px}
+@keyframes peek{
+  0%,52%,100%{transform:translate(-50%,62%)}
+  60%{transform:translate(-50%,12%)}
+  66%{transform:translate(-50%,58%)}
+  72%{transform:translate(-50%,30%)}
+  78%{transform:translate(-50%,62%)}
+  84%{transform:translate(-50%,48%)}
+  90%{transform:translate(-50%,62%)}
+}
+@media (prefers-reduced-motion:reduce){.cue{animation:none;transform:translate(-50%,30%)}}
