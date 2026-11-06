@@ -596,3 +596,7 @@ body.dr-open .dr-panel{transform:none}
 .vig{bottom:160px;height:42%;background:linear-gradient(rgba(10,10,10,0) 0%,rgba(10,10,10,.12) 25%,rgba(10,10,10,.38) 55%,rgba(10,10,10,.7) 80%,rgba(10,10,10,.88) 100%)}
 .cover::after{height:160px;background:linear-gradient(rgba(10,10,10,.88),rgba(10,10,10,.96) 45%,#0A0A0A)}
 .home{padding-top:8px}
+/* 안내 섹션 소제목 */
+#venue .sub-h{font-size:17px;font-weight:600;margin:30px 0 12px;padding-bottom:10px;border-bottom:1px solid var(--k)}
+#venue .sub-h:first-of-type{margin-top:6px}
+.dr-panel .dr-my{margin:0 0 8px}
