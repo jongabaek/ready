@@ -65,7 +65,7 @@ window.WCF_SESSIONS = [
   "title": "우리는 왜 커피를 마시는가? 커피에 매료된 500년의 역사",
   "speakers": [
    {
-    "name": "피터 줄리아노",
+    "name": "피터 줄리아노 Peter Giuliano",
     "role": "Senior Advisor, SCA",
     "photo": "assets/sp/giuliano.jpg",
     "bio": "1988년부터 바리스타, 로스터, 커피 테이스터, 바이어, 교육자로 커피 업계에서 일해 왔다. 카운터 컬처 커피의 공동 소유주이자 커피 디렉터를 지냈고, 2011–2012년 SCA 회장을 역임했다. 커피과학재단(Coffee Science Foundation)을 설립했으며, 현재 SCA 시니어 어드바이저로 커피 산업에 도움이 되는 과학·경제 연구를 알리고 있다."
@@ -409,7 +409,7 @@ window.WCF_SESSIONS = [
   "title": "커피의 개인화 시대, 그 뒤에 숨은 기술",
   "speakers": [
    {
-    "name": "길라드 베코르",
+    "name": "길라드 베코르 Gilad Bechor",
     "role": "Coffi 대표",
     "photo": "assets/sp/bechor.jpg",
     "bio": "커피 애호가가 커피를 발견하고 기록하며 취향에 맞게 즐기도록 돕고, 독립 로스터와 연결해 주는 스페셜티 커피 앱 Coffi의 공동 창업자이자 CEO. 캘리포니아에서 자랐으며 제품·디자인 분야에서 사용자 중심의 서비스를 만들어 왔다."
@@ -431,7 +431,7 @@ window.WCF_SESSIONS = [
   "title": "좋은 커피는 우연히 탄생하지 않는다: 커피를 완성하는 데이터의 힘",
   "speakers": [
    {
-    "name": "바실리스 아포스톨로풀로스",
+    "name": "바실리스 아포스톨로풀로스 Vasilis Apostolopoulos",
     "role": "bibe Coffee 대표",
     "photo": "assets/sp/apostolopoulos.jpg",
     "bio": "데이터로 커피의 품질과 운영을 관리하는 bibe coffee의 공동 창업자이자 CEO."
@@ -554,7 +554,7 @@ window.WCF_SESSIONS = [
   "title": "Finca El Injerto",
   "speakers": [
    {
-    "name": "아뚜루 아기레 (Arturo Aguirre Saenz)",
+    "name": "아뚜루 아기레 Arturo Aguirre Saenz",
     "role": "Finca El Injerto 대표 · 생산자",
     "photo": "",
     "bio": ""
@@ -575,7 +575,7 @@ window.WCF_SESSIONS = [
   "title": "Guatemalan Coffees (Anacafé)",
   "speakers": [
    {
-    "name": "Mariana Caraveo",
+    "name": "마리아나 카라베오 Mariana Caraveo",
     "role": "Anacafé Coffee Academy 시니어 인스트럭터",
     "photo": "",
     "bio": ""
@@ -596,7 +596,7 @@ window.WCF_SESSIONS = [
   "title": "IWCA",
   "speakers": [
    {
-    "name": "이경선 (Lora Lee)",
+    "name": "이경선",
     "role": "IWCA Korea 부회장",
     "photo": "",
     "bio": ""
@@ -733,13 +733,13 @@ window.WCF_SESSIONS = [
   "title": "All about Q : 이해를 넘어 적용까지 | From Understanding To Application",
   "speakers": [
    {
-    "name": "Peter Giuliano",
+    "name": "피터 줄리아노 Peter Giuliano",
     "role": "SCA 시니어 어드바이저",
     "photo": "assets/sp/giuliano.jpg",
     "bio": "1988년부터 바리스타, 로스터, 커피 테이스터, 바이어, 교육자로 커피 업계에서 일해 왔다. 카운터 컬처 커피의 공동 소유주이자 커피 디렉터를 지냈고, 2011–2012년 SCA 회장을 역임했다. 커피과학재단(Coffee Science Foundation)을 설립했으며, 현재 SCA 시니어 어드바이저로 커피 산업에 도움이 되는 과학·경제 연구를 알리고 있다."
    },
    {
-    "name": "Lulu Wei",
+    "name": "루루 웨이 Lulu Wei",
     "role": "SCA 교육 매니저",
     "photo": "assets/sp/lulu.jpg",
     "bio": "SCA 교육 매니저로 20년 넘게 스페셜티 커피 업계에서 일해 왔다. 월드 커피 이벤트 심사위원과 선수(2014 월드 브루어스컵 5위)를 거쳤으며, 중화권 SCA 공인 트레이너(AST) 육성과 센서리 교육을 맡고 있다."
@@ -762,7 +762,7 @@ window.WCF_SESSIONS = [
   "title": "Intro to Cupping",
   "speakers": [
    {
-    "name": "Lulu Wei",
+    "name": "루루 웨이 Lulu Wei",
     "role": "SCA 교육 매니저",
     "photo": "assets/sp/lulu.jpg",
     "bio": "SCA 교육 매니저로 20년 넘게 스페셜티 커피 업계에서 일해 왔다. 월드 커피 이벤트 심사위원과 선수(2014 월드 브루어스컵 5위)를 거쳤으며, 중화권 SCA 공인 트레이너(AST) 육성과 센서리 교육을 맡고 있다."
@@ -790,7 +790,7 @@ window.WCF_SESSIONS = [
   "title": "Nas Jaafar 챔피언 라이브",
   "speakers": [
    {
-    "name": "Nas Jaafar (나스 자파르)",
+    "name": "나스 자파르 Nas Jaafar",
     "role": "2026 World Brewers Cup Champion",
     "photo": "assets/sp/jaafar.jpg",
     "bio": "2026 World Brewers Cup 챔피언이자 말레이시아 최초의 월드 챔피언. 10년 넘게 브루잉, 카페 운영, 생두, 대회를 두루 경험했으며, 현재 Falcon Coffees Asia와 함께 세계 각지에서 브루잉과 커피 품질, 교육에 대한 접근법을 나누고 있다."
@@ -811,7 +811,7 @@ window.WCF_SESSIONS = [
   "title": "Pan Wei 챔피언 라이브",
   "speakers": [
    {
-    "name": "Pan Wei (판웨이)",
+    "name": "판웨이 Pan Wei",
     "role": "Parking Coffee 창업자 · 2026 World Barista Champion",
     "photo": "assets/sp/panwei.jpg",
     "bio": ""
