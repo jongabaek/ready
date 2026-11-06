@@ -78,7 +78,7 @@
       x.partners.forEach(function (g) {
         html += '<h3 class="pt-g">' + esc(g.group) + '</h3><ul class="pt">';
         g.items.forEach(function (it) {
-          html += '<li>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').charAt(0)) + '</span>') +
+          html += '<li>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').replace(/[()]/g, '').charAt(0)) + '</span>') +
             '<div><b>' + esc(it.name) + '</b>' + (it.desc ? '<small>' + esc(it.desc) + '</small>' : '') + '</div></li>';
         });
         html += '</ul>';
