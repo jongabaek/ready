@@ -157,8 +157,7 @@ window.WCF_SESSIONS = [
   "title": "페어링 테이블 & 커피 브레이크",
   "speakers": [],
   "overview": [
-   "페어링 테이블은 더 스테이지 중간에 진행되는 맛과 교류의 시간입니다. 커피 한 잔과 디저트 한 입이 만드는 여유 속에서 새로운 영감과 네트워킹의 기회를 만나 보세요.",
-   "장소: 4F 401호 로비"
+   "페어링 테이블은 더 스테이지 중간에 진행되는 맛과 교류의 시간입니다. 커피 한 잔과 디저트 한 입이 만드는 여유 속에서 새로운 영감과 네트워킹의 기회를 만나 보세요."
   ],
   "partners": [
    {
@@ -239,7 +238,8 @@ window.WCF_SESSIONS = [
      }
     ]
    }
-  ]
+  ],
+  "room": "4F · 컨퍼런스룸 401호 로비"
  },
  {
   "id": "stage-5",
@@ -324,7 +324,8 @@ window.WCF_SESSIONS = [
     "label": "YouTube 플레이리스트 듣기",
     "url": "https://youtube.com/playlist?list=PLCRYZuEmVQPk&si=o1l-lG0NjxBG_t-e"
    }
-  ]
+  ],
+  "room": "4F · 컨퍼런스룸 401호 로비"
  },
  {
   "id": "session-1",

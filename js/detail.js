@@ -60,7 +60,7 @@
     html += (x.cat ? '<p class="dt-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</p>' : '') +
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
       '<dl class="dt-m"><div><dt>' + T('일시', 'Date') + '</dt><dd>' + x.day + ' (' + x.dow + ') ' + x.s + ' – ' + x.e + '</dd></div>' +
-      '<div><dt>' + T('장소', 'Venue') + '</dt><dd>' + esc(pg.room) + '</dd></div>' +
+      '<div><dt>' + T('장소', 'Venue') + '</dt><dd>' + esc(x.room || pg.room) + '</dd></div>' +
       (x.speakers.length ? '<div><dt>' + (x.metaLabel ? x.metaLabel : x.speakerLabel ? x.speakerLabel : x.prog === 'futures' ? T('심사', 'Judges') : x.prog === 'sca' ? T('강사', 'Trainers') : T('연사', 'Speaker')) + '</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
     if (x.key && me()) {
