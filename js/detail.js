@@ -71,7 +71,7 @@
     }
 
     if (x.schedule) html += '<h2 class="dt-h">' + T('진행 순서', 'Schedule') + '</h2><ol class="sched">' + x.schedule.map(function (r) {
-      return '<li><time>' + r[0] + '<i>–' + r[1] + '</i></time><span>' + esc(r[2]) + (r[3] ? '<small>' + r[3].map(function (t, i) { return (i + 1) + '. ' + esc(t); }).join('<br>') + '</small>' : '') + '</span></li>'; }).join('') + '</ol>' +
+      return '<li><time>' + r[0] + '<i>–' + r[1] + '</i></time><span>' + esc(r[2]) + (r[3] ? '<small>' + r[3].map(function (t, i) { return ((r[4] || 1) + i) + '. ' + esc(t); }).join('<br>') + '</small>' : '') + '</span></li>'; }).join('') + '</ol>' +
       (x.scheduleNotes ? '<ul class="lk-cap sched-n">' + x.scheduleNotes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>' : '');
     html += '<h2 class="dt-h">' + (x.overviewLabel ? x.overviewLabel : x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? T('소개', 'About') : x.prog === 'sca' ? T('교육 소개', 'About the Course') : T('발표 개요', 'Overview')) + '</h2>' +
       (x.image ? '<img class="dt-img" src="' + esc(x.image) + '" alt="">' : '') +
