@@ -413,3 +413,7 @@ body.dr-open .dr-panel{transform:none}
 .fab svg{width:22px;height:22px;stroke-width:1.6}
 #programs{border-top:0;padding-top:8px}
 .tile img{height:auto}
+
+/* 프로그램 블록: 키 컬러만, 세로로 긴 비율 */
+.tile .sw{display:block;width:100%;aspect-ratio:3/10;border-radius:var(--r);background:var(--tc)}
+.tile:active .sw{opacity:.85}
