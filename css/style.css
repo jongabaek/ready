@@ -696,3 +696,4 @@ body.dr-open .dr-panel{transform:none}
 .k-pair .pb-pat{background:radial-gradient(circle,var(--p) 0 3.5px,transparent 4px) 0 0/14px 14px}
 .k-dj .pb-pat{background:repeating-radial-gradient(circle at 50% 100%,var(--p) 0 1.5px,transparent 1.5px 6px)}
 .k-gala .pb-pat{background:repeating-linear-gradient(45deg,var(--p) 0 6px,transparent 6px 12px),repeating-linear-gradient(-45deg,var(--p) 0 6px,transparent 6px 12px)}
+.ev-h.first{margin-top:6px}
