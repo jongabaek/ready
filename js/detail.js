@@ -70,6 +70,8 @@
       if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? T('수요조사에 담은 세션입니다.', 'You selected this session in your survey.') : T('수요조사에 담지 않은 세션입니다. 세션 플래너에서 추가할 수 있습니다.', 'Not in your survey yet. You can add it in the Session Planner.')) + '</p>';
     }
 
+    if (x.schedule) html += '<h2 class="dt-h">' + T('진행 순서', 'Schedule') + '</h2><ol class="sched">' + x.schedule.map(function (r) {
+      return '<li><time>' + r[0] + '<i>–' + r[1] + '</i></time><span>' + esc(r[2]) + '</span></li>'; }).join('') + '</ol>';
     html += '<h2 class="dt-h">' + (x.overviewLabel ? x.overviewLabel : x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? T('소개', 'About') : x.prog === 'sca' ? T('교육 소개', 'About the Course') : T('발표 개요', 'Overview')) + '</h2>' +
       (x.image ? '<img class="dt-img" src="' + esc(x.image) + '" alt="">' : '') +
       '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
