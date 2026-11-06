@@ -81,10 +81,8 @@
       x.partners.forEach(function (g) {
         html += '<h3 class="pt-g">' + esc(g.group) + '</h3><ul class="pt">';
         g.items.forEach(function (it) {
-          html += '<li' + (it.featured ? ' class="pt-sp"' : '') + '>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').replace(/[()]/g, '').charAt(0)) + '</span>') +
-            '<div><b>' + esc(it.name) + (it.sub ? ' <em>' + esc(it.sub) + '</em>' : '') + '</b>' + (it.desc ? '<small>' + esc(it.desc) + '</small>' : '') + '</div>' +
-            (it.featured ? '<div class="pt-ft"><h4>' + esc(it.featured.title) + '</h4>' + (it.featured.note ? '<p>' + esc(it.featured.note) + '</p>' : '') +
-              '<ol>' + it.featured.list.map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ol></div>' : '') + '</li>';
+          html += '<li><a href="session.html?partner=' + esc(it.id) + '">' + logo(it) +
+            '<div><b>' + esc(it.name) + '</b>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div><i aria-hidden="true">›</i></a></li>';
         });
         html += '</ul>';
       });
@@ -107,8 +105,30 @@
     scrollTo(0, 0);
   }
 
+  function logo(it) { return it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.charAt(0)) + '</span>'; }
+
+  // ---------- 파트너 브랜드 상세 ----------
+  function viewPartner(pid) {
+    var host, item, grp;
+    S.forEach(function (y) { (y.partners || []).forEach(function (g) { g.items.forEach(function (it) { if (it.id === pid) { host = y; item = it; grp = g; } }); }); });
+    if (!item) return notFound();
+    document.title = item.name + ' · ' + host.title;
+    var html = '<a class="back" href="session.html?id=' + esc(host.id) + '">‹ ' + esc(host.title) + '</a>' +
+      '<p class="dt-c">' + esc(grp.group) + '</p><div class="pt-hd">' + logo(item) + '<div><h1 class="dt-t">' + esc(item.name) + '</h1>' + (item.sub ? '<p class="pg-m">' + esc(item.sub) + '</p>' : '') + '</div></div>' +
+      '<h2 class="dt-h">' + T('브랜드 소개', 'About the Brand') + '</h2>' +
+      '<div class="dt-body"><p>' + esc(item.desc || T('(예시) 브랜드 소개가 들어갈 자리입니다.', '(Sample) Brand introduction will be added here.')) + '</p></div>';
+    if (item.featured) html += '<div class="pt-ft"><h4>' + esc(item.featured.title) + '</h4>' + (item.featured.note ? '<p>' + esc(item.featured.note) + '</p>' : '') +
+      '<ol>' + item.featured.list.map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ol></div>';
+    var others = []; host.partners.forEach(function (g) { g.items.forEach(function (it) { if (it.id !== pid) others.push(it); }); });
+    if (others.length) html += '<h2 class="dt-h">' + T('다른 파트너', 'Other Partners') + '</h2><ul class="pt">' + others.map(function (it) {
+      return '<li><a href="session.html?partner=' + esc(it.id) + '">' + logo(it) + '<div><b>' + esc(it.name) + '</b></div><i aria-hidden="true">›</i></a></li>'; }).join('') + '</ul>';
+    root.innerHTML = html; scrollTo(0, 0);
+  }
+
   function notFound() { root.innerHTML = '<a class="back" href="index.html">‹ ' + T('홈', 'Home') + '</a><p class="lk-hint" style="padding:40px 0">' + T('세션을 찾지 못했습니다.', 'Session not found.') + '</p>'; }
 
-  if (id) { var x = S.filter(function (y) { return y.id === id; })[0]; x ? viewDetail(x) : notFound(); }
+  var partner = q.get('partner');
+  if (partner) viewPartner(partner);
+  else if (id) { var x = S.filter(function (y) { return y.id === id; })[0]; x ? viewDetail(x) : notFound(); }
   else viewList(prog || 'sessions');
 })();

@@ -209,19 +209,23 @@ window.WCF_SESSIONS = [
          "부드러운 우롱에 장미·복숭아·살구 향을 더한 과일 향과 꽃향기"
         ]
        ]
-      }
+      },
+      "id": "kewleaves"
      },
      {
       "name": "뉴믹스",
-      "desc": ""
+      "desc": "",
+      "id": "newmix"
      },
      {
       "name": "커피명가",
-      "desc": ""
+      "desc": "",
+      "id": "myungga"
      },
      {
       "name": "모닌",
-      "desc": ""
+      "desc": "",
+      "id": "monin"
      }
     ]
    },
@@ -230,11 +234,8 @@ window.WCF_SESSIONS = [
     "items": [
      {
       "name": "카페 라이츠",
-      "desc": ""
-     },
-     {
-      "name": "(추가 예정)",
-      "desc": ""
+      "desc": "",
+      "id": "wrights"
      }
     ]
    }
