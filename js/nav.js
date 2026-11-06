@@ -5,7 +5,6 @@
   var base = document.body.getAttribute('data-base') || '';
   var here = location.pathname.split('/').pop() || 'index.html';
   var MENU = [
-    ['my', '세션 플래너 로그인', 'planner.html'],
     ['', '홈', '#home'],
     ['', '포럼 개요', 'about.html'],
     ['', '한눈에 보는 월드커피포럼', '#glance'],
@@ -19,7 +18,8 @@
     ['h', '연계 행사'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', '안내'],
-    ['', '베뉴 · 문의', '#venue']
+    ['', '베뉴 · 문의', '#venue'],
+    ['my', '세션 플래너 로그인', 'planner.html']
   ];
   function href(h) { return h.charAt(0) === '#' ? base + h : h; }
 
