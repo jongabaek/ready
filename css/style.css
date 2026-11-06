@@ -560,3 +560,22 @@ body.dr-open .dr-panel{transform:none}
 @media (prefers-reduced-motion:reduce){.cue{animation:none;transform:translate(-50%,30%)}}
 #programs{padding-top:44px;border-top:1px solid var(--line)}
 #programs .tg-note{margin-top:18px}
+/* 랜딩 v4 ------------------------------------------------------------ */
+/* 포스터는 자르지 않고 가로 꽉 채움, 위쪽은 같은 회색으로 넉넉히 확장 */
+.cover{height:auto;min-height:100vh;min-height:100svh;padding-top:12vh;display:flex;flex-direction:column;justify-content:flex-end;background:#EFEFEF}
+.cover img{position:static;width:100%;height:auto;display:block}
+/* 포스터 하단 → 검정으로 길게 페이드 */
+.vig{height:38%;background:linear-gradient(rgba(10,10,10,0),rgba(10,10,10,.45) 50%,rgba(10,10,10,.92) 85%,#0A0A0A)}
+.cover::after{content:"";display:block;height:72px;background:linear-gradient(#0A0A0A,#0A0A0A)}
+/* 소개 섹션: 검정 배경 */
+.home{background:#0A0A0A;color:#F2F2F2;padding-top:24px;padding-bottom:56px}
+.home .theme{color:#fff}
+.intro p{color:#B8B8B5}
+#glance{border-top:0}
+/* Show Guide: 화면 하단 고정, 스크롤 시작하면 사라짐, 차분하게 한 번씩 */
+.cue{position:fixed;left:50%;bottom:0;z-index:25;transform:translate(-50%,62%);animation:peek 4.2s ease-in-out 1.2s infinite;transition:opacity .25s}
+.home-page.bar-on .cue{opacity:0;pointer-events:none}
+@keyframes peek{0%,60%,100%{transform:translate(-50%,62%)}75%{transform:translate(-50%,38%)}85%{transform:translate(-50%,52%)}}
+.vig{z-index:1;height:52%;background:linear-gradient(rgba(10,10,10,0) 0%,rgba(10,10,10,.35) 30%,rgba(10,10,10,.8) 60%,#0A0A0A 80%)}
+.cover::after{height:16px}
+.fab{border:1px solid rgba(255,255,255,.25)}
