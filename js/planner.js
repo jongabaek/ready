@@ -9,6 +9,9 @@
   if (!root) return;
   var MOCK = !CFG.API_URL || /[?&]mock=1/.test(location.search);
   var S = window.WCF_SESSIONS || [], P = window.WCF_PROG || {};
+  var EN = document.documentElement.lang === 'en';
+  function T(ko, en) { return EN ? en : ko; }
+  function tk(t) { return EN ? String(t).replace('(초청)', '(Invited)').replace('(목요일권)', '(Thursday)').replace('(금요일권)', '(Friday)').replace('(수요일권)', '(Wednesday)').replace('(토요일권)', '(Saturday)').replace('(4일권)', '(4-Day)') : t; }
 
   // 수정 화면용 묶음 (집계 키 = 통합관리시트 F_○○ / SCA_○○)
   var GROUPS = [
@@ -17,9 +20,11 @@
     { title: 'Champion Live', prog: 'champion' },
     { title: 'SCA Education', prog: 'sca' }
   ];
-  var CONG = { ok: '여유', near: '보통', full: '혼잡' };
+  var CONG = EN ? { ok: 'Available', near: 'Moderate', full: 'Busy' } : { ok: '여유', near: '보통', full: '혼잡' };
   var Q1_L = ['참석', '미정', '불참'];
-  var MB_NOTE = '세션별 좌석은 한정되어 있습니다. 좌석이 부족할 경우 수요조사에 미리 응답하신 분께 우선 착석을 안내해 드립니다. 일부 세션은 시음 가능 인원이 정해져 있어, 참석 인원이 많을 때는 모든 분께 시음을 제공해 드리기 어려울 수 있는 점 양해 부탁드립니다.';
+  var Q1_EN = { '참석': 'Attending', '미정': 'Undecided', '불참': 'Not attending' };
+  function q1l(v) { return EN ? (Q1_EN[v] || v) : v; }
+  var MB_NOTE = EN ? 'Seats for each session are limited. If seats run short, priority seating goes to those who responded to the survey in advance. Some sessions have a limited number of tasting portions, so we may not be able to offer a tasting to everyone when attendance is high. Thank you for your understanding.' : '세션별 좌석은 한정되어 있습니다. 좌석이 부족할 경우 수요조사에 미리 응답하신 분께 우선 착석을 안내해 드립니다. 일부 세션은 시음 가능 인원이 정해져 있어, 참석 인원이 많을 때는 모든 분께 시음을 제공해 드리기 어려울 수 있는 점 양해 부탁드립니다.';
 
   var cred = null, data = null;
   function save() { try { sessionStorage.setItem('wcf_my', JSON.stringify(data)); sessionStorage.setItem('wcf_cred', JSON.stringify(cred)); } catch (e) {} }
@@ -31,7 +36,7 @@
   function byKey(k) { return S.filter(function (x) { return x.key === k; }); }
   function first(k) { return byKey(k)[0]; }
   function cong(k) { var c = data && data.congestion && data.congestion[k]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
-  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡</p>';
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>' + CONG.ok + '<span class="cg cg-near"></span>' + CONG.near + '<span class="cg cg-full"></span>' + CONG.full + '</p>';
   function has(k) { return data && data.access.indexOf(k) > -1; }
 
   // ---------- API ----------
@@ -44,7 +49,12 @@
     return fetch(CFG.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) })
       .then(function (r) { return r.json(); });
   }
-  var ERR = {
+  var ERR = EN ? {
+    not_found: 'No matching ticket found. Please check the name and phone number or email you registered with.',
+    locked: 'Too many login attempts. Please try again in 10 minutes.',
+    bad_request: 'Please check your input.',
+    no_survey: 'This ticket is not eligible for the survey.'
+  } : {
     not_found: '일치하는 티켓 정보를 찾지 못했습니다. 티켓 구매·초청 시 등록한 이름과 번호를 확인해 주십시오.',
     locked: '로그인 시도가 많아 잠시 제한되었습니다. 10분 뒤에 다시 시도해 주십시오.',
     bad_request: '입력값을 확인해 주십시오.',
@@ -55,18 +65,18 @@
   function viewLogin(err) {
     var c = cred || {};
     root.innerHTML =
-      (MOCK ? '<div class="mock-note"><b>테스트 계정</b>' +
-        mk('MB 구매자 · 수요조사 응답', '김커피', '01012345678') +
-        mk('MB 구매자 · 미응답', '최구매', '01044445555') +
-        mk('MB 초청자 · 미응답', '박엠비', '01033334444') +
-        mk('단권 구매자', '이단권', '01022223333') + '</div>' : '') +
+      (MOCK ? '<div class="mock-note"><b>' + T('테스트 계정', 'Test accounts') + '</b>' +
+        mk(T('MB 구매자 · 수요조사 응답', 'MB pass · responded'), '김커피', '01012345678') +
+        mk(T('MB 구매자 · 미응답', 'MB pass · not responded'), '최구매', '01044445555') +
+        mk(T('MB 초청자 · 미응답', 'MB pass (invited) · not responded'), '박엠비', '01033334444') +
+        mk(T('단권 구매자', 'Single-program ticket'), '이단권', '01022223333') + '</div>' : '') +
       '<form class="lk-form" id="lkf" novalidate>' +
-      '<div class="fld"><label for="lk-n">이름</label><input id="lk-n" autocomplete="name" placeholder="티켓에 등록한 이름" value="' + esc(c.name) + '"></div>' +
-      '<div class="fld"><label for="lk-p">휴대전화</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>' +
-      '<div class="fld"><label for="lk-e">이메일<small>해외 번호인 경우</small></label><input id="lk-e" type="email" autocomplete="email" placeholder="name@example.com" value="' + esc(c.email) + '"></div>' +
+      '<div class="fld"><label for="lk-n">' + T('이름', 'Name') + '</label><input id="lk-n" autocomplete="name" placeholder="' + T('티켓에 등록한 이름', 'Name on your ticket') + '" value="' + esc(c.name) + '"></div>' +
+      '<div class="fld"><label for="lk-p">' + T('휴대전화', 'Mobile (Korea)') + '</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>' +
+      '<div class="fld"><label for="lk-e">' + T('이메일<small>해외 번호인 경우</small>', 'Email<small>for non-Korean numbers</small>') + '</label><input id="lk-e" type="email" autocomplete="email" placeholder="name@example.com" value="' + esc(c.email) + '"></div>' +
       '<p class="lk-err" id="lk-err">' + esc(err || '') + '</p>' +
-      '<button class="lk-btn" id="lk-go">로그인</button>' +
-      '<p class="lk-hint">티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있습니다.</p></form>';
+      '<button class="lk-btn" id="lk-go">' + T('로그인', 'Log in') + '</button>' +
+      '<p class="lk-hint">' + T('티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있습니다.', 'Log in with the details you registered when purchasing or receiving your ticket to see the sessions included in your ticket.') + '</p></form>';
     var p = document.getElementById('lk-p');
     p.addEventListener('input', function () { p.value = fmtPhone(p.value); });
     [].forEach.call(root.querySelectorAll('.mk'), function (btn) {
@@ -75,14 +85,14 @@
     document.getElementById('lkf').addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('lk-n').value.trim(), phone = digits(p.value), email = document.getElementById('lk-e').value.trim();
-      if (!name) return showErr('이름을 입력해 주십시오.');
-      if (phone.length < 10 && !email) return showErr('휴대전화 번호 전체를 입력해 주십시오. 해외 번호는 이메일로 로그인할 수 있습니다.');
+      if (!name) return showErr(T('이름을 입력해 주십시오.', 'Please enter your name.'));
+      if (phone.length < 10 && !email) return showErr(T('휴대전화 번호 전체를 입력해 주십시오. 해외 번호는 이메일로 로그인할 수 있습니다.', 'Please enter your full mobile number, or log in with email if you have a non-Korean number.'));
       cred = { name: name, phone: phone, email: email };
-      busy('lk-go', '확인 중…');
+      busy('lk-go', T('확인 중…', 'Checking…'));
       api({ action: 'login', name: name, phone: phone, email: email }).then(function (res) {
-        if (!res || !res.ok) return viewLogin(ERR[res && res.error] || '로그인 중 문제가 발생했습니다.');
+        if (!res || !res.ok) return viewLogin(ERR[res && res.error] || T('로그인 중 문제가 발생했습니다.', 'Something went wrong while logging in.'));
         data = res; save(); viewHome();
-      }, function () { viewLogin('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.'); });
+      }, function () { viewLogin(T('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.', 'Connection failed. Please try again shortly.')); });
     });
   }
   function mk(label, n, ph) { return '<button type="button" class="mk" data-n="' + n + '" data-p="' + ph + '"><span>' + label + '</span>' + n + ' · ' + fmtPhone(ph) + '</button>'; }
@@ -105,7 +115,7 @@
       var n = keys.filter(has).length;
       if (!n && !data.person.isMB) return; // 단권: 참관 가능한 프로그램만
       html += '<li><a href="session.html?prog=' + pk + '"><span class="dot ' + (n ? 'on' : 'off') + '"></span><span class="t">' + esc(P[pk].name) + '</span>' +
-        '<span class="m">' + (n ? (n === keys.length ? '전체 참관 가능' : n + '개 세션 참관 가능') : '참관 불가') + '</span><i class="go" aria-hidden="true">›</i></a></li>';
+        '<span class="m">' + (n ? (n === keys.length ? T('전체 참관 가능', 'All sessions included') : T(n + '개 세션 참관 가능', n + ' sessions included')) : T('참관 불가', 'Not included')) + '</span><i class="go" aria-hidden="true">›</i></a></li>';
     });
     return html + '</ul>';
   }
@@ -113,34 +123,34 @@
   function viewHome(msg) {
     document.body.classList.remove('editing');
     var p = data.person, sv = data.survey, html = '';
-    if (MOCK) html += '<p class="mock-note">테스트 모드 · 예시 데이터입니다.</p>';
+    if (MOCK) html += '<p class="mock-note">' + T('테스트 모드 · 예시 데이터입니다.', 'Test mode · sample data') + '</p>';
     if (msg) html += '<p class="ok-note">' + esc(msg) + '</p>';
-    html += LEGEND + '<div class="me"><b>' + esc(p.name) + ' 님</b><small>' + esc(p.contact) + '</small></div>' +
-      '<p class="tk">' + p.tickets.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</p>';
+    html += LEGEND + '<div class="me"><b>' + esc(p.name) + T(' 님', '') + '</b><small>' + esc(p.contact) + '</small></div>' +
+      '<p class="tk">' + p.tickets.map(function (t) { return '<span>' + esc(tk(t)) + '</span>'; }).join('') + '</p>';
 
     if (p.isMB && sv) {
-      html += '<h2 class="lk-sub">세션 수요조사</h2>';
+      html += '<h2 class="lk-sub">' + T('세션 수요조사', 'Session Survey') + '</h2>';
       if (sv.responded) {
         var keys = (sv.q1 === '참석' ? ['F_Q1'] : []).concat(sv.picks.filter(function (k) { return k !== 'F_Q1'; }));
-        html += '<p class="sv-st"><span class="dot on"></span>응답 완료 · ' + (sv.edited ? '마지막 수정 ' : '마지막 응답 ') + esc(sv.lastAt) + '</p>' +
-          (keys.length ? '<ul class="rs">' + keys.map(function (k) { return row(k); }).join('') + '</ul>' : '<p class="lk-hint" style="padding:12px 0">선택한 세션이 없습니다.</p>') +
-          (sv.q1 && sv.q1 !== '참석' ? '<p class="lk-meta">The Stage · ' + esc(sv.q1) + '</p>' : '') +
-          '<button class="lk-btn ghost wide" id="lk-edit">응답 수정</button>';
+        html += '<p class="sv-st"><span class="dot on"></span>' + T('응답 완료 · ', 'Responded · ') + (sv.edited ? T('마지막 수정 ', 'last edited ') : T('마지막 응답 ', 'responded ')) + esc(sv.lastAt) + '</p>' +
+          (keys.length ? '<ul class="rs">' + keys.map(function (k) { return row(k); }).join('') + '</ul>' : '<p class="lk-hint" style="padding:12px 0">' + T('선택한 세션이 없습니다.', 'No sessions selected.') + '</p>') +
+          (sv.q1 && sv.q1 !== '참석' ? '<p class="lk-meta">The Stage · ' + esc(q1l(sv.q1)) + '</p>' : '') +
+          '<button class="lk-btn ghost wide" id="lk-edit">' + T('응답 수정', 'Edit response') + '</button>';
       } else {
-        html += '<p class="sv-st"><span class="dot off"></span>아직 응답하지 않았습니다</p>' +
-          '<p class="lk-hint">참여를 희망하는 세션을 미리 선택해 주십시오. 응답 내용은 좌석과 현장 운영 준비에 활용되며, 아직 정하지 않았다면 「미정」으로 응답한 뒤 나중에 수정할 수 있습니다.</p>' +
-          '<button class="lk-btn wide" id="lk-edit">수요조사 응답하기</button>';
+        html += '<p class="sv-st"><span class="dot off"></span>' + T('아직 응답하지 않았습니다', 'Not responded yet') + '</p>' +
+          '<p class="lk-hint">' + T('참여를 희망하는 세션을 미리 선택해 주십시오. 응답 내용은 좌석과 현장 운영 준비에 활용되며, 아직 정하지 않았다면 「미정」으로 응답한 뒤 나중에 수정할 수 있습니다.', 'Please select the sessions you plan to attend. Your response helps us prepare seating and on-site operations. If you have not decided yet, choose “Undecided” and edit later.') + '</p>' +
+          '<button class="lk-btn wide" id="lk-edit">' + T('수요조사 응답하기', 'Take the survey') + '</button>';
       }
       html += '<p class="ed-note">' + MB_NOTE + '</p>';
     }
 
-    html += '<h2 class="lk-sub">' + (p.isMB ? '내 티켓으로 볼 수 있는 프로그램' : '내 티켓으로 볼 수 있는 프로그램') + '</h2>' + progSummary();
+    html += '<h2 class="lk-sub">' + T('내 티켓으로 볼 수 있는 프로그램', 'Programs in your ticket') + '</h2>' + progSummary();
     if (!p.isMB) {
       var mine = data.access.filter(function (k) { return first(k); });
-      html += '<h2 class="lk-sub">참관 가능 세션</h2><ul class="rs">' + mine.map(function (k) { return row(k); }).join('') + '</ul>';
+      html += '<h2 class="lk-sub">' + T('참관 가능 세션', 'Sessions you can attend') + '</h2><ul class="rs">' + mine.map(function (k) { return row(k); }).join('') + '</ul>';
     }
-    html += '<p class="lk-meta">' + esc(data.asOf) + ' 기준</p>' +
-      '<div class="lk-row"><button class="lk-link" id="lk-out">로그아웃</button></div>';
+    html += '<p class="lk-meta">' + T(esc(data.asOf) + ' 기준', 'As of ' + esc(data.asOf)) + '</p>' +
+      '<div class="lk-row"><button class="lk-link" id="lk-out">' + T('로그아웃', 'Log out') + '</button></div>';
     root.innerHTML = html;
     document.getElementById('lk-out').onclick = function () { data = null; cred = null; clear(); viewLogin(); };
     var eb = document.getElementById('lk-edit'); if (eb) eb.onclick = viewEdit;
@@ -151,11 +161,11 @@
     var sv = data.survey, picked = {};
     sv.picks.forEach(function (k) { picked[k] = 1; });
     var q1now = sv.responded ? (sv.q1 || '미정') : '';
-    var html = LEGEND + '<div class="me"><b>' + (sv.responded ? '응답 수정' : '수요조사 응답') + '</b><small>' + esc(data.person.name) + ' 님</small></div>';
+    var html = LEGEND + '<div class="me"><b>' + (sv.responded ? T('응답 수정', 'Edit response') : T('수요조사 응답', 'Session survey')) + '</b><small>' + esc(data.person.name) + T(' 님', '') + '</small></div>';
     if (has('F_Q1')) {
-      html += '<div class="ed-grp"><h4>The Stage<small>11.12 목 · 4F 401호</small></h4>';
+      html += '<div class="ed-grp"><h4>The Stage<small>' + T('11.12 목 · 4F 401호', '11.12 Thu · 4F Room 401') + '</small></h4>';
       Q1_L.forEach(function (v) {
-        html += '<label class="opt"><input type="radio" name="q1" value="' + v + '"' + (q1now === v ? ' checked' : '') + '><span class="t">' + v + '</span><span class="m"></span>' +
+        html += '<label class="opt"><input type="radio" name="q1" value="' + v + '"' + (q1now === v ? ' checked' : '') + '><span class="t">' + q1l(v) + '</span><span class="m"></span>' +
           (v === '참석' ? cong('F_Q1') : '') + '</label>';
       });
       html += '</div>';
@@ -172,8 +182,8 @@
       });
       html += '</div>';
     });
-    html += '<p class="ed-note">실제 참석이 가능한 세션만 선택해 주십시오. ' + MB_NOTE + ' SCA 교육 All about Q는 별도 등록이 필요합니다.</p><p class="lk-err" id="lk-err"></p>' +
-      '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">취소</button><button class="lk-btn" id="ed-ok">' + (sv.responded ? '저장' : '응답 제출') + '</button></div>';
+    html += '<p class="ed-note">' + T('실제 참석이 가능한 세션만 선택해 주십시오. ', 'Please select only the sessions you can actually attend. ') + MB_NOTE + T(' SCA 교육 All about Q는 별도 등록이 필요합니다.', ' SCA Education All about Q requires separate registration.') + '</p><p class="lk-err" id="lk-err"></p>' +
+      '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">' + T('취소', 'Cancel') + '</button><button class="lk-btn" id="ed-ok">' + (sv.responded ? T('저장', 'Save') : T('응답 제출', 'Submit')) + '</button></div>';
     root.innerHTML = html;
     document.body.classList.add('editing');
     scrollTo(0, 0);
@@ -181,12 +191,12 @@
     document.getElementById('ed-ok').onclick = function () {
       var q1 = (root.querySelector('input[name=q1]:checked') || {}).value || '미정';
       var keys = [].slice.call(root.querySelectorAll('input[name=k]:checked')).map(function (i) { return i.value; });
-      busy('ed-ok', '저장 중…');
+      busy('ed-ok', T('저장 중…', 'Saving…'));
       api({ action: 'save', name: cred.name, phone: cred.phone, email: cred.email, q1: q1, keys: keys }).then(function (res) {
-        if (!res || !res.ok) { showErr(ERR[res && res.error] || '저장하지 못했습니다. 잠시 후 다시 시도해 주십시오.'); var b = document.getElementById('ed-ok'); b.disabled = false; b.textContent = '저장'; return; }
+        if (!res || !res.ok) { showErr(ERR[res && res.error] || T('저장하지 못했습니다. 잠시 후 다시 시도해 주십시오.', 'Could not save. Please try again shortly.')); var b = document.getElementById('ed-ok'); b.disabled = false; b.textContent = T('저장', 'Save'); return; }
         var wasNew = !data.survey.responded;
-        data = res; save(); viewHome(wasNew ? '수요조사 응답이 제출되었습니다.' : '응답이 수정되었습니다.'); scrollTo(0, 0);
-      }, function () { showErr('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.'); });
+        data = res; save(); viewHome(wasNew ? T('수요조사 응답이 제출되었습니다.', 'Your survey response has been submitted.') : T('응답이 수정되었습니다.', 'Your response has been updated.')); scrollTo(0, 0);
+      }, function () { showErr(T('연결에 실패했습니다. 잠시 후 다시 시도해 주십시오.', 'Connection failed. Please try again shortly.')); });
     };
   }
 
