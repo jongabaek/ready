@@ -6,14 +6,12 @@
     stage: '4F · Conference Room 401', sessions: '3F · Conference Room 301', origin: '3F · Conference Room 300',
     sca: '3F · Conference Room 317', champion: '3F · Conference Room 318', futures: '3F · Conference Room 300', gala: '4F · Conference Room 401'
   };
-  var PH = '(Sample) Details will be updated soon.';
-  var ORIGIN_PH = '(Sample) Exhibitor introduction, origin story and the coffees served for tasting will be added here.';
   var EXPLORER = 'One Day Coffee Explorer – Taste Navigator is a hands-on one-day class linked to the SCA CSP: taste coffee, trace where flavor comes from, find the pattern in your choices and make a cup that suits you. Beginners are welcome. Each session is limited to 50 participants.';
   var PETER_BIO = 'Has worked in coffee since 1988 as a barista, roaster, taster, buyer and educator. Former co-owner and Director of Coffee at Counter Culture Coffee and SCA President (2011–2012). Founder of the Coffee Science Foundation, he now shares science and economic research that helps the coffee industry as SCA Senior Advisor.';
   var LULU_BIO = 'Education Manager at the SCA with more than 20 years in specialty coffee. A former World Coffee Events judge and competitor (5th place, 2014 World Brewers Cup), she develops SCA Authorized Trainers and sensory education across the Greater China region.';
 
   var E = {
-    'stage-open': { title: 'Opening', ov: ['(Sample) Opening of The Stage at the 15th World Coffee Forum.'] },
+    'stage-open': { title: 'Opening', ov: ['The Stage of the 15th World Coffee Forum opens.'] },
     'stage-1': { title: 'Why Do We Drink Coffee Anyway? The 500 Year History of Coffee Passion',
       sp: [['Peter Giuliano', 'Senior Advisor, SCA', PETER_BIO]],
       ov: ['Coffee has almost no nutritional value, is an acquired taste and takes great effort to produce. So why do so many people love it? From the first Arabian coffeehouses to the latest consumer research, this talk traces four reasons people drank coffee 500 years ago and still do today, and what they suggest for innovation in the coffee industry.'] },
@@ -36,7 +34,7 @@
     'stage-fireside': { title: 'Fireside Chat', speakerLabel: 'Moderator', metaLabel: 'Moderator', overviewLabel: 'About',
       sp: [['Sunghee Tark', 'Co-founder & CEO, Bean Voyage · Moderator', 'Co-founder and CEO of Bean Voyage, a social enterprise building a more sustainable coffee industry alongside women smallholder farmers in Costa Rica and Mexico. She has supported women coffee farmers through education and market access, working to address inequalities within the coffee industry and build a more equitable value chain. Through contributions to global coffee magazines, talks and panel discussions at international coffee events, she shares the voices of producers and diverse perspectives from across the industry.']],
       ov: ['How much do we really know about the stories behind a cup of coffee? A fireside chat that brings together diverse voices across the coffee industry and shares new perspectives, moderated by Sunghee Tark of Bean Voyage.'] },
-    'stage-award': { title: 'Speaker Appreciation Plaques & Cafe Show Excellence Awards', ov: ['(Sample) Appreciation plaques for The Stage speakers and the Cafe Show Excellence Awards ceremony.'] },
+    'stage-award': { title: 'Speaker Appreciation Plaques & Cafe Show Excellence Awards', ov: ['Appreciation plaques for The Stage speakers and the Seoul Cafe Show Excellence Awards ceremony.'] },
     'stage-dj': { title: 'DJ Set by Doduk & Kyubum',
       ov: ['After the Cafe Show Excellence Awards, Doduk & Kyubum, a roastery café in Mapo, fills the Room 401 lobby with music until the GALA begins.', 'Drinking good coffee while listening to good music is also a way of making the most of your time. For World Coffee Forum 2026, “Why We Drink Coffee?”, they picked twelve Brazilian songs they loved listening to at Doduk & Kyubum this year.', 'This year they visited Expocacer, a cooperative in Brazil’s Cerrado region, and met its fertile land and producers. They recalled the music they heard at dawn in Brazil after a thirty-hour flight, meeting coffee farms and producers, and bring that landscape and excitement to you through bossa nova, samba and jazz.', '“Why do Doduk & Kyubum go out of their way?” The reason they pour their hearts into what they love may be that our time is always precious, and never quite enough.', 'Preview the music in the playlist.'],
       ln: [{ label: 'Listen on YouTube', url: 'https://youtube.com/playlist?list=PLCRYZuEmVQPk&si=o1l-lG0NjxBG_t-e' }] },
@@ -76,14 +74,14 @@
       sp: [['Chanho Hong', 'PM, RoasteryFlow', 'Started in coffee grading green beans in Australia, co-founded Normcore Coffee in Sydney and served as its managing director. Now CEO of MTS SOLUTIONS, he runs the roastery MTSPACE COFFEE in Korea and develops the roastery operating system RoasteryFlow.']],
       ov: ['Selling coffee takes longer than making it. Using three principles — record, connect, delegate and approve — he shows how he automated everything from order entry to blogs, card news and bean labels, with real screens and failures, and shares how to decide what to hand to machines and what people must own.'] },
 
-    'origin-1': { ov: [ORIGIN_PH] },
+    'origin-1': { ov: ['Discover the nature and flavors of India’s shade-grown coffee.'] },
     'origin-2': { title: 'Finca El Injerto', sp: [['Arturo Aguirre Saenz', 'Owner & Producer, Finca El Injerto', '']],
       ov: ['El Injerto, a Cup of Excellence winning farm, shares the core values behind its success across the coffee value chain, introduces its signature varieties and its own experimental processing, followed by an auction coffee cupping.'] },
     'origin-3': { title: 'Guatemalan Coffees', sp: [['Mariana Caraveo', 'Senior Instructor, Anacafé Coffee Academy', '']],
       ov: ['Guatemalan coffee is known worldwide for rich aroma, bright acidity, full body and delicate sweetness. Explore the character of high-altitude coffees shaped by two oceans, volcanic lakes and mountain ranges through a cupping of washed, natural and honey coffees.'] },
-    'origin-4': { sp: [['Lora Lee', 'Vice President, IWCA Korea', '']], ov: [ORIGIN_PH] },
-    'origin-5': { ov: [ORIGIN_PH] },
-    'origin-6': { ov: [ORIGIN_PH] },
+    'origin-4': { sp: [['Lora Lee', 'Vice President, IWCA Korea', '']], ov: ['Discover coffees from diverse origins and the stories of the producers behind them.'] },
+    'origin-5': { ov: ['Explore the hidden appeal and potential of Honduran coffee through two unique perspectives.'] },
+    'origin-6': { ov: ['Discover the nature and flavors of India’s shade-grown coffee.'] },
 
     'sca-1': { title: 'Mission 1. Discover the Flavor',
       sp: [['Suin Park', 'Specialty Coffee Association (SCA) · ITC Spotlighted SCA Educator', 'Runs Swim in Coffee LAP, teaching coffee and consulting for cafés. Formerly head of education at a culinary academy and general manager of a large café, she has consulted on many café openings in Cheongju.'],
@@ -109,9 +107,9 @@
       ov: ['Hear about Nas Jaafar’s coffee journey, his work with Falcon Coffees and the story behind his World Brewers Cup winning presentation built on the concept of “Resistance”. He then explains how he chooses a coffee from Falcon Korea and sets a brewing direction, with a live brewing demo and tasting.'] },
     'champion-2': { title: 'Champion Live: Pan Wei',
       sp: [['Pan Wei', 'Founder, Parking Coffee · 2026 World Barista Champion', '']],
-      ov: ['(Sample) The session overview from the speaker will be added here.'] },
+      ov: ['Champion Live with Pan Wei, the 2026 World Barista Champion.'] },
     'futures-1': { title: 'Coffee Futures Challenge Final', speakerLabel: 'Judges', metaLabel: 'Judges',
-      sp: [['Wonjin Cho', 'Coffee Columnist', '(Sample) Judge bio will be added here.'], ['Jaehyun Park', 'CEO, Seoul Morning Coffee Club (SMCC)', '(Sample) Judge bio will be added here.']],
+      sp: [['Wonjin Cho', 'Coffee Columnist', ''], ['Jaehyun Park', 'CEO, Seoul Morning Coffee Club (SMCC)', '']],
       ov: ['Coffee Futures Challenge is an idea competition that explores the future of the coffee industry and its emerging possibilities. Through creative ideas proposed by the next generation across business, services, culture and technology, it examines how the industry is changing and explores opportunities for sustainable growth and innovation.'] },
     'gala-1': { ov: ['Which are the 100 most exceptional coffee shops in Asia-Pacific? The list will be unveiled for the first time worldwide at Cafe Show Seoul 2026.', 'A partner event held in Room 401 right after The Stage.'] }
   };

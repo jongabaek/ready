@@ -116,7 +116,7 @@
     var html = '<a class="back" href="session.html?id=' + esc(host.id) + '">‹ ' + esc(host.title) + '</a>' +
       '<p class="dt-c">' + esc(grp.group) + '</p><div class="pt-hd">' + logo(item) + '<div><h1 class="dt-t">' + esc(item.name) + '</h1>' + (item.sub ? '<p class="pg-m">' + esc(item.sub) + '</p>' : '') + '</div></div>' +
       '<h2 class="dt-h">' + T('브랜드 소개', 'About the Brand') + '</h2>' +
-      '<div class="dt-body"><p>' + esc(item.desc || T('(예시) 브랜드 소개가 들어갈 자리입니다.', '(Sample) Brand introduction will be added here.')) + '</p></div>';
+      '<div class="dt-body"><p>' + esc(item.desc || T('더 스테이지 페어링 테이블의 ' + grp.group + '입니다.', grp.group.replace(/s$/, '') + ' of the Pairing Table at The Stage.')) + '</p></div>';
     if (item.featured) html += '<div class="pt-ft"><h4>' + esc(item.featured.title) + '</h4>' + (item.featured.note ? '<p>' + esc(item.featured.note) + '</p>' : '') +
       '<ol>' + item.featured.list.map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ol></div>';
     var others = []; host.partners.forEach(function (g) { g.items.forEach(function (it) { if (it.id !== pid) others.push(it); }); });
