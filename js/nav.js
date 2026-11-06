@@ -9,6 +9,7 @@
   var page = (location.pathname.split('/').pop() || '') + location.search;
   var MENU = EN ? [
     ['my', 'Session Planner Login', 'planner.html'],
+    ['sp'],
     ['', 'Home', '#home'],
     ['', 'About the Forum', 'about.html'],
     ['', 'World Coffee Forum at a Glance', '#glance'],
@@ -22,9 +23,11 @@
     ['h', 'Partner Event'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', 'Information'],
-    ['', 'Venue · Contact', '#venue']
+    ['', 'Venue Guide', '#venue'],
+    ['', 'Contact', '#contact']
   ] : [
     ['my', '세션 플래너 로그인', 'planner.html'],
+    ['sp'],
     ['', '홈', '#home'],
     ['', '포럼 개요', 'about.html'],
     ['', '한눈에 보는 월드커피포럼', '#glance'],
@@ -38,12 +41,14 @@
     ['h', '연계 행사'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', '안내'],
-    ['', '베뉴 · 문의', '#venue']
+    ['', '베뉴 가이드', '#venue'],
+    ['', '문의', '#contact']
   ];
   function href(h) { return h.charAt(0) === '#' ? base + h : h; }
 
   var items = MENU.map(function (m) {
     if (m[0] === 'h') return '<li class="dr-h">' + m[1] + '</li>';
+    if (m[0] === 'sp') return '<li class="dr-sp" aria-hidden="true"></li>';
     var cur = (m[2] === here || (here.indexOf('session.html') === 0 && location.search && m[2].indexOf(location.search) > -1)) ? ' aria-current="page"' : '';
     return '<li><a href="' + href(m[2]) + '"' + cur + (m[0] === 'my' ? ' class="dr-my"' : '') + '>' + m[1] + '</a></li>';
   }).join('');
