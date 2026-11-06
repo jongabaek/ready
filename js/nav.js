@@ -10,8 +10,8 @@
   var MENU = EN ? [
     ['my', 'Session Planner Login', 'planner.html'],
     ['sp'],
-    ['', 'Home', '#home'],
-    ['', 'About the Forum', 'about.html'],
+    ['hl', 'Home', '#home'],
+    ['', 'About World Coffee Forum', 'about.html'],
     ['', 'World Coffee Forum at a Glance', '#glance'],
     ['h', 'Programs'],
     ['', 'The Stage', 'session.html?prog=stage'],
@@ -29,8 +29,8 @@
   ] : [
     ['my', '세션 플래너 로그인', 'planner.html'],
     ['sp'],
-    ['', '홈', '#home'],
-    ['', '포럼 개요', 'about.html'],
+    ['hl', '홈', '#home'],
+    ['', '월드커피포럼 개요', 'about.html'],
     ['', '한눈에 보는 월드커피포럼', '#glance'],
     ['h', '프로그램'],
     ['', 'The Stage', 'session.html?prog=stage'],
@@ -50,6 +50,7 @@
 
   var items = MENU.map(function (m) {
     if (m[0] === 'h') return '<li class="dr-h">' + m[1] + '</li>';
+    if (m[0] === 'hl') return '<li class="dr-h"><a href="' + href(m[2]) + '">' + m[1] + '</a></li>';
     if (m[0] === 'sp') return '<li class="dr-sp" aria-hidden="true"></li>';
     var cur = (m[2] === here || (here.indexOf('session.html') === 0 && location.search && m[2].indexOf(location.search) > -1)) ? ' aria-current="page"' : '';
     return '<li><a href="' + href(m[2]) + '"' + cur + (m[0] === 'my' ? ' class="dr-my"' : '') + '>' + m[1] + '</a></li>';

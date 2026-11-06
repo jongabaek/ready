@@ -683,3 +683,5 @@ body.dr-open .dr-panel{transform:none}
 .park.nb + .park.nb{margin-top:8px}
 .park.nb b{display:block;font-size:13.5px;font-weight:600;color:var(--k);margin-bottom:4px}
 #registration ~ .park.nb:last-of-type{margin-bottom:8px}
+.dr-panel .dr-h a{display:inline;padding:0;font:inherit;letter-spacing:inherit;color:inherit;text-decoration:none;border:0;background:none}
+.dr-panel li.dr-sp + li.dr-h{margin-top:4px}
