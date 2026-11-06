@@ -462,3 +462,9 @@ body.dr-open .dr-panel{transform:none}
 .map.iso .dv{stroke:#fff;stroke-width:1.5}
 .map.iso .es circle{fill:#1A1A1A}
 .map.iso .es path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.map.iso .hl{font-size:17px;font-weight:500;fill:#8A8A8A}
+.map.iso .big{font-size:20px}
+.map.iso .pl rect{fill:#1A1A1A}
+.map.iso .pl text{font-size:13px;font-weight:600;fill:#fff}
+.map.iso .pl.lt rect{fill:#fff;stroke:#1A1A1A;stroke-width:1.2}
+.map.iso .pl.lt text{fill:#1A1A1A}
