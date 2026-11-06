@@ -39,7 +39,6 @@
     down = true; lx = ev.clientX; ly = ev.clientY;
     var pe = progOf(ev.target);
     spawn(ev.clientX, ev.clientY, 'pop', pe);
-    if (pe) { spawn(ev.clientX - 18, ev.clientY + 6, 'pop', pe); spawn(ev.clientX + 18, ev.clientY + 6, 'pop', pe); }
   }, { passive: true });
   // 프로그램 링크는 이모지가 보이도록 잠깐 기다렸다가 이동
   addEventListener('click', function (ev) {
