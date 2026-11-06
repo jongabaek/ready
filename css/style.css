@@ -601,3 +601,21 @@ body.dr-open .dr-panel{transform:none}
 #venue .sub-h:first-of-type{margin-top:6px}
 .dr-panel .dr-my{margin:0 0 8px}
 .dr-panel .dr-my{margin:18px 0 0}
+
+/* ---------- 프로그램 블록 (C안: 컬러 블록 · 타이틀 + 패턴) ---------- */
+.pbg{gap:10px}
+.pb{position:relative;display:block;aspect-ratio:3/10;border-radius:var(--r);overflow:hidden;background:var(--c);color:var(--t,#1A1A1A);text-decoration:none;min-width:0}
+.pb *{word-break:keep-all;overflow-wrap:normal}
+.pb:active{opacity:.88}
+.k-stage{--c:#96C263;--p:rgba(26,26,26,.85)}.k-sess{--c:#F0864C;--p:rgba(255,255,255,.55)}.k-orig{--c:#6E6FB2;--t:#fff;--p:rgba(255,255,255,.55)}
+.k-champ{--c:#FFE373;--p:rgba(26,26,26,.85)}.k-sca{--c:#25A3D5;--t:#fff;--p:rgba(255,255,255,.55)}.k-fut{--c:#BFBFBF;--p:rgba(26,26,26,.85)}
+.pb-hd{display:flex;justify-content:space-between;padding:9px 9px 0;font-size:8px;line-height:1.35;opacity:.75}
+.pb-t{display:block;padding:10px 9px 0;font-size:15px;font-weight:600;line-height:1.12;letter-spacing:-.01em}
+.pb-d{display:block;padding:6px 9px 0;font-size:9.5px;line-height:1.35;opacity:.8}
+.pb-pat{position:absolute;left:0;right:0;bottom:0;height:40%}
+.k-stage .pb-pat{background:repeating-linear-gradient(0deg,var(--p) 0 4px,transparent 4px 9px)}
+.k-sess .pb-pat{background:repeating-linear-gradient(135deg,var(--p) 0 9px,transparent 9px 18px)}
+.k-orig .pb-pat{background:repeating-radial-gradient(circle at 100% 50%,var(--p) 0 4px,transparent 4px 9px)}
+.k-champ .pb-pat{background:radial-gradient(circle at 50% 100%,var(--p) 0 34%,transparent 35%),radial-gradient(circle at 50% 100%,transparent 0 46%,var(--p) 47% 56%,transparent 57%)}
+.k-sca .pb-pat{background:repeating-linear-gradient(90deg,var(--p) 0 3px,transparent 3px 8px)}
+.k-fut .pb-pat{background:repeating-linear-gradient(0deg,var(--p) 0 2px,transparent 2px 6px),linear-gradient(transparent 55%,var(--p) 55%)}
