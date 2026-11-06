@@ -55,7 +55,9 @@
   function viewLogin(err) {
     var c = cred || {};
     root.innerHTML =
-      (MOCK ? '<p class="mock-note">테스트 모드 · 예시 계정: 김커피 010-1234-5678 (MB, 응답함) / 박엠비 010-3333-4444 (MB, 미응답) / 이단권 010-2222-3333 (단권)</p>' : '') +
+      (MOCK ? '<div class="mock-note"><b>테스트 계정</b>' +
+        '<button type="button" class="mk" data-n="김커피" data-p="01012345678"><span>MB 티켓 보유자</span>김커피 · 010-1234-5678</button>' +
+        '<button type="button" class="mk" data-n="이단권" data-p="01022223333"><span>단권 보유자</span>이단권 · 010-2222-3333</button></div>' : '') +
       '<form class="lk-form" id="lkf" novalidate>' +
       '<div class="fld"><label for="lk-n">이름</label><input id="lk-n" autocomplete="name" placeholder="티켓에 등록한 이름" value="' + esc(c.name) + '"></div>' +
       '<div class="fld"><label for="lk-p">휴대전화</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>' +
@@ -65,6 +67,9 @@
       '<p class="lk-hint">티켓 구매·초청 시 등록한 정보로 로그인하면 내 티켓으로 참관할 수 있는 세션을 확인할 수 있어요.</p></form>';
     var p = document.getElementById('lk-p');
     p.addEventListener('input', function () { p.value = fmtPhone(p.value); });
+    [].forEach.call(root.querySelectorAll('.mk'), function (btn) {
+      btn.onclick = function () { document.getElementById('lk-n').value = btn.dataset.n; p.value = fmtPhone(btn.dataset.p); document.getElementById('lk-e').value = ''; };
+    });
     document.getElementById('lkf').addEventListener('submit', function (e) {
       e.preventDefault();
       var name = document.getElementById('lk-n').value.trim(), phone = digits(p.value), email = document.getElementById('lk-e').value.trim();
