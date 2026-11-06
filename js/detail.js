@@ -68,8 +68,21 @@
       if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션이에요.' : '수요조사에 담지 않은 세션이에요. 세션 플래너에서 추가할 수 있어요.') + '</p>';
     }
 
-    html += '<h2 class="dt-h">' + (x.prog === 'origin' || x.prog === 'futures' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
+    html += '<h2 class="dt-h">' + (x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
       '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>';
+
+    // 참가사 라인업 (페어링 테이블 등): partners = [{group, items:[{name, desc, logo}]}]
+    if (x.partners && x.partners.length) {
+      html += '<h2 class="dt-h">참가사 라인업</h2>';
+      x.partners.forEach(function (g) {
+        html += '<h3 class="pt-g">' + esc(g.group) + '</h3><ul class="pt">';
+        g.items.forEach(function (it) {
+          html += '<li>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').charAt(0)) + '</span>') +
+            '<div><b>' + esc(it.name) + '</b>' + (it.desc ? '<small>' + esc(it.desc) + '</small>' : '') + '</div></li>';
+        });
+        html += '</ul>';
+      });
+    }
 
     if (x.speakers.length) {
       html += '<h2 class="dt-h">' + (x.prog === 'sca' ? '강사' : x.prog === 'futures' ? '심사위원' : '연사') + '</h2><ul class="spk">';
