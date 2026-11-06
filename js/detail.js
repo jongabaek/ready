@@ -52,7 +52,8 @@
     var sibs = S.filter(function (y) { return y.prog === x.prog && (!me() || me().person.isMB || !y.key || can(y.key) || y === x); }), i = sibs.indexOf(x);
     var prev = sibs[i - 1], next = sibs[i + 1];
 
-    var html = '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>' + (me() && can(x.key) ? LEGEND : '');
+    var single = S.filter(function (y) { return y.prog === x.prog; }).length === 1;
+    var html = (single ? '<a class="back" href="index.html#programs">‹ 홈</a>' : '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>') + (me() && can(x.key) ? LEGEND : '');
     html += (x.cat ? '<p class="dt-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</p>' : '') +
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
       '<dl class="dt-m"><div><dt>일시</dt><dd>' + x.day + ' (' + x.dow + ') ' + x.s + ' – ' + x.e + '</dd></div>' +
@@ -69,6 +70,7 @@
     }
 
     html += '<h2 class="dt-h">' + (x.overviewLabel ? x.overviewLabel : x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
+      (x.image ? '<img class="dt-img" src="' + esc(x.image) + '" alt="">' : '') +
       '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
       (x.links || []).map(function (l) { return '<a class="btn dt-link" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' ↗</a>'; }).join('');
 

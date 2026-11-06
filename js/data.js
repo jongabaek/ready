@@ -4,32 +4,37 @@ window.WCF_PROG = {
  "stage": {
   "name": "The Stage",
   "room": "4F · 컨퍼런스룸 401호",
-  "anchor": "stage"
+  "anchor": "programs"
  },
  "sessions": {
   "name": "The Sessions",
   "room": "3F · 컨퍼런스룸 301호",
-  "anchor": "sessions"
+  "anchor": "programs"
  },
  "origin": {
   "name": "Origin Discovery",
   "room": "3F · 컨퍼런스룸 300호",
-  "anchor": "origin"
+  "anchor": "programs"
  },
  "sca": {
   "name": "SCA Education",
   "room": "3F · 컨퍼런스룸 317호",
-  "anchor": "sca"
+  "anchor": "programs"
  },
  "champion": {
   "name": "Champion Live",
   "room": "3F · 컨퍼런스룸 318호",
-  "anchor": "champion"
+  "anchor": "programs"
  },
  "futures": {
   "name": "Coffee Futures Challenge",
   "room": "3F · 컨퍼런스룸 300호",
-  "anchor": "futures"
+  "anchor": "programs"
+ },
+ "gala": {
+  "name": "Asia-Pacific's 100 Best Coffee Shops GALA",
+  "room": "4F · 컨퍼런스룸 401호",
+  "anchor": "programs"
  }
 };
 window.WCF_SESSIONS = [
@@ -843,6 +848,22 @@ window.WCF_SESSIONS = [
   ],
   "overview": [
    "커피 퓨처스 챌린지는 커피 산업의 미래와 새로운 가능성을 탐색하는 프로그램입니다. 비즈니스, 서비스, 문화, 기술 등 다양한 분야에서 미래 세대가 제안하는 창의적인 아이디어를 통해 변화하는 커피 산업의 흐름을 살펴보고, 지속 가능한 성장과 혁신의 가능성을 모색합니다."
+  ]
+ },
+ {
+  "id": "gala-1",
+  "prog": "gala",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "17:00",
+  "e": "18:30",
+  "title": "Asia-Pacific's 100 Best Coffee Shops GALA",
+  "speakers": [],
+  "image": "assets/ap100-badge.png",
+  "overview": [
+   "아시아·태평양에서 가장 특별한 커피숍 100곳은 어디일까? 그 답이 2026 서울카페쇼에서 세계 최초로 공개됩니다.",
+   "The Stage가 끝난 뒤 같은 401호에서 이어지는 연계 행사입니다."
   ]
  }
 ];

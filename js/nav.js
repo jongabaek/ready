@@ -16,7 +16,7 @@
     ['', 'SCA Education', 'session.html?prog=sca'],
     ['', 'Coffee Futures Challenge', 'session.html?prog=futures'],
     ['h', '연계 행사'],
-    ['', "Asia-Pacific's 100 Best Coffee Shops GALA", '#gala'],
+    ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', '안내'],
     ['', '장소 · 문의', '#venue']
   ];
@@ -34,7 +34,7 @@
   bar.innerHTML =
     '<button class="hb" id="hb" aria-label="메뉴 열기" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>' +
     '<a class="tb-logo" href="' + (base || '#top') + '"><img src="assets/wcf-logo.png" alt="제15회 월드커피포럼" width="170" height="27"></a>' +
-    '<a class="tb-lang" href="en/">EN</a>';
+    '<span class="tb-lang"><b>KO</b><a href="en/">EN</a></span>';
   wrap.insertBefore(bar, wrap.firstChild);
 
   var dr = document.createElement('div');
