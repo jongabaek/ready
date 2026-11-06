@@ -24,6 +24,7 @@
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', 'Information'],
     ['', 'Venue Guide', '#venue'],
+    ['', 'Registration', '#registration'],
     ['', 'Contact', '#contact']
   ] : [
     ['my', '세션 플래너 로그인', 'planner.html'],
@@ -42,6 +43,7 @@
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", 'session.html?id=gala-1'],
     ['h', '안내'],
     ['', '베뉴 가이드', '#venue'],
+    ['', '등록대', '#registration'],
     ['', '문의', '#contact']
   ];
   function href(h) { return h.charAt(0) === '#' ? base + h : h; }
