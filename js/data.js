@@ -959,8 +959,19 @@ window.WCF_SESSIONS = [
   "speakers": [],
   "image": "assets/ap100-badge.png",
   "overview": [
-   "아시아·태평양에서 가장 특별한 커피숍 100곳은 어디일까? 그 답이 2026 서울카페쇼에서 세계 최초로 공개됩니다.",
-   "The Stage가 끝난 뒤 같은 401호에서 이어지는 연계 행사입니다."
+   "The World’s 100 Best Coffee Shops는 전 세계의 뛰어난 커피숍을 선정해 소개하는 국제 가이드입니다. Asia-Pacific’s 100 Best Coffee Shops는 같은 팀이 아시아·태평양 지역의 커피숍을 조명하기 위해 만든 지역판으로, 첫 리스트가 2026 서울카페쇼에서 세계 최초로 공개됩니다.",
+   "커피 품질과 바리스타의 전문성, 일관성, 공간과 분위기, 서비스, 지속가능성, 혁신, 지역 커뮤니티에서의 역할 등을 기준으로 추천받은 커피숍을 평가합니다. 커피 전문가 심사단의 평가와 커피 애호가들의 온라인 투표를 더해 최종 리스트가 정해집니다.",
+   "GALA에서는 선정된 커피숍이 무대에 올라 직접 시상을 받고, 특별 부문 시상도 함께 진행됩니다. The Stage가 끝난 뒤 같은 401호에서 이어지는 연계 행사입니다."
+  ],
+  "links": [
+   {
+    "label": "공식 홈페이지",
+    "url": "https://theworlds100bestcoffeeshops.com"
+   },
+   {
+    "label": "Instagram",
+    "url": "https://www.instagram.com/theworlds100bestcoffeeshops"
+   }
   ]
  }
 ];
