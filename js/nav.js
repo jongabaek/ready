@@ -31,7 +31,7 @@
     ['sp'],
     ['hl', '홈', '#home'],
     ['', '월드커피포럼 개요', 'about.html'],
-    ['', '한눈에 보는 월드커피포럼', '#glance'],
+    ['', '한눈에 보는 월커포', '#glance'],
     ['h', '프로그램'],
     ['', 'The Stage', 'session.html?prog=stage'],
     ['', 'The Sessions', 'session.html?prog=sessions'],
