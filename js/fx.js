@@ -16,6 +16,7 @@
   // 프로그램 링크는 프로그램별 이모지
   var PROG = { stage: '🎤', champion: '🏆', origin: '🌐', sessions: '🔎', session: '🔎', sca: '📚', futures: '🚀' };
   function progOf(el) {
+    if (el && el.closest && el.closest('.vt button[data-v="tt"], .tabs button')) return '📅';
     var a = el && el.closest && el.closest('a[href]'); if (!a) return null;
     var h = a.getAttribute('href');
     if (/[?&]id=stage-pair\b/.test(h)) return '🍭';
