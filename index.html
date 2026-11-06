@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 
-<link rel="stylesheet" href="css/style.css?v=11070057">
+<link rel="stylesheet" href="css/style.css?v=11070059">
 </head>
 <body data-base="" class="home-page">
 <div class="wrap">
@@ -131,9 +131,9 @@
   tabs.forEach(function(b){b.addEventListener('click',function(){sel(b.dataset.day)})});
   var k=kst(),today=(k.getMonth()+1)+'.'+k.getDate();
   sel(k.getFullYear()===2026&&['11.11','11.12','11.13','11.14'].indexOf(today)>-1?today:'11.11');
-  // 포스터를 지나면 상단 바 표시
+  // 스크롤을 시작하면 바로 상단 바 표시
   var cover=document.getElementById('top');
-  function onCover(){document.body.classList.toggle('bar-on',cover.getBoundingClientRect().bottom<=56);}
+  function onCover(){document.body.classList.toggle('bar-on',scrollY>8);}
   addEventListener('scroll',onCover,{passive:true});onCover();
   // 카드 → 세션 상세
   document.querySelectorAll('[data-id]').forEach(function(el){
@@ -143,6 +143,6 @@
   });
 })();
 </script>
-<script src="js/nav.js?v=11070057"></script>
+<script src="js/nav.js?v=11070059"></script>
 </body>
 </html>
