@@ -56,7 +56,7 @@
     var prev = sibs[i - 1], next = sibs[i + 1];
 
     var single = S.filter(function (y) { return y.prog === x.prog; }).length === 1;
-    var html = (single ? '<a class="back" href="index.html#programs">‹ ' + T('홈', 'Home') + '</a>' : '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>') + (me() && can(x.key) ? LEGEND : '');
+    var html = (single ? '<a class="back" href="index.html#programs">‹ ' + T('홈', 'Home') + '</a>' : '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>');
     html += (x.cat ? '<p class="dt-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</p>' : '') +
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
       '<dl class="dt-m"><div><dt>' + T('일시', 'Date') + '</dt><dd>' + x.day + ' (' + x.dow + ') ' + x.s + ' – ' + x.e + '</dd></div>' +

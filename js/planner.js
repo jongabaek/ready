@@ -128,7 +128,7 @@
     var p = data.person, sv = data.survey, html = '';
     if (MOCK) html += '<p class="mock-note">' + T('테스트 모드 · 예시 데이터입니다.', 'Test mode · sample data') + '</p>';
     if (msg) html += '<p class="ok-note">' + esc(msg) + '</p>';
-    html += LEGEND + '<div class="me"><b>' + esc(p.name) + T(' 님', '') + '</b><small>' + esc(p.contact) + '</small></div>' +
+    html += '<div class="me"><b>' + esc(p.name) + T(' 님', '') + '</b><small>' + esc(p.contact) + '</small></div>' +
       '<p class="tk">' + p.tickets.map(function (t) { return '<span>' + esc(tk(t)) + '</span>'; }).join('') + '</p>';
 
     if (p.isMB && sv) {
@@ -164,7 +164,7 @@
     var sv = data.survey, picked = {};
     sv.picks.forEach(function (k) { picked[k] = 1; });
     var q1now = sv.responded ? (sv.q1 || '미정') : '';
-    var html = LEGEND + '<div class="me"><b>' + (sv.responded ? T('응답 수정', 'Edit response') : T('수요조사 응답', 'Session survey')) + '</b><small>' + esc(data.person.name) + T(' 님', '') + '</small></div>';
+    var html = '<div class="me"><b>' + (sv.responded ? T('응답 수정', 'Edit response') : T('수요조사 응답', 'Session survey')) + '</b><small>' + esc(data.person.name) + T(' 님', '') + '</small></div>';
     if (has('F_Q1')) {
       html += '<div class="ed-grp"><h4>The Stage<small>' + T('11.12 목 · 4F 401호', '11.12 Thu · 4F Room 401') + '</small></h4>';
       Q1_L.forEach(function (v) {
