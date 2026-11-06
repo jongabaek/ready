@@ -671,3 +671,4 @@ body.dr-open .dr-panel{transform:none}
 .lk-cap li::before{content:"* "}
 .dr-sp{height:18px}
 #contact{scroll-margin-top:70px}
+#venue .rooms + .map-f{margin-top:24px}
