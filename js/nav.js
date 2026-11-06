@@ -10,8 +10,8 @@
   var MENU = EN ? [
     ['my', 'Session Planner Login', 'planner.html'],
     ['sp'],
-    ['hl', 'Home', '#home'],
-    ['', 'About World Coffee Forum', 'about.html'],
+    ['hl', 'Home', '#top'],
+    ['', 'About World Coffee Forum', '#home'],
     ['', 'WCF at a Glance', '#glance'],
     ['h', 'Programs'],
     ['', 'The Stage', 'session.html?prog=stage'],
@@ -29,8 +29,8 @@
   ] : [
     ['my', '세션 플래너 로그인', 'planner.html'],
     ['sp'],
-    ['hl', '홈', '#home'],
-    ['', '월드커피포럼 개요', 'about.html'],
+    ['hl', '홈', '#top'],
+    ['', '월드커피포럼 소개', '#home'],
     ['', '한눈에 보는 월커포', '#glance'],
     ['h', '프로그램'],
     ['', 'The Stage', 'session.html?prog=stage'],
