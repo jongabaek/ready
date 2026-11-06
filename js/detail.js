@@ -81,8 +81,10 @@
       x.partners.forEach(function (g) {
         html += '<h3 class="pt-g">' + esc(g.group) + '</h3><ul class="pt">';
         g.items.forEach(function (it) {
-          html += '<li>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').replace(/[()]/g, '').charAt(0)) + '</span>') +
-            '<div><b>' + esc(it.name) + '</b>' + (it.desc ? '<small>' + esc(it.desc) + '</small>' : '') + '</div></li>';
+          html += '<li' + (it.featured ? ' class="pt-sp"' : '') + '>' + (it.logo ? '<img src="' + esc(it.logo) + '" alt="">' : '<span class="pt-ph" aria-hidden="true">' + esc(it.name.replace(/^\(예시\)\s*/, '').replace(/[()]/g, '').charAt(0)) + '</span>') +
+            '<div><b>' + esc(it.name) + (it.sub ? ' <em>' + esc(it.sub) + '</em>' : '') + '</b>' + (it.desc ? '<small>' + esc(it.desc) + '</small>' : '') + '</div>' +
+            (it.featured ? '<div class="pt-ft"><h4>' + esc(it.featured.title) + '</h4>' + (it.featured.note ? '<p>' + esc(it.featured.note) + '</p>' : '') +
+              '<ol>' + it.featured.list.map(function (r) { return '<li><b>' + esc(r[0]) + '</b><span>' + esc(r[1]) + '</span></li>'; }).join('') + '</ol></div>' : '') + '</li>';
         });
         html += '</ul>';
       });
