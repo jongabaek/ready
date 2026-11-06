@@ -780,7 +780,7 @@ window.WCF_SESSIONS = [
   "title": "Nas Jaafar 챔피언 라이브",
   "speakers": [
    {
-    "name": "Nas Jaafar",
+    "name": "Nas Jaafar (나스 자파르)",
     "role": "2026 World Brewers Cup Champion",
     "photo": "assets/sp/jaafar.jpg",
     "bio": "2026 World Brewers Cup 챔피언이자 말레이시아 최초의 월드 챔피언. 10년 넘게 브루잉, 카페 운영, 생두, 대회를 두루 경험했으며, 현재 Falcon Coffees Asia와 함께 세계 각지에서 브루잉과 커피 품질, 교육에 대한 접근법을 나누고 있다."
