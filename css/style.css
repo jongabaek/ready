@@ -579,3 +579,14 @@ body.dr-open .dr-panel{transform:none}
 .vig{z-index:1;height:52%;background:linear-gradient(rgba(10,10,10,0) 0%,rgba(10,10,10,.35) 30%,rgba(10,10,10,.8) 60%,#0A0A0A 80%)}
 .cover::after{height:16px}
 .fab{border:1px solid rgba(255,255,255,.25)}
+/* 홈 소개 → 개요 링크 */
+.more-lk{display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:11px 18px;border:1px solid rgba(255,255,255,.35);border-radius:99px;color:#fff;text-decoration:none;font-size:14px;font-weight:500}
+.more-lk i{font-style:normal}
+/* 개요 페이지 표 */
+.dt-m.ov div{grid-template-columns:84px 1fr}
+.dt-m.ov small{color:var(--mut);font-size:12.5px}
+.dt-m.ov a{color:inherit}
+/* 랜딩 v5: 위쪽 여백 1.5배, 포스터 하단 더 보이게 */
+.cover{padding-top:18vh}
+.cover::after{height:96px;background:linear-gradient(rgba(10,10,10,.72),#0A0A0A);position:relative}
+.vig{bottom:96px;height:30%;background:linear-gradient(rgba(10,10,10,0),rgba(10,10,10,.28) 45%,rgba(10,10,10,.72))}

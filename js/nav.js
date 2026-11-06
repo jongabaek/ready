@@ -6,6 +6,7 @@
   var here = location.pathname.split('/').pop() || 'index.html';
   var MENU = [
     ['', '홈', '#home'],
+    ['', '포럼 개요', 'about.html'],
     ['my', '세션 플래너', 'planner.html'],
     ['', '한눈에 보는 일정', '#glance'],
     ['h', '프로그램'],
