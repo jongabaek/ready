@@ -411,7 +411,6 @@ body.dr-open .dr-panel{transform:none}
 /* 세션 플래너 바로가기 */
 .fab{width:48px;height:48px;background:var(--k);color:#fff;border:0;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 .fab svg{width:22px;height:22px;stroke-width:1.6}
-#programs{border-top:0;padding-top:8px}
 .tile img{height:auto}
 
 /* 프로그램 블록: 키 컬러만, 세로로 긴 비율 */
@@ -558,7 +557,7 @@ body.dr-open .dr-panel{transform:none}
   90%{transform:translate(-50%,62%)}
 }
 @media (prefers-reduced-motion:reduce){.cue{animation:none;transform:translate(-50%,30%)}}
-#programs{padding-top:44px;border-top:1px solid var(--line)}
+#programs,#timetable{padding:0;border:0;scroll-margin-top:120px}
 #programs .tg-note{margin-top:18px}
 /* 랜딩 v4 ------------------------------------------------------------ */
 /* 포스터는 자르지 않고 가로 꽉 채움, 위쪽은 같은 회색으로 넉넉히 확장 */
@@ -638,3 +637,9 @@ body.dr-open .dr-panel{transform:none}
 .subsec{margin-top:8px}
 #venue .sub-h,#venue .sub-h:first-of-type{font-size:17px;margin:36px 0 4px}
 #venue .sh + .sub-h{margin-top:24px}
+
+/* 프로그램 보기 / 타임테이블 보기 토글 */
+.vt{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:20px 0 4px;background:var(--soft);border-radius:999px;position:sticky;top:58px;z-index:5}
+.vt button{appearance:none;border:0;background:transparent;font:inherit;font-size:14px;font-weight:500;color:var(--mut);padding:10px 0;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.vt button[aria-selected="true"]{background:#fff;color:var(--k);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.vp > .sub-d:first-child{margin-top:14px}
