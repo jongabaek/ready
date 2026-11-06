@@ -69,7 +69,8 @@
     }
 
     html += '<h2 class="dt-h">' + (x.overviewLabel ? x.overviewLabel : x.prog === 'origin' || x.prog === 'futures' || !x.speakers.length ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
-      '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>';
+      '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>' +
+      (x.links || []).map(function (l) { return '<a class="btn dt-link" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label) + ' ↗</a>'; }).join('');
 
     // 참가사 라인업 (페어링 테이블 등): partners = [{group, items:[{name, desc, logo}]}]
     if (x.partners && x.partners.length) {

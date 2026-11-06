@@ -511,3 +511,4 @@ body.dr-open .dr-panel{transform:none}
 .pt-ph{display:grid;place-items:center;font-size:15px;color:var(--mut)}
 .pt b{display:block;font-size:14.5px;font-weight:500}
 .pt small{display:block;font-size:12.5px;color:var(--mut);margin-top:2px;line-height:1.5}
+.dt-link{margin-top:18px}
