@@ -449,3 +449,16 @@ body.dr-open .dr-panel{transform:none}
 .park{margin:14px 0 18px;padding:12px 14px;background:var(--soft);border-radius:var(--r);font-size:13px;line-height:1.6;color:var(--k2)}
 .rm{display:inline-flex;align-items:center;gap:8px}
 .rm::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--c)}
+
+/* 층별 약도 */
+.map.iso .rt{fill:none;stroke:#1A1A1A;stroke-width:2;stroke-dasharray:5 4}
+.map.iso .lift{stroke:#1A1A1A;stroke-width:1.5;stroke-dasharray:3 5}
+.map.iso .dr{fill:#1A1A1A}
+.map.iso .lb{font-size:22px;font-weight:600;fill:#1A1A1A}
+.map.iso .sm{font-size:16px;fill:#555}
+.map.iso .fl{font-size:34px;font-weight:600;fill:#1A1A1A;letter-spacing:-.02em}
+.map.iso .rm{font-size:15px;font-weight:600;fill:#1A1A1A}
+.map.iso .wt{fill:#fff;font-size:13px}
+.map.iso .dv{stroke:#fff;stroke-width:1.5}
+.map.iso .es circle{fill:#1A1A1A}
+.map.iso .es path{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
