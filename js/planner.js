@@ -2,7 +2,7 @@
    로그인: 이름 + 휴대전화 (해외 번호는 이메일)
    - MB 패스: All About Q를 뺀 전 세션 참관 가능 · 수요조사 응답 조회 / 수정 / 신규 응답
    - 단권: 구매한 프로그램만 참관 가능 (수요조사 없음)
-   - 혼잡도: 초록(여유) · 주황(혼잡 예상) · 빨강(매우 혼잡) — 수요조사 기반 예상치 */
+   - 혼잡도: 초록(여유) · 주황(보통) · 빨강(혼잡) — 수요조사 기반 예상치 */
 (function () {
   var CFG = window.WCF_CONFIG || {};
   var root = document.getElementById('planner');
@@ -17,7 +17,7 @@
     { title: 'Champion Live', prog: 'champion' },
     { title: 'SCA Education', prog: 'sca' }
   ];
-  var CONG = { ok: '여유', near: '혼잡 예상', full: '매우 혼잡' };
+  var CONG = { ok: '여유', near: '보통', full: '혼잡' };
   var Q1_L = ['참석', '미정', '불참'];
   var MB_NOTE = '수요조사 응답이 좌석을 보장하지는 않아요. 세션 시작 10분 전 입장을 권장합니다. 입장 인원이 몰리면 수요조사 응답자부터 안내하며, 일부 세션은 시음 가능 수량이 한정되어 시음이 어려울 수 있어요.';
 
@@ -31,7 +31,7 @@
   function byKey(k) { return S.filter(function (x) { return x.key === k; }); }
   function first(k) { return byKey(k)[0]; }
   function cong(k) { var c = data && data.congestion && data.congestion[k]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
-  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>혼잡 예상<span class="cg cg-full"></span>매우 혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
   function has(k) { return data && data.access.indexOf(k) > -1; }
 
   // ---------- API ----------
@@ -95,6 +95,7 @@
       var items = S.filter(function (x) { return x.prog === pk && x.key; });
       var keys = items.map(function (x) { return x.key; }).filter(function (k, i, a) { return a.indexOf(k) === i; });
       var n = keys.filter(has).length;
+      if (!n && !data.person.isMB) return; // 단권: 참관 가능한 프로그램만
       html += '<li><a href="session.html?prog=' + pk + '"><span class="dot ' + (n ? 'on' : 'off') + '"></span><span class="t">' + esc(P[pk].name) + '</span>' +
         '<span class="m">' + (n ? (n === keys.length ? '전체 참관 가능' : n + '개 세션 참관 가능') : '참관 불가') + '</span><i class="go" aria-hidden="true">›</i></a></li>';
     });
@@ -125,7 +126,7 @@
       html += '<p class="ed-note">' + MB_NOTE + '</p>';
     }
 
-    html += '<h2 class="lk-sub">내 티켓으로 볼 수 있는 프로그램</h2>' + progSummary();
+    html += '<h2 class="lk-sub">' + (p.isMB ? '내 티켓으로 볼 수 있는 프로그램' : '내 티켓으로 볼 수 있는 프로그램') + '</h2>' + progSummary();
     if (!p.isMB) {
       var mine = data.access.filter(function (k) { return first(k); });
       html += '<h2 class="lk-sub">참관 가능 세션</h2><ul class="rs">' + mine.map(function (k) { return row(k); }).join('') + '</ul>';

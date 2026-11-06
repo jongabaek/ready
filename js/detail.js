@@ -9,12 +9,12 @@
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function mine() { try { return JSON.parse(sessionStorage.getItem('wcf_my') || 'null'); } catch (e) { return null; } }
-  var CONG = { ok: '여유', near: '혼잡 예상', full: '매우 혼잡' };
+  var CONG = { ok: '여유', near: '보통', full: '혼잡' };
   function me() { var m = mine(); return m && m.access ? m : null; }
   function can(key) { var m = me(); return !!(m && key && m.access.indexOf(key) > -1); }
   function picked(key) { var m = me(); return !!(m && m.survey && m.survey.picks.indexOf(key) > -1); }
   function cong(key) { var m = me(), c = m && m.congestion[key]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
-  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>혼잡 예상<span class="cg cg-full"></span>매우 혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
   // 목록 오른쪽: 로그인 전에는 아무것도 없음, 로그인 후 참관 가능 여부(초록/회색) + 혼잡도
   function badge(key) {
     if (!me() || !key) return '';
@@ -27,6 +27,8 @@
     var pg = P[pk]; if (!pg) return notFound();
     document.title = pg.name + ' · 제15회 월드커피포럼';
     var list = S.filter(function (x) { return x.prog === pk; }), day = '', html = '';
+    var single = me() && !me().person.isMB;
+    if (single) list = list.filter(function (x) { return !x.key || can(x.key); }); // 단권: 참관 가능한 세션만
     html += '<a class="back" href="index.html#' + esc(pg.anchor) + '">‹ 홈</a>' +
       '<h1 class="pg-t">' + esc(pg.name) + '</h1><p class="pg-m">' + esc(pg.room) + '</p>';
     if (me()) html += LEGEND;
@@ -39,7 +41,8 @@
         (x.speakers.length ? '<span class="sl-s">' + esc(speakersLine(x)) + '</span>' : '') + '</span>' +
         '<span class="sl-r">' + badge(x.key) + '<i aria-hidden="true">›</i></span></a></li>';
     });
-    root.innerHTML = html + '</ul>';
+    if (!list.length) html += '<p class="lk-hint" style="padding:28px 0">내 티켓으로 참관할 수 있는 세션이 없어요. <a href="planner.html">세션 플래너</a>에서 참관 가능한 프로그램을 확인하세요.</p>';
+    root.innerHTML = html + (list.length ? '</ul>' : '');
   }
 
   // ---------- 상세 ----------
