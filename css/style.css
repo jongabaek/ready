@@ -695,7 +695,7 @@ body.dr-open .dr-panel{transform:none}
 .k-gala{--c:#E5484D;--t:#fff;--p:rgba(255,255,255,.5)}
 .k-pair .pb-pat{background:radial-gradient(circle,var(--p) 0 3.5px,transparent 4px) 0 0/14px 14px}
 .k-dj .pb-pat{background:repeating-radial-gradient(circle at 50% 100%,var(--p) 0 1.5px,transparent 1.5px 6px)}
-.k-gala .pb-pat{background:repeating-linear-gradient(45deg,var(--p) 0 6px,transparent 6px 12px),repeating-linear-gradient(-45deg,var(--p) 0 6px,transparent 6px 12px)}
+.k-gala .pb-pat{background:repeating-linear-gradient(45deg,var(--p) 0 9px,transparent 9px 18px)}
 .ev-h.first{margin-top:6px}
 .sched{list-style:none;margin:4px 0 8px}
 .sched li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:baseline}
