@@ -12,7 +12,7 @@
     ['sp'],
     ['hl', 'Home', '#home'],
     ['', 'About World Coffee Forum', 'about.html'],
-    ['', 'World Coffee Forum at a Glance', '#glance'],
+    ['', 'WCF at a Glance', '#glance'],
     ['h', 'Programs'],
     ['', 'The Stage', 'session.html?prog=stage'],
     ['', 'The Sessions', 'session.html?prog=sessions'],
