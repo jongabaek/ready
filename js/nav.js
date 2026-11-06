@@ -61,7 +61,7 @@
   bar.className = 'topbar';
   bar.innerHTML =
     '<button class="hb" id="hb" aria-label="' + (EN ? 'Open menu' : '메뉴 열기') + '" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>' +
-    '<a class="tb-logo" href="' + (base || '#top') + '"><img src="' + R + 'assets/wcf-logo.png" alt="' + (EN ? 'The 15th World Coffee Forum' : '제15회 월드커피포럼') + '" width="170" height="27"></a>' +
+    '<a class="tb-logo" href="' + (base || '#top') + '"><img src="' + R + 'assets/wcf-logo.png?v=2" alt="' + (EN ? 'The 15th World Coffee Forum' : '제15회 월드커피포럼') + '" width="164" height="25"></a>' +
     (EN ? '<span class="tb-lang"><a href="../' + page + '">KO</a><b>EN</b></span>' : '<span class="tb-lang"><b>KO</b><a href="en/' + page + '">EN</a></span>');
   wrap.insertBefore(bar, wrap.firstChild);
 
