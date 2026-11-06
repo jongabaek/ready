@@ -20,7 +20,6 @@
   var CONG = { ok: '여유', near: '혼잡 예상', full: '매우 혼잡' };
   var Q1_L = ['참석', '미정', '불참'];
   var MB_NOTE = '수요조사 응답이 좌석을 보장하지는 않아요. 세션 시작 10분 전 입장을 권장합니다. 입장 인원이 몰리면 수요조사 응답자부터 안내하며, 일부 세션은 시음 가능 수량이 한정되어 시음이 어려울 수 있어요.';
-  var CONG_NOTE = '혼잡도는 수요조사 응답을 바탕으로 한 예상이며, 실시간 현황이 아니에요.';
 
   var cred = null, data = null;
   function save() { try { sessionStorage.setItem('wcf_my', JSON.stringify(data)); sessionStorage.setItem('wcf_cred', JSON.stringify(cred)); } catch (e) {} }
@@ -31,7 +30,8 @@
   function fmtPhone(v) { var d = digits(v).slice(0, 11); return d.length < 4 ? d : d.length < 8 ? d.slice(0, 3) + '-' + d.slice(3) : d.slice(0, 3) + '-' + d.slice(3, 7) + '-' + d.slice(7); }
   function byKey(k) { return S.filter(function (x) { return x.key === k; }); }
   function first(k) { return byKey(k)[0]; }
-  function cong(k) { var c = data && data.congestion && data.congestion[k]; return c ? '<span class="cg cg-' + c + '">' + CONG[c] + '</span>' : ''; }
+  function cong(k) { var c = data && data.congestion && data.congestion[k]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>혼잡 예상<span class="cg cg-full"></span>매우 혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
   function has(k) { return data && data.access.indexOf(k) > -1; }
 
   // ---------- API ----------
@@ -106,7 +106,7 @@
     var p = data.person, sv = data.survey, html = '';
     if (MOCK) html += '<p class="mock-note">테스트 모드 · 예시 데이터입니다.</p>';
     if (msg) html += '<p class="ok-note">' + esc(msg) + '</p>';
-    html += '<div class="me"><b>' + esc(p.name) + ' 님</b><small>' + esc(p.contact) + '</small></div>' +
+    html += LEGEND + '<div class="me"><b>' + esc(p.name) + ' 님</b><small>' + esc(p.contact) + '</small></div>' +
       '<p class="tk">' + p.tickets.map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</p>';
 
     if (p.isMB && sv) {
@@ -130,7 +130,7 @@
       var mine = data.access.filter(function (k) { return first(k); });
       html += '<h2 class="lk-sub">참관 가능 세션</h2><ul class="rs">' + mine.map(function (k) { return row(k); }).join('') + '</ul>';
     }
-    html += '<p class="lk-meta">' + CONG_NOTE + ' (' + esc(data.asOf) + ' 기준)</p>' +
+    html += '<p class="lk-meta">' + esc(data.asOf) + ' 기준</p>' +
       '<div class="lk-row"><button class="lk-link" id="lk-out">로그아웃</button></div>';
     root.innerHTML = html;
     document.getElementById('lk-out').onclick = function () { data = null; cred = null; clear(); viewLogin(); };
@@ -142,12 +142,12 @@
     var sv = data.survey, picked = {};
     sv.picks.forEach(function (k) { picked[k] = 1; });
     var q1now = sv.responded ? (sv.q1 || '미정') : '';
-    var html = '<div class="me"><b>' + (sv.responded ? '응답 수정' : '수요조사 응답') + '</b><small>' + esc(data.person.name) + ' 님</small></div>';
+    var html = LEGEND + '<div class="me"><b>' + (sv.responded ? '응답 수정' : '수요조사 응답') + '</b><small>' + esc(data.person.name) + ' 님</small></div>';
     if (has('F_Q1')) {
       html += '<div class="ed-grp"><h4>The Stage<small>11.12 목 · 4F 401호</small></h4>';
       Q1_L.forEach(function (v) {
         html += '<label class="opt"><input type="radio" name="q1" value="' + v + '"' + (q1now === v ? ' checked' : '') + '><span class="t">' + v + '</span><span class="m"></span>' +
-          (v === '참석' ? cong('F_Q1').replace('cg ', 'cap cg ') : '') + '</label>';
+          (v === '참석' ? cong('F_Q1') : '') + '</label>';
       });
       html += '</div>';
     }
@@ -159,11 +159,11 @@
         html += '<label class="opt"><input type="checkbox" name="k" value="' + x.key + '"' + (picked[x.key] ? ' checked' : '') + '>' +
           '<span class="t">' + esc((x.prog === 'sessions' ? x.cat + ' · ' : '') + x.title) + '</span>' +
           '<span class="m">' + x.day + ' ' + x.dow + ' ' + x.s + (x.speakers.length && x.prog !== 'sca' ? ' · ' + esc(x.speakers.map(function (s) { return s.name; }).join(', ')) : '') + '</span>' +
-          cong(x.key).replace('cg ', 'cap cg ') + '</label>';
+          cong(x.key) + '</label>';
       });
       html += '</div>';
     });
-    html += '<p class="ed-note">' + CONG_NOTE + ' ' + MB_NOTE + '</p><p class="lk-err" id="lk-err"></p>' +
+    html += '<p class="ed-note">' + MB_NOTE + '</p><p class="lk-err" id="lk-err"></p>' +
       '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">취소</button><button class="lk-btn" id="ed-ok">' + (sv.responded ? '저장' : '응답 제출') + '</button></div>';
     root.innerHTML = html;
     document.body.classList.add('editing');

@@ -13,7 +13,8 @@
   function me() { var m = mine(); return m && m.access ? m : null; }
   function can(key) { var m = me(); return !!(m && key && m.access.indexOf(key) > -1); }
   function picked(key) { var m = me(); return !!(m && m.survey && m.survey.picks.indexOf(key) > -1); }
-  function cong(key) { var m = me(), c = m && m.congestion[key]; return c ? '<span class="cg cg-' + c + '">' + CONG[c] + '</span>' : ''; }
+  function cong(key) { var m = me(), c = m && m.congestion[key]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>혼잡 예상<span class="cg cg-full"></span>매우 혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
   // 목록 오른쪽: 로그인 전에는 아무것도 없음, 로그인 후 참관 가능 여부(초록/회색) + 혼잡도
   function badge(key) {
     if (!me() || !key) return '';
@@ -28,7 +29,7 @@
     var list = S.filter(function (x) { return x.prog === pk; }), day = '', html = '';
     html += '<a class="back" href="index.html#' + esc(pg.anchor) + '">‹ 홈</a>' +
       '<h1 class="pg-t">' + esc(pg.name) + '</h1><p class="pg-m">' + esc(pg.room) + '</p>';
-    if (me()) html += '<p class="pg-hint"><span class="dot on"></span>' + esc(me().person.name) + ' 님 티켓으로 참관 가능한 세션에 혼잡도가 표시돼요.</p>';
+    if (me()) html += LEGEND;
     list.forEach(function (x) {
       if (x.day !== day) { if (day) html += '</ul>'; day = x.day; html += '<h2 class="dh">' + x.day + ' <small>' + x.dow + '</small></h2><ul class="sl">'; }
       html += '<li' + (me() && x.key && !can(x.key) ? ' class="dim"' : '') + '><a href="session.html?id=' + esc(x.id) + '">' +
@@ -48,7 +49,7 @@
     var sibs = S.filter(function (y) { return y.prog === x.prog; }), i = sibs.indexOf(x);
     var prev = sibs[i - 1], next = sibs[i + 1];
 
-    var html = '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>';
+    var html = '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>' + (me() && can(x.key) ? LEGEND : '');
     html += (x.cat ? '<p class="dt-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</p>' : '') +
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
       '<dl class="dt-m"><div><dt>일시</dt><dd>' + x.day + ' (' + x.dow + ') ' + x.s + ' – ' + x.e + '</dd></div>' +
@@ -62,7 +63,6 @@
       html += '<a class="my-st" href="planner.html"><span class="acc-l"><span class="dot ' + (ok ? 'on' : 'off') + '"></span>' +
         (ok ? '내 티켓으로 참관 가능' : '내 티켓으로는 참관할 수 없어요') + '</span>' + (ok ? cong(x.key) : '') + '<i aria-hidden="true">›</i></a>';
       if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션이에요.' : '수요조사에 담지 않은 세션이에요. 세션 플래너에서 추가할 수 있어요.') + '</p>';
-      if (ok) html += '<p class="my-sub">혼잡도는 수요조사 응답을 바탕으로 한 예상이며, 실시간 현황이 아니에요.</p>';
     }
 
     html += '<h2 class="dt-h">' + (x.prog === 'origin' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
