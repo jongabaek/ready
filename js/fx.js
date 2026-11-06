@@ -21,6 +21,7 @@
     var h = a.getAttribute('href');
     if (/[?&]id=stage-pair\b/.test(h)) return '🍭';
     if (/[?&]id=stage-dj\b/.test(h)) return '🎧';
+    if (/[?&]id=gala-1\b/.test(h)) return '💯';
     if (/[?&]partner=kewleaves\b/.test(h)) return '🫖';
     var m = h.match(/[?&]prog=([a-z]+)/) || h.match(/[?&]id=([a-z]+)-/);
     return m && PROG[m[1]] ? PROG[m[1]] : null;
