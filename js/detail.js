@@ -1,6 +1,6 @@
 /* session.html
    ?prog=sessions → 프로그램별 세션 목록
-   ?id=session-3  → 세션 상세 (개요 · 연사 · 내 신청 상태) */
+   ?id=session-3  → 세션 상세 (개요 · 연사 · 세션 플래너 상태) */
 (function () {
   var S = window.WCF_SESSIONS || [], P = window.WCF_PROG || {};
   var root = document.getElementById('view');
@@ -56,9 +56,9 @@
       (x.speakers.length ? '<div><dt>연사</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
     if (st) {
-      html += '<a class="my-st" href="planner.html"><span>내 신청</span>' + badge(x.key) + '<i aria-hidden="true">›</i></a>';
+      html += '<a class="my-st" href="planner.html"><span>세션 플래너</span>' + badge(x.key) + '<i aria-hidden="true">›</i></a>';
     } else if (x.key) {
-      html += '<a class="my-st off" href="planner.html"><span>이 세션 신청하기 · 내 신청 조회</span><i aria-hidden="true">›</i></a>';
+      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에서 신청하기</span><i aria-hidden="true">›</i></a>';
     }
 
     html += '<h2 class="dt-h">' + (x.prog === 'origin' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +

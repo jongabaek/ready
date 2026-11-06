@@ -1,11 +1,11 @@
 # 월드커피포럼 2026 모바일 쇼가이드 (테스트)
 
-`worldcoffeeforum/show.guide`를 복사해서 미니멀 디자인을 적용하고, 「내 신청」 조회·수정 기능을 붙인 테스트 버전이다.
+`worldcoffeeforum/show.guide`를 복사해서 미니멀 디자인을 적용하고, 「세션 플래너」 조회·수정 기능을 붙인 테스트 버전이다.
 
 ## 구성
 | 경로 | 내용 |
 |---|---|
-| `index.html`, `en/index.html` | 쇼가이드 (국문에만 「내 신청」 섹션 `#my`) |
+| `index.html`, `en/index.html` | 쇼가이드 (국문에만 「세션 플래너」 섹션 `#my`) |
 | `css/style.css` | 미니멀 테마 + 내 신청 화면 스타일 |
 | `js/config.js` | **API_URL** 설정 (비우면 테스트 모드) |
 | `js/planner.js` | 조회 · 결과 · 수정 화면 |
