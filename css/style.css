@@ -469,3 +469,18 @@ body.dr-open .dr-panel{transform:none}
 .map.iso .pl.lt rect{fill:#fff;stroke:#1A1A1A;stroke-width:1.2}
 .map.iso .pl.lt text{fill:#1A1A1A}
 .map.iso .m-g2{font-size:13px;fill:#8A8A8A}
+
+/* 한눈에 보는 일정: 날짜 탭 + 세로 시간축 */
+.tg{margin-top:6px}
+.tg-h{display:grid;grid-template-columns:40px repeat(var(--n),minmax(0,1fr));gap:4px;padding:10px 0 8px;font-size:11px;color:var(--mut);text-align:center}
+.tg-b{position:relative;margin-left:40px}
+.tg-l{position:absolute;left:-40px;right:0;border-top:1px solid var(--line)}
+.tg-t{position:absolute;left:-40px;transform:translateY(-50%);font-size:10.5px;color:var(--mut);font-variant-numeric:tabular-nums;background:var(--bg);padding-right:4px}
+.tg-e{position:absolute;left:calc(var(--i) * (100% + 4px) / var(--n));width:calc((100% + 4px) / var(--n) - 4px);background:var(--c);border-radius:8px;padding:7px 7px;text-decoration:none;color:#1A1A1A;overflow:hidden;display:flex;flex-direction:column;gap:2px}
+.tg-e b{font-size:11.5px;font-weight:600;line-height:1.25}
+.tg-e small{font-size:10px;font-variant-numeric:tabular-nums;opacity:.8}
+.tg-e.dk{color:#fff}
+.tg-e.is-now{box-shadow:0 0 0 2px #1A1A1A}
+.tg-e.is-past{opacity:.45}
+.tg-note{font-size:11.5px;color:var(--mut);margin-top:12px}
+.tg-e b{word-break:keep-all;overflow-wrap:anywhere}
