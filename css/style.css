@@ -619,3 +619,10 @@ body.dr-open .dr-panel{transform:none}
 .k-champ .pb-pat{background:radial-gradient(circle at 50% 100%,var(--p) 0 34%,transparent 35%),radial-gradient(circle at 50% 100%,transparent 0 46%,var(--p) 47% 56%,transparent 57%)}
 .k-sca .pb-pat{background:repeating-linear-gradient(90deg,var(--p) 0 3px,transparent 3px 8px)}
 .k-fut .pb-pat{background:repeating-linear-gradient(0deg,var(--p) 0 2px,transparent 2px 6px),linear-gradient(transparent 55%,var(--p) 55%)}
+
+/* 세션 목록: 연사 사진 */
+.sl-s{display:flex;align-items:center;gap:8px;margin-top:7px}
+.sl-s .av{display:flex;flex:none}
+.sl-s .av img,.sl-s .av b{width:26px;height:26px;border-radius:50%;object-fit:cover;background:var(--soft);box-shadow:0 0 0 2px #fff;display:grid;place-items:center;font-size:11px;font-weight:500;color:var(--mut)}
+.sl-s .av > * + *{margin-left:-7px}
+.sl-n{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

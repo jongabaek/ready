@@ -38,7 +38,7 @@
         '<time>' + x.s + '<i>–' + x.e + '</i></time>' +
         '<span class="sl-b">' + (x.cat ? '<span class="sl-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</span>' : '') +
         '<span class="sl-t">' + esc(x.title) + '</span>' +
-        (x.speakers.length ? '<span class="sl-s">' + esc(speakersLine(x)) + '</span>' : '') + '</span>' +
+        (x.speakers.length ? '<span class="sl-s"><span class="av">' + x.speakers.map(function (p) { return p.photo ? '<img src="' + esc(p.photo) + '" alt="" width="26" height="26" loading="lazy">' : '<b aria-hidden="true">' + esc(p.name.charAt(0)) + '</b>'; }).join('') + '</span><span class="sl-n">' + esc(speakersLine(x)) + '</span></span>' : '') + '</span>' +
         '<span class="sl-r">' + badge(x.key) + '<i aria-hidden="true">›</i></span></a></li>';
     });
     if (!list.length) html += '<p class="lk-hint" style="padding:28px 0">내 티켓으로 참관할 수 있는 세션이 없습니다. <a href="planner.html">세션 플래너</a>에서 참관 가능한 프로그램을 확인할 수 있습니다.</p>';
