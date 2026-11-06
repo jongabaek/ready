@@ -431,7 +431,7 @@ body.dr-open .dr-panel{transform:none}
 .tt-c{border-radius:6px;min-height:42px}
 .tt-c.on{background:var(--c);display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:10px;line-height:1.25;color:#1A1A1A;font-variant-numeric:tabular-nums}
 .tt-c i{font-style:normal}
-.tt-r[style*="#6E6FB2"] .tt-c.on,.tt-r[style*="#639628"] .tt-c.on{color:#fff}
+.tt-r[style*="#6E6FB2"] .tt-c.on,.tt-r[style*="#E5484D"] .tt-c.on{color:#fff}
 /* 약도 */
 .map-f{margin:6px 0 0}
 .map{display:block;width:100%;height:auto}
