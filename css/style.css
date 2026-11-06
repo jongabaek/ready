@@ -407,3 +407,9 @@ body.dr-open .dr-panel{transform:none}
 .mock-note b{display:block;font-weight:600;margin-bottom:6px}
 .mk{display:flex;justify-content:space-between;width:100%;font:inherit;font-size:12.5px;color:var(--k);background:#fff;border:1px solid #EFE3BF;border-radius:6px;padding:9px 12px;margin-top:6px;cursor:pointer;text-align:left}
 .mk span{color:#9A7B1E;font-weight:500}
+
+/* 세션 플래너 바로가기 */
+.fab{width:48px;height:48px;background:var(--k);color:#fff;border:0;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.fab svg{width:22px;height:22px;stroke-width:1.6}
+#programs{border-top:0;padding-top:8px}
+.tile img{height:auto}

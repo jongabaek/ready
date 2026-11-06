@@ -14,7 +14,7 @@
   function can(key) { var m = me(); return !!(m && key && m.access.indexOf(key) > -1); }
   function picked(key) { var m = me(); return !!(m && m.survey && m.survey.picks.indexOf(key) > -1); }
   function cong(key) { var m = me(), c = m && m.congestion[key]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
-  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡</p>';
   // 목록 오른쪽: 로그인 전에는 아무것도 없음, 로그인 후 참관 가능 여부(초록/회색) + 혼잡도
   function badge(key) {
     if (!me() || !key) return '';

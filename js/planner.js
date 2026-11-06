@@ -19,7 +19,7 @@
   ];
   var CONG = { ok: '여유', near: '보통', full: '혼잡' };
   var Q1_L = ['참석', '미정', '불참'];
-  var MB_NOTE = '수요조사 응답이 좌석을 보장하지는 않아요. 세션 시작 10분 전 입장을 권장합니다. 입장 인원이 몰리면 수요조사 응답자부터 안내하며, 일부 세션은 시음 가능 수량이 한정되어 시음이 어려울 수 있어요.';
+  var MB_NOTE = '세션별 좌석은 한정되어 있어요. 좌석이 부족할 경우 수요조사에 미리 응답하신 분께 우선 착석을 안내해 드려요. 일부 세션은 시음 가능 인원이 정해져 있어, 참석 인원이 많을 때는 모든 분께 시음을 제공해 드리기 어려울 수 있는 점 양해 부탁드려요.';
 
   var cred = null, data = null;
   function save() { try { sessionStorage.setItem('wcf_my', JSON.stringify(data)); sessionStorage.setItem('wcf_cred', JSON.stringify(cred)); } catch (e) {} }
@@ -31,7 +31,7 @@
   function byKey(k) { return S.filter(function (x) { return x.key === k; }); }
   function first(k) { return byKey(k)[0]; }
   function cong(k) { var c = data && data.congestion && data.congestion[k]; return c ? '<span class="cg cg-' + c + '" role="img" aria-label="' + CONG[c] + '" title="' + CONG[c] + '"></span>' : ''; }
-  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡<span class="cg-n">· 수요조사 기반 예상, 실시간 아님</span></p>';
+  var LEGEND = '<p class="cg-lg"><span class="cg cg-ok"></span>여유<span class="cg cg-near"></span>보통<span class="cg cg-full"></span>혼잡</p>';
   function has(k) { return data && data.access.indexOf(k) > -1; }
 
   // ---------- API ----------
@@ -128,7 +128,7 @@
           '<button class="lk-btn ghost wide" id="lk-edit">응답 수정</button>';
       } else {
         html += '<p class="sv-st"><span class="dot off"></span>아직 응답하지 않았어요</p>' +
-          '<p class="lk-hint">관심 있는 세션을 미리 알려 주시면 운영 준비에 반영하고, 입장 인원이 몰릴 때 응답자부터 안내해 드려요.</p>' +
+          '<p class="lk-hint">참여를 희망하는 세션을 미리 선택해 주세요. 좌석과 현장 운영 준비에 활용하며, 아직 정하지 않았다면 「미정」으로 응답하고 나중에 수정할 수 있어요.</p>' +
           '<button class="lk-btn wide" id="lk-edit">수요조사 응답하기</button>';
       }
       html += '<p class="ed-note">' + MB_NOTE + '</p>';
@@ -172,7 +172,7 @@
       });
       html += '</div>';
     });
-    html += '<p class="ed-note">' + MB_NOTE + '</p><p class="lk-err" id="lk-err"></p>' +
+    html += '<p class="ed-note">실제 참석이 가능한 세션만 선택해 주세요. ' + MB_NOTE + ' SCA 교육 All about Q는 별도 등록이 필요해요.</p><p class="lk-err" id="lk-err"></p>' +
       '<div class="ed-bar"><button class="lk-btn ghost" id="ed-x">취소</button><button class="lk-btn" id="ed-ok">' + (sv.responded ? '저장' : '응답 제출') + '</button></div>';
     root.innerHTML = html;
     document.body.classList.add('editing');

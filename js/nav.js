@@ -12,9 +12,10 @@
     ['', 'The Stage', 'session.html?prog=stage'],
     ['', 'The Sessions', 'session.html?prog=sessions'],
     ['', 'Origin Discovery', 'session.html?prog=origin'],
-    ['', 'SCA Education', 'session.html?prog=sca'],
     ['', 'Champion Live', 'session.html?prog=champion'],
+    ['', 'SCA Education', 'session.html?prog=sca'],
     ['', 'Coffee Futures Challenge', '#futures'],
+    ['h', '연계 행사'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", '#gala'],
     ['h', '안내'],
     ['', '장소 · 문의', '#venue']
@@ -55,4 +56,12 @@
     if (e.target.closest('a')) open(false);   // 이동하면서 닫기
   });
   addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+
+  // 오른쪽 아래: 세션 플래너 바로가기 (플래너 페이지에서는 숨김)
+  if (here !== 'planner.html') {
+    var fab = document.createElement('a');
+    fab.className = 'fab on'; fab.href = 'planner.html'; fab.setAttribute('aria-label', '세션 플래너');
+    fab.innerHTML = '<svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/><path d="M8 14h2.5M13.5 14H16M8 17h2.5"/></svg>';
+    document.body.appendChild(fab);
+  }
 })();
