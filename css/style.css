@@ -558,3 +558,5 @@ body.dr-open .dr-panel{transform:none}
   90%{transform:translate(-50%,62%)}
 }
 @media (prefers-reduced-motion:reduce){.cue{animation:none;transform:translate(-50%,30%)}}
+#programs{padding-top:44px;border-top:1px solid var(--line)}
+#programs .tg-note{margin-top:18px}
