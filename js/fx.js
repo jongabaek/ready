@@ -19,6 +19,7 @@
     var a = el && el.closest && el.closest('a[href]'); if (!a) return null;
     var h = a.getAttribute('href');
     if (/[?&]id=stage-pair\b/.test(h)) return '🍭';
+    if (/[?&]id=stage-dj\b/.test(h)) return '🎧';
     if (/[?&]partner=kewleaves\b/.test(h)) return '🫖';
     var m = h.match(/[?&]prog=([a-z]+)/) || h.match(/[?&]id=([a-z]+)-/);
     return m && PROG[m[1]] ? PROG[m[1]] : null;
@@ -50,9 +51,11 @@
   });
   addEventListener('pointerup', function () { down = false; }, { passive: true });
   addEventListener('pointercancel', function () { down = false; }, { passive: true });
+  var HOME = document.body.classList.contains('home-page');
   function trail(x, y) {
+    if (!HOME) return; // 드래그·스크롤 커피는 홈 화면에서만
     var now = Date.now(), dx = x - lx, dy = y - ly;
-    if (now - lt < 45 || dx * dx + dy * dy < 28 * 28) return;
+    if (now - lt < 80 || dx * dx + dy * dy < 40 * 40) return;
     lt = now; lx = x; ly = y; spawn(x, y, 'tr');
   }
   addEventListener('pointermove', function (ev) { if (down && ev.pointerType === 'mouse') trail(ev.clientX, ev.clientY); }, { passive: true });
