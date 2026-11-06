@@ -81,7 +81,7 @@ window.WCF_SESSIONS = [
     "name": "조희경",
     "role": "CEO, Hwayo",
     "photo": "assets/sp/cho.jpg",
-    "bio": "화요그룹 대표다. 2003년 끊어졌던 쌀 증류주의 맥을 ‘화요’로 다시 세웠고, 광주요·화요·한식 레스토랑으로 이어지는 ‘그릇·술·자리’의 브랜드를 이끌고 있다."
+    "bio": "화요그룹 대표. 2003년 끊어졌던 쌀 증류주의 맥을 ‘화요’로 다시 세웠고, 광주요·화요·한식 레스토랑으로 이어지는 ‘그릇·술·자리’의 브랜드를 이끌고 있다."
    }
   ],
   "overview": [
@@ -104,7 +104,7 @@ window.WCF_SESSIONS = [
     "name": "양태오",
     "role": "Creative Director, Teo Yang Studio",
     "photo": "assets/sp/yang.jpg",
-    "bio": "한국의 전통과 유산을 현대적인 디자인 언어로 번역하는 디자이너이자 기업가다. 유럽과 미국에서 공간 디자이너로 일한 뒤 북촌 한옥에 태오양 스튜디오를 열고, 국립경주박물관·국립한글박물관·블루보틀 등 다양한 공간을 디렉팅했다. 2022년 한국 최초로 AD100 세계 100대 디자인 스튜디오에 선정됐다."
+    "bio": "한국의 전통과 유산을 현대적인 디자인 언어로 번역하는 디자이너이자 기업가. 유럽과 미국에서 공간 디자이너로 일한 뒤 북촌 한옥에 태오양 스튜디오를 열고, 국립경주박물관·국립한글박물관·블루보틀 등 다양한 공간을 디렉팅했다. 2022년 한국 최초로 AD100 세계 100대 디자인 스튜디오에 선정됐다."
    }
   ],
   "overview": [
@@ -255,7 +255,7 @@ window.WCF_SESSIONS = [
     "name": "차미경",
     "role": "커넥스 브루잉 스팟 대표",
     "photo": "assets/sp/cha.jpg",
-    "bio": "스페셜티 커피 로스터·바리스타·교육자다. 2021 마스터오브마스터 챔피언, 2023 골든커피어워드 클래식 에스프레소 부문 금상 등 다수의 대회에서 수상했다. 15년 넘게 지역 사회와 교육 현장에서 커피 강의를 이어 오고 있다."
+    "bio": "스페셜티 커피 로스터·바리스타·교육자. 2021 마스터오브마스터 챔피언, 2023 골든커피어워드 클래식 에스프레소 부문 금상 등 다수의 대회에서 수상했다. 15년 넘게 지역 사회와 교육 현장에서 커피 강의를 이어 오고 있다."
    }
   ],
   "overview": [
@@ -277,7 +277,7 @@ window.WCF_SESSIONS = [
     "name": "이준선",
     "role": "파브스 커피 대표",
     "photo": "assets/sp/lee-junseon.jpg",
-    "bio": "수리학(토석류·하천 난류)을 전공한 연구원 출신으로, 파브스 커피를 공동 운영하는 로스터다. KCRC 2023 5위, KCRC 2024 심사위원을 지냈고, 리오나이 로스터기 개발과 VDAS 에스프레소 머신 개발 자문에 참여하고 있다."
+    "bio": "수리학(토석류·하천 난류)을 전공한 연구원 출신으로, 파브스 커피를 공동 운영하는 로스터. KCRC 2023 5위, KCRC 2024 심사위원을 지냈고, 리오나이 로스터기 개발과 VDAS 에스프레소 머신 개발 자문에 참여하고 있다."
    }
   ],
   "overview": [
@@ -299,7 +299,7 @@ window.WCF_SESSIONS = [
     "name": "이규범",
     "role": "도덕과 규범 로스터",
     "photo": "assets/sp/lee-kyubum.jpg",
-    "bio": "서울 마포구의 로스터리 카페 ‘도덕과 규범’을 운영하는 로스터다. 로컬 브랜드·아티스트와 협업하며 ‘로컬의 공통 감각(Local Common Sense)’을 쌓고, 문학 카페·에스프레송 등 커피를 매개로 한 문화 프로그램을 기획한다. 2026년부터 말코닉 홈 그라인더 앰버서더로 활동하고 있다."
+    "bio": "서울 마포구의 로스터리 카페 ‘도덕과 규범’을 운영하는 로스터. 로컬 브랜드·아티스트와 협업하며 ‘로컬의 공통 감각(Local Common Sense)’을 쌓고, 문학 카페·에스프레송 등 커피를 매개로 한 문화 프로그램을 기획한다. 2026년부터 말코닉 홈 그라인더 앰버서더로 활동하고 있다."
    },
    {
     "name": "홍순인",
@@ -327,7 +327,7 @@ window.WCF_SESSIONS = [
     "name": "권혁수",
     "role": "토성마을 팀장",
     "photo": "assets/sp/kwon.jpg",
-    "bio": "에스프레소 추출을 중심으로 연구하는 바리스타이자 커피 교육자다. 2024 한국 바리스타 챔피언십과 2023 에스프레소 스로우다운에서 우승했으며, 매장 실무와 교육·콘텐츠로 에스프레소를 쉽고 실용적으로 전하고 있다."
+    "bio": "에스프레소 추출을 중심으로 연구하는 바리스타이자 커피 교육자. 2024 한국 바리스타 챔피언십과 2023 에스프레소 스로우다운에서 우승했으며, 매장 실무와 교육·콘텐츠로 에스프레소를 쉽고 실용적으로 전하고 있다."
    }
   ],
   "overview": [
@@ -349,7 +349,7 @@ window.WCF_SESSIONS = [
     "name": "길라드 베코르",
     "role": "Coffi 대표",
     "photo": "assets/sp/bechor.jpg",
-    "bio": "커피 애호가가 커피를 발견하고 기록하며 취향에 맞게 즐기도록 돕고, 독립 로스터와 연결해 주는 스페셜티 커피 앱 Coffi의 공동 창업자이자 CEO다. 캘리포니아에서 자랐으며 제품·디자인 분야에서 사용자 중심의 서비스를 만들어 왔다."
+    "bio": "커피 애호가가 커피를 발견하고 기록하며 취향에 맞게 즐기도록 돕고, 독립 로스터와 연결해 주는 스페셜티 커피 앱 Coffi의 공동 창업자이자 CEO. 캘리포니아에서 자랐으며 제품·디자인 분야에서 사용자 중심의 서비스를 만들어 왔다."
    }
   ],
   "overview": [
@@ -371,7 +371,7 @@ window.WCF_SESSIONS = [
     "name": "바실리스 아포스톨로풀로스",
     "role": "bibe Coffee 대표",
     "photo": "assets/sp/apostolopoulos.jpg",
-    "bio": "데이터로 커피의 품질과 운영을 관리하는 bibe coffee의 공동 창업자이자 CEO다."
+    "bio": "데이터로 커피의 품질과 운영을 관리하는 bibe coffee의 공동 창업자이자 CEO."
    }
   ],
   "overview": [
@@ -437,7 +437,7 @@ window.WCF_SESSIONS = [
     "name": "임정환",
     "role": "에어리커피 공동대표",
     "photo": "assets/sp/lim.jpg",
-    "bio": "에어리커피 공동대표이자 바리스타다. 2024 한국 바리스타 챔피언십(KNBC) 챔피언이며, 같은 해 World Barista Championship 파이널리스트에 올랐다."
+    "bio": "에어리커피 공동대표이자 바리스타. 2024 한국 바리스타 챔피언십(KNBC) 챔피언이며, 같은 해 World Barista Championship 파이널리스트에 올랐다."
    }
   ],
   "overview": [
@@ -592,7 +592,7 @@ window.WCF_SESSIONS = [
     "name": "오동준",
     "role": "스페셜 커피 협회(SCA) · Barista Skills Spotlighted SCA Educator",
     "photo": "",
-    "bio": "㈜엔타로 대표이사이자 Quantify CVA TEAM 프로젝트 디렉터다. SCA 공인 트레이너(AST)와 Q Instructor로 커피 교육을 하고 있으며, KNBC·KCRC·KCIGS 심사위원으로 활동했다."
+    "bio": "㈜엔타로 대표이사이자 Quantify CVA TEAM 프로젝트 디렉터. SCA 공인 트레이너(AST)와 Q Instructor로 커피 교육을 하고 있으며, KNBC·KCRC·KCIGS 심사위원으로 활동했다."
    }
   ],
   "overview": [
@@ -642,13 +642,13 @@ window.WCF_SESSIONS = [
     "name": "김경태",
     "role": "스페셜 커피 협회(SCA) · Roasting Spotlighted SCA Educator",
     "photo": "",
-    "bio": "경희커피바리스타학원 원장이자 계명문화대학교 커피문화경영학과 겸임교수다. 스타벅스커피코리아 수퍼바이저, 베토벤하우스 헤드 바리스타 등을 거쳤으며, SCA AST와 Q-Grader로 (사)한국커피협회 실기평가위원을 맡고 있다."
+    "bio": "경희커피바리스타학원 원장이자 계명문화대학교 커피문화경영학과 겸임교수. 스타벅스커피코리아 수퍼바이저, 베토벤하우스 헤드 바리스타 등을 거쳤으며, SCA AST와 Q-Grader로 (사)한국커피협회 실기평가위원을 맡고 있다."
    },
    {
     "name": "허정민",
     "role": "스페셜 커피 협회(SCA) · Brewing Spotlighted SCA Educator",
     "photo": "",
-    "bio": "케빈의 커피연구소를 운영하는 커피 교육자다. 호주 멜버른 Three Little Monkeys에서 헤드 바리스타로 일했고 윌리앤잭 커피를 운영했으며, 현재 SCA CSP Full-module AST와 Q Instructor로 활동하고 있다."
+    "bio": "케빈의 커피연구소를 운영하는 커피 교육자. 호주 멜버른 Three Little Monkeys에서 헤드 바리스타로 일했고 윌리앤잭 커피를 운영했으며, 현재 SCA CSP Full-module AST와 Q Instructor로 활동하고 있다."
    }
   ],
   "overview": [
@@ -725,7 +725,7 @@ window.WCF_SESSIONS = [
     "name": "Nas Jaafar",
     "role": "2026 World Brewers Cup Champion",
     "photo": "assets/sp/jaafar.jpg",
-    "bio": "2026 World Brewers Cup 챔피언이자 말레이시아 최초의 월드 챔피언이다. 10년 넘게 브루잉, 카페 운영, 생두, 대회를 두루 경험했으며, 현재 Falcon Coffees Asia와 함께 세계 각지에서 브루잉과 커피 품질, 교육에 대한 접근법을 나누고 있다."
+    "bio": "2026 World Brewers Cup 챔피언이자 말레이시아 최초의 월드 챔피언. 10년 넘게 브루잉, 카페 운영, 생두, 대회를 두루 경험했으며, 현재 Falcon Coffees Asia와 함께 세계 각지에서 브루잉과 커피 품질, 교육에 대한 접근법을 나누고 있다."
    }
   ],
   "overview": [
