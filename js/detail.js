@@ -1,23 +1,23 @@
 /* session.html
    ?prog=sessions → 프로그램별 세션 목록
-   ?id=session-3  → 세션 상세 (개요 · 연사 · 세션 플래너 상태) */
+   ?id=session-3  → 세션 상세 (개요 · 연사 · 참관 가능 여부 · 혼잡도) */
 (function () {
   var S = window.WCF_SESSIONS || [], P = window.WCF_PROG || {};
   var root = document.getElementById('view');
   var q = new URLSearchParams(location.search);
   var id = q.get('id'), prog = q.get('prog');
-  var STATE_L = { ok: '확정', part: '부분 확정', wait: '대기', none: '신청함' };
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function mine() { try { return JSON.parse(sessionStorage.getItem('wcf_my') || 'null'); } catch (e) { return null; } }
-  function myState(key) {
-    var m = mine(); if (!m || !key) return null;
-    var s = (m.sessions || []).filter(function (x) { return x.key === key; })[0];
-    return s || null;
-  }
+  var CONG = { ok: '여유', near: '혼잡 예상', full: '매우 혼잡' };
+  function me() { var m = mine(); return m && m.access ? m : null; }
+  function can(key) { var m = me(); return !!(m && key && m.access.indexOf(key) > -1); }
+  function picked(key) { var m = me(); return !!(m && m.survey && m.survey.picks.indexOf(key) > -1); }
+  function cong(key) { var m = me(), c = m && m.congestion[key]; return c ? '<span class="cg cg-' + c + '">' + CONG[c] + '</span>' : ''; }
+  // 목록 오른쪽: 로그인 전에는 아무것도 없음, 로그인 후 참관 가능 여부(초록/회색) + 혼잡도
   function badge(key) {
-    var s = myState(key); if (!s) return '';
-    return '<span class="st ' + esc(s.state) + '">' + esc(STATE_L[s.state] || '신청함') + (s.state === 'part' && s.n ? ' (' + s.n + '명)' : '') + '</span>';
+    if (!me() || !key) return '';
+    return can(key) ? cong(key) : '<span class="acc off">참관 불가</span>';
   }
   function speakersLine(x) { return x.speakers.map(function (p) { return p.name; }).join(', '); }
 
@@ -28,10 +28,10 @@
     var list = S.filter(function (x) { return x.prog === pk; }), day = '', html = '';
     html += '<a class="back" href="index.html#' + esc(pg.anchor) + '">‹ 홈</a>' +
       '<h1 class="pg-t">' + esc(pg.name) + '</h1><p class="pg-m">' + esc(pg.room) + '</p>';
-    if (mine()) html += '<p class="pg-hint">' + esc(mine().person.name) + ' 님이 신청한 세션에 상태가 표시됩니다.</p>';
+    if (me()) html += '<p class="pg-hint"><span class="dot on"></span>' + esc(me().person.name) + ' 님 티켓으로 참관 가능한 세션에 혼잡도가 표시돼요.</p>';
     list.forEach(function (x) {
       if (x.day !== day) { if (day) html += '</ul>'; day = x.day; html += '<h2 class="dh">' + x.day + ' <small>' + x.dow + '</small></h2><ul class="sl">'; }
-      html += '<li><a href="session.html?id=' + esc(x.id) + '">' +
+      html += '<li' + (me() && x.key && !can(x.key) ? ' class="dim"' : '') + '><a href="session.html?id=' + esc(x.id) + '">' +
         '<time>' + x.s + '<i>–' + x.e + '</i></time>' +
         '<span class="sl-b">' + (x.cat ? '<span class="sl-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</span>' : '') +
         '<span class="sl-t">' + esc(x.title) + '</span>' +
@@ -47,7 +47,7 @@
     document.title = x.title + ' · ' + pg.name;
     var sibs = S.filter(function (y) { return y.prog === x.prog; }), i = sibs.indexOf(x);
     var prev = sibs[i - 1], next = sibs[i + 1];
-    var st = myState(x.key);
+
     var html = '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>';
     html += (x.cat ? '<p class="dt-c"' + (x.color ? ' style="--c:' + x.color + '"' : '') + '>' + esc(x.cat) + '</p>' : '') +
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
@@ -55,10 +55,14 @@
       '<div><dt>장소</dt><dd>' + esc(pg.room) + '</dd></div>' +
       (x.speakers.length ? '<div><dt>연사</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
-    if (st) {
-      html += '<a class="my-st" href="planner.html"><span>세션 플래너</span>' + badge(x.key) + '<i aria-hidden="true">›</i></a>';
+    if (x.key && !me()) {
+      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에 로그인하면 내 티켓으로 참관할 수 있는지 확인할 수 있어요</span><i aria-hidden="true">›</i></a>';
     } else if (x.key) {
-      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에서 신청하기</span><i aria-hidden="true">›</i></a>';
+      var ok = can(x.key), m = me();
+      html += '<a class="my-st" href="planner.html"><span class="acc-l"><span class="dot ' + (ok ? 'on' : 'off') + '"></span>' +
+        (ok ? '내 티켓으로 참관 가능' : '내 티켓으로는 참관할 수 없어요') + '</span>' + (ok ? cong(x.key) : '') + '<i aria-hidden="true">›</i></a>';
+      if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션이에요.' : '수요조사에 담지 않은 세션이에요. 세션 플래너에서 추가할 수 있어요.') + '</p>';
+      if (ok) html += '<p class="my-sub">혼잡도는 수요조사 응답을 바탕으로 한 예상이며, 실시간 현황이 아니에요.</p>';
     }
 
     html += '<h2 class="dt-h">' + (x.prog === 'origin' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +

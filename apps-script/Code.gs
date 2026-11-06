@@ -1,27 +1,35 @@
 /**
- * 월드커피포럼 쇼가이드 · 내 신청 조회/수정 API
+ * 월드커피포럼 쇼가이드 · 세션 플래너 API
  * 통합관리시트에 바인딩해서 웹 앱으로 배포한다.
  *   확장 프로그램 → Apps Script → 이 코드 붙여 넣기 → 배포 → 새 배포 → 웹 앱
  *   실행 사용자: 나 / 액세스 권한: 모든 사용자
  *
- * - 조회(GET ?action=lookup): 이름 + 휴대전화(숫자) 또는 이메일이 일치하는 본인 응답만 돌려준다.
- * - 수정(POST, text/plain JSON {action:'update'}): 「수정 응답」 탭에 한 줄 추가한다.
- *   원본 응답 시트와 통합 탭은 건드리지 않는다.
+ * 로그인: 이름 + 휴대전화(숫자) 또는 이메일
+ *   본인 확인 출처 → ① 「티켓 명단」 탭(유료 구매자, 권종 포함)  ② 「초청 MB 명단」 탭  ③ 수요조사 응답자(모두 MB 소지자)
+ * 권한:
+ *   MB(유료·초청) → All About Q를 뺀 전 세션 참관 가능, 수요조사 조회·수정·신규 응답 가능
+ *   단권          → 「권종 관리」 탭 매핑에 1 표시된 세션만 참관 가능, 수요조사 없음
+ * 혼잡도: 「세션 현황」 탭 상태(여유 / 마감 임박 / 마감·초과) → ok / near / full
+ * 수정·신규 응답: 「수정 응답」 탭에 한 줄 추가 (원본·통합 탭은 건드리지 않음)
  */
 
 var CFG = {
-  DATA_SHEET: '(참고) MB수요조사_통합', // 통합 응답 탭 (수식)
-  DATA_HEADER_ROW: 3,
+  SURVEY_SHEET: '(참고) MB수요조사_통합',
+  SURVEY_HEADER_ROW: 3,
   STATUS_SHEET: '세션 현황',
+  TICKET_MAP_SHEET: '권종 관리',
+  TICKET_SHEET: '티켓 명단',          // 유료 구매자 명단 (없으면 자동 생성, 예약자 정보 받으면 채움)
+  INVITE_MB_SHEET: '초청 MB 명단',
   EDIT_SHEET: '수정 응답',
-  SHOW_WAIT_RANK: false,      // true면 「대기 N번」 숫자를 보여 준다
+  MB_TICKET: 'Master Blend Pass',
+  MB_EXCLUDE: ['SCA_AAQ'],
   YEAR: 2026,
   TZ: 'Asia/Seoul',
-  MAX_FAIL: 5,                // 같은 이름으로 연속 실패 허용 횟수
+  MAX_FAIL: 5,
   LOCK_SEC: 600
 };
 
-// 수정 응답에 기록할 선택지 문구. 통합 탭의 키워드 매칭(세션 N / 제목·연사 / 오리진 이름·시간)에 걸리도록 원래 폼 표기를 따른다.
+// 수정 응답에 기록할 선택지 문구. 통합 탭의 키워드 매칭에 걸리도록 원래 폼 표기를 따른다.
 var LABEL = {
   F_S1: '11/11(수) 13:00 - 15:00 세션 1 : 커피의 가공과정 중 발효의 변조(송호석)',
   F_S2: '11/11(수) 15:30 - 17:30 세션 2 : 추출변수로 만드는 실전 브루잉의 기준(차미경)',
@@ -47,237 +55,243 @@ var LABEL = {
   SCA_E3: '11/12(목) 16:00 One Day Coffee Explorer (3회차)',
   SCA_CUP: '11/14(토) 10:00 Intro to Cupping'
 };
-var Q_OF = function (k) {
+var ALL_KEYS = ['F_Q1', 'F_S1', 'F_S2', 'F_S3', 'F_S4', 'F_S5', 'F_S6', 'F_S7', 'F_S8', 'F_S9', 'F_S10', 'F_S11',
+  'F_O1', 'F_O2', 'F_O6', 'F_O3', 'F_O4', 'F_O5', 'F_NAS', 'F_PAN', 'SCA_AAQ', 'SCA_E1', 'SCA_E2', 'SCA_E3', 'SCA_CUP'];
+function qOf_(k) {
   if (k === 'F_Q1') return 'Q1';
   if (/^F_S/.test(k)) return 'Q2';
   if (/^F_O/.test(k)) return 'Q3';
   if (k === 'F_NAS' || k === 'F_PAN') return 'Q4';
   return 'Q5';
-};
+}
 var Q1_TEXT = { '참석': '참석', '미정': '아직 결정하지 않음', '불참': '참석하지 않음' };
 var EDIT_HEADER = ['응답 시각', '구분', '방문자 성함', '동반 1인', '참고 (예매자·팀)', '소속 / 직함', '휴대전화', '이메일',
   'Q1 원문', 'Q2 원문', 'Q3 원문', 'Q4 원문', 'Q5 SCA 교육 원문', '의견', '세션 키', '최초 응답 시각', '수정 경로'];
+var TICKET_HEADER = ['채널', '권종', '이름', '휴대전화', '이메일', '예매번호', '비고'];
 
 // ---------------------------------------------------------------- entry
 function doGet(e) {
   var p = (e && e.parameter) || {};
   try {
-    if (p.action === 'lookup') return out(lookup_(p));
+    if (p.action === 'login') return out(login_(p));
     return out({ ok: true, service: 'wcf-planner' });
   } catch (err) { return out({ ok: false, error: 'server', detail: String(err) }); }
 }
-
 function doPost(e) {
   try {
-    var body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
-    if (body.action === 'update') return out(update_(body));
-    if (body.action === 'lookup') return out(lookup_(body));
+    var b = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    if (b.action === 'save') return out(save_(b));
+    if (b.action === 'login') return out(login_(b));
     return out({ ok: false, error: 'bad_request' });
   } catch (err) { return out({ ok: false, error: 'server', detail: String(err) }); }
 }
-
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
-// ---------------------------------------------------------------- lookup
-function lookup_(p) {
-  var name = normName_(p.name), phone = normPhone_(p.phone), email = String(p.email || '').trim().toLowerCase();
-  if (!name || (phone.length < 10 && !email)) return { ok: false, error: 'bad_request' };
-  var cache = CacheService.getScriptCache(), fk = 'fail:' + name;
-  var fails = +(cache.get(fk) || 0);
+// ---------------------------------------------------------------- login
+function creds_(p) {
+  return { name: normName_(p.name), phone: normPhone_(p.phone), email: String(p.email || '').trim().toLowerCase() };
+}
+function login_(p) {
+  var c = creds_(p);
+  if (!c.name || (c.phone.length < 10 && !c.email)) return { ok: false, error: 'bad_request' };
+  var cache = CacheService.getScriptCache(), fk = 'fail:' + c.name, fails = +(cache.get(fk) || 0);
   if (fails >= CFG.MAX_FAIL) return { ok: false, error: 'locked' };
-
-  var model = load_();
-  var me = findPerson_(model, name, phone, email);
+  var m = load_(), me = identify_(m, c);
   if (!me) { cache.put(fk, String(fails + 1), CFG.LOCK_SEC); return { ok: false, error: 'not_found' }; }
   cache.remove(fk);
-  return result_(model, me);
+  return view_(m, me);
 }
 
-function findPerson_(model, name, phone, email) {
-  var hits = model.people.filter(function (pp) {
-    if (pp.nameN !== name) return false;
-    if (phone.length >= 10 && pp.phoneN === phone) return true;
-    return !!email && pp.emailN === email;
-  });
-  if (!hits.length) return null;
-  // 여러 폼에 응답한 경우 가장 최근에 응답·수정한 쪽을 보여 준다
-  hits.sort(function (a, b) { return b.lastTs - a.lastTs; });
-  return hits[0];
+function match_(c, nameN, phoneN, emailN) {
+  if (nameN !== c.name) return false;
+  if (c.phone.length >= 10 && phoneN === c.phone) return true;
+  return !!c.email && emailN === c.email;
 }
 
-function result_(model, me) {
-  var sessions = [];
-  Object.keys(me.keys).forEach(function (k) {
-    var st = model.standing[k] && model.standing[k][me.id];
-    var s = { key: k, state: st ? st.state : 'none' };
-    if (st && st.state === 'part') s.n = st.n;
-    if (st && st.state === 'wait' && CFG.SHOW_WAIT_RANK) s.rank = st.rank;
-    sessions.push(s);
-  });
+// 세 출처를 합쳐 한 사람의 티켓·수요조사 상태를 만든다
+function identify_(m, c) {
+  var tickets = [], src = null;
+  m.ticketRows.forEach(function (t) { if (match_(c, t.nameN, t.phoneN, t.emailN)) { tickets.push(t.ticket); src = src || t; } });
+  var invited = m.inviteRows.filter(function (t) { return match_(c, t.nameN, t.phoneN, t.emailN); })[0];
+  var surveys = m.people.filter(function (pp) { return match_(c, pp.nameN, pp.phoneN, pp.emailN); })
+    .sort(function (a, b) { return b.lastTs - a.lastTs; });
+  var sv = surveys[0] || null;
+  var paidMB = tickets.some(function (t) { return sameTicket_(t, CFG.MB_TICKET); });
+  var isMB = paidMB || !!invited || !!sv;
+  if (!tickets.length && !isMB) return null;
+  if (isMB && !paidMB) tickets.unshift(CFG.MB_TICKET + (invited || (sv && sv.group !== 'MB 구매자') ? ' (초청)' : ''));
+
+  var access = {};
+  if (isMB) ALL_KEYS.forEach(function (k) { if (CFG.MB_EXCLUDE.indexOf(k) < 0) access[k] = 1; });
+  tickets.forEach(function (t) { (m.ticketMap[normTicket_(t)] || []).forEach(function (k) { access[k] = 1; }); });
+
+  var base = sv ? sv.row : src ? { name: src.name, phone: src.phone, email: src.email, comp: '', ref: '', org: '' }
+    : { name: invited.name, phone: invited.phone, email: invited.email, comp: '', ref: '', org: '' };
+  return {
+    name: base.name, phoneN: normPhone_(base.phone), emailN: String(base.email || '').toLowerCase(),
+    tickets: tickets, isMB: isMB, access: access, survey: sv,
+    group: sv ? sv.group : (paidMB ? 'MB 구매자' : '초청장(MB)'), base: base
+  };
+}
+
+function view_(m, me) {
+  var sv = me.survey;
   return {
     ok: true,
     asOf: fmt_(new Date()),
     person: {
       name: me.name,
       contact: me.phoneN ? maskPhone_(me.phoneN) : maskEmail_(me.emailN),
-      group: me.group,
-      q1: me.q1,
-      lastAt: fmt_(new Date(me.rowTs)),
-      editedAt: me.editTs ? fmt_(new Date(me.editTs)) : '',
-      editable: true,
-      canSca: me.group !== 'MB 구매자'
+      tickets: me.tickets,
+      isMB: me.isMB
     },
-    sessions: sessions,
-    capacity: model.capState
+    access: Object.keys(me.access),
+    survey: me.isMB ? {
+      responded: !!sv,
+      q1: sv ? sv.q1 : '',
+      picks: sv ? Object.keys(sv.keys).filter(function (k) { return me.access[k]; }) : [],
+      lastAt: sv ? fmt_(new Date(sv.lastTs)) : '',
+      edited: !!(sv && sv.editTs)
+    } : null,
+    congestion: m.cong
   };
 }
 
-// ---------------------------------------------------------------- update
-function update_(b) {
-  var name = normName_(b.name), phone = normPhone_(b.phone), email = String(b.email || '').trim().toLowerCase();
-  if (!name || (phone.length < 10 && !email)) return { ok: false, error: 'bad_request' };
-  var q1 = Q1_TEXT[b.q1] ? b.q1 : '미정';
-  var keys = (b.keys || []).filter(function (k) { return LABEL[k]; });
-
+// ---------------------------------------------------------------- save (MB 수요조사 수정·신규)
+function save_(b) {
+  var c = creds_(b);
+  if (!c.name || (c.phone.length < 10 && !c.email)) return { ok: false, error: 'bad_request' };
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    var model = load_();
-    var me = findPerson_(model, name, phone, email);
+    var m = load_(), me = identify_(m, c);
     if (!me) return { ok: false, error: 'not_found' };
-    if (me.group === 'MB 구매자') keys = keys.filter(function (k) { return Q_OF(k) !== 'Q5'; });
-
+    if (!me.isMB) return { ok: false, error: 'no_survey' };
+    var q1 = Q1_TEXT[b.q1] ? b.q1 : '미정';
+    var keys = (b.keys || []).filter(function (k) { return LABEL[k] && me.access[k]; });
     var byQ = { Q2: [], Q3: [], Q4: [], Q5: [] };
-    keys.forEach(function (k) { byQ[Q_OF(k)].push(LABEL[k]); });
-    var allKeys = (q1 === '참석' ? ['F_Q1'] : []).concat(keys);
-    var r = me.row; // 마지막 유효 응답 행 (원래 표기 그대로 복사해야 중복 규칙에 걸린다)
-    var sh = editSheet_();
-    sh.appendRow([
-      new Date(), me.group, r.name, r.comp, r.ref, r.org, r.phone, r.email,
+    keys.forEach(function (k) { byQ[qOf_(k)].push(LABEL[k]); });
+    var r = me.base; // 원래 응답 표기를 그대로 써야 「구분+성함+휴대전화」 중복 규칙에 걸린다
+    editSheet_().appendRow([
+      new Date(), me.group, r.name, r.comp || '', r.ref || '', r.org || '', r.phone || '', r.email || '',
       Q1_TEXT[q1],
-      byQ.Q2.join(', ') || '선택 안 함',
-      byQ.Q3.join(', ') || '선택 안 함',
-      byQ.Q4.join(', ') || '선택 안 함',
-      me.group === 'MB 구매자' ? '' : (byQ.Q5.join(', ') || '선택 안 함'),
-      '(모바일 쇼가이드에서 수정)',
-      allKeys.join(','),
-      new Date(me.firstTs),
+      byQ.Q2.join(', ') || '선택 안 함', byQ.Q3.join(', ') || '선택 안 함', byQ.Q4.join(', ') || '선택 안 함',
+      byQ.Q5.join(', ') || '선택 안 함',
+      me.survey ? '(세션 플래너에서 수정)' : '(세션 플래너에서 신규 응답)',
+      (q1 === '참석' ? ['F_Q1'] : []).concat(keys).join(','),
+      me.survey ? new Date(me.survey.firstTs) : new Date(),
       'web'
     ]);
     SpreadsheetApp.flush();
-    var fresh = load_();
-    var me2 = findPerson_(fresh, name, phone, email);
-    return result_(fresh, me2);
+    var m2 = load_();
+    return view_(m2, identify_(m2, c));
   } finally { lock.releaseLock(); }
 }
 
-function editSheet_() {
-  var ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName(CFG.EDIT_SHEET);
+function sheet_(name, header) {
+  var ss = SpreadsheetApp.getActive(), sh = ss.getSheetByName(name);
   if (!sh) {
-    sh = ss.insertSheet(CFG.EDIT_SHEET);
-    sh.getRange(1, 1, 1, EDIT_HEADER.length).setValues([EDIT_HEADER]).setFontWeight('bold');
+    sh = ss.insertSheet(name);
+    sh.getRange(1, 1, 1, header.length).setValues([header]).setFontWeight('bold');
     sh.setFrozenRows(1);
-    sh.getRange('A:A').setNumberFormat('MM/dd HH:mm');
-    sh.getRange('P:P').setNumberFormat('MM/dd HH:mm');
   }
+  return sh;
+}
+function editSheet_() {
+  var sh = sheet_(CFG.EDIT_SHEET, EDIT_HEADER);
+  sh.getRange('A:A').setNumberFormat('MM/dd HH:mm');
+  sh.getRange('P:P').setNumberFormat('MM/dd HH:mm');
   return sh;
 }
 
 // ---------------------------------------------------------------- model
 function load_() {
   var ss = SpreadsheetApp.getActive();
-  var sh = ss.getSheetByName(CFG.DATA_SHEET);
-  var vals = sh.getDataRange().getDisplayValues();
-  var head = vals[CFG.DATA_HEADER_ROW - 1];
-  var col = function (label) { return head.indexOf(label); };
-  var C = {
-    group: col('구분'), time: col('응답 시각'), name: col('방문자 성함'), comp: col('동반 1인'), ref: col('참고 (예매자·팀)'),
-    org: col('소속 / 직함'), phone: col('휴대전화'), email: col('이메일'), ppl: col('인원 (동반 포함)'), inc: col('집계 포함'), q1: col('Q1 더 스테이지')
-  };
+
+  // 1) 수요조사 응답자 (통합 탭) — 사람별로 묶고 집계 포함(Y) 행을 유효 응답으로
+  var vals = ss.getSheetByName(CFG.SURVEY_SHEET).getDataRange().getDisplayValues();
+  var head = vals[CFG.SURVEY_HEADER_ROW - 1], col = function (l) { return head.indexOf(l); };
+  var C = { group: col('구분'), time: col('응답 시각'), name: col('방문자 성함'), comp: col('동반 1인'), ref: col('참고 (예매자·팀)'),
+    org: col('소속 / 직함'), phone: col('휴대전화'), email: col('이메일'), inc: col('집계 포함'), q1: col('Q1 더 스테이지') };
   var flagCols = {};
   head.forEach(function (h, i) { var k = keyOfHeader_(h); if (k) flagCols[k] = i; });
-
-  // 1) 사람별로 응답 행 묶기
   var map = {};
-  for (var r = CFG.DATA_HEADER_ROW; r < vals.length; r++) {
+  function idOf(g, n, ph, em) { return g + '|' + normName_(n) + '|' + (normPhone_(ph) || String(em || '').toLowerCase()); }
+  for (var r = CFG.SURVEY_HEADER_ROW; r < vals.length; r++) {
     var v = vals[r];
     if (!v[C.group] || !v[C.name]) continue;
-    var row = {
-      group: v[C.group], name: v[C.name], comp: v[C.comp], ref: v[C.ref], org: v[C.org], phone: v[C.phone], email: v[C.email],
-      ppl: +v[C.ppl] || 1, inc: String(v[C.inc]).charAt(0) === 'Y', q1raw: v[C.q1], ts: parseTs_(v[C.time]), keys: {}
-    };
+    var row = { group: v[C.group], name: v[C.name], comp: v[C.comp], ref: v[C.ref], org: v[C.org], phone: v[C.phone], email: v[C.email],
+      inc: String(v[C.inc]).charAt(0) === 'Y', q1: q1Of_(v[C.q1]), ts: parseTs_(v[C.time]), keys: {} };
     Object.keys(flagCols).forEach(function (k) { if (String(v[flagCols[k]]) === '1') row.keys[k] = 1; });
-    var id = row.group + '|' + normName_(row.name) + '|' + (normPhone_(row.phone) || String(row.email).toLowerCase());
-    (map[id] = map[id] || []).push(row);
+    (map[idOf(row.group, row.name, row.phone, row.email)] = map[idOf(row.group, row.name, row.phone, row.email)] || []).push(row);
   }
 
-  // 2) 수정 응답 탭 덧씌우기
-  var edits = {};
+  // 2) 수정 응답 탭 덧씌우기 (세션 플래너에서 처음 응답한 사람도 여기서 생긴다)
   var esh = ss.getSheetByName(CFG.EDIT_SHEET);
+  var edits = {};
   if (esh && esh.getLastRow() > 1) {
     esh.getRange(2, 1, esh.getLastRow() - 1, EDIT_HEADER.length).getValues().forEach(function (e) {
       if (!e[1] || !e[2]) return;
-      var id = e[1] + '|' + normName_(e[2]) + '|' + (normPhone_(e[6]) || String(e[7]).toLowerCase());
-      var ts = e[0] instanceof Date ? e[0].getTime() : 0;
       var keys = {}; String(e[14] || '').split(',').forEach(function (k) { if (k) keys[k] = 1; });
-      var q1 = e[8] === '참석' ? '참석' : e[8] === '참석하지 않음' ? '불참' : '미정';
-      (edits[id] = edits[id] || []).push({ ts: ts, keys: keys, q1: q1 });
+      (edits[idOf(e[1], e[2], e[6], e[7])] = edits[idOf(e[1], e[2], e[6], e[7])] || []).push({
+        ts: e[0] instanceof Date ? e[0].getTime() : 0, keys: keys,
+        q1: e[8] === '참석' ? '참석' : e[8] === '참석하지 않음' ? '불참' : '미정',
+        row: { group: e[1], name: e[2], comp: e[3], ref: e[4], org: e[5], phone: String(e[6]), email: e[7] }
+      });
+    });
+  }
+  var people = [];
+  Object.keys(map).concat(Object.keys(edits).filter(function (id) { return !map[id]; })).forEach(function (id) {
+    var rows = (map[id] || []).sort(function (a, b) { return a.ts - b.ts; });
+    var ed = (edits[id] || []).sort(function (a, b) { return a.ts - b.ts; });
+    var eff = rows.filter(function (x) { return x.inc; }).pop() || rows[rows.length - 1];
+    var lastEd = ed[ed.length - 1];
+    var p = eff ? { row: eff, keys: eff.keys, q1: eff.q1, lastTs: eff.ts, firstTs: rows[0].ts, editTs: 0 }
+      : { row: lastEd.row, keys: lastEd.keys, q1: lastEd.q1, lastTs: lastEd.ts, firstTs: ed[0].ts, editTs: lastEd.ts };
+    if (eff && lastEd && lastEd.ts > eff.ts) { p.keys = lastEd.keys; p.q1 = lastEd.q1; p.lastTs = lastEd.ts; p.editTs = lastEd.ts; }
+    p.group = p.row.group; p.nameN = normName_(p.row.name); p.phoneN = normPhone_(p.row.phone);
+    p.emailN = String(p.row.email || '').trim().toLowerCase();
+    people.push(p);
+  });
+
+  // 3) 티켓 명단 (유료 구매자)
+  var tsh = sheet_(CFG.TICKET_SHEET, TICKET_HEADER), ticketRows = [];
+  if (tsh.getLastRow() > 1) {
+    tsh.getRange(2, 1, tsh.getLastRow() - 1, TICKET_HEADER.length).getDisplayValues().forEach(function (t) {
+      if (!t[1] || !t[2]) return;
+      ticketRows.push({ ticket: t[1], name: t[2], phone: t[3], email: t[4], nameN: normName_(t[2]), phoneN: normPhone_(t[3]), emailN: String(t[4]).trim().toLowerCase() });
     });
   }
 
-  var people = [];
-  Object.keys(map).forEach(function (id) {
-    var rows = map[id].sort(function (a, b) { return a.ts - b.ts; });
-    var eff = rows.filter(function (x) { return x.inc; }).pop() || rows[rows.length - 1];
-    var hist = rows.map(function (x) { return { ts: x.ts, keys: x.keys }; });
-    var person = {
-      id: id, group: eff.group, name: eff.name, nameN: normName_(eff.name), phoneN: normPhone_(eff.phone), emailN: String(eff.email || '').trim().toLowerCase(),
-      ppl: eff.ppl, row: eff, rowTs: eff.ts, firstTs: rows[0].ts, keys: eff.keys, q1: q1Of_(eff.q1raw), editTs: 0, lastTs: eff.ts
-    };
-    var ed = (edits[id] || []).sort(function (a, b) { return a.ts - b.ts; });
-    ed.forEach(function (x) { hist.push({ ts: x.ts, keys: x.keys }); });
-    var lastEd = ed[ed.length - 1];
-    if (lastEd && lastEd.ts > eff.ts) { person.keys = lastEd.keys; person.q1 = lastEd.q1; person.editTs = lastEd.ts; person.lastTs = lastEd.ts; }
-    // 세션별 줄 서는 시각 = 그 세션을 처음 선택한 시각 (수정해도 원래 세션 순번 유지)
-    person.since = {};
-    hist.sort(function (a, b) { return a.ts - b.ts; }).forEach(function (h) {
-      Object.keys(h.keys).forEach(function (k) { if (!(k in person.since)) person.since[k] = h.ts; });
+  // 4) 초청 MB 명단 (헤더 4행: 순번·성함·영문 성함·소속·직책·연락처·이메일…)
+  var inviteRows = [], ish = ss.getSheetByName(CFG.INVITE_MB_SHEET);
+  if (ish) {
+    var iv = ish.getDataRange().getDisplayValues(), ih = iv[3] || [];
+    var iN = ih.indexOf('성함'), iP = ih.indexOf('연락처'), iE = ih.indexOf('이메일');
+    iv.slice(4).forEach(function (t) {
+      if (!t[iN]) return;
+      inviteRows.push({ name: t[iN], phone: t[iP], email: t[iE], nameN: normName_(t[iN]), phoneN: normPhone_(t[iP]), emailN: String(t[iE]).trim().toLowerCase() });
     });
-    people.push(person);
+  }
+
+  // 5) 권종 → 세션 매핑 (권종 관리: 4행 집계 키, 5행부터 권종)
+  var tv = ss.getSheetByName(CFG.TICKET_MAP_SHEET).getDataRange().getDisplayValues(), keyRow = tv[3], ticketMap = {};
+  tv.slice(4).forEach(function (t) {
+    if (!t[0]) return;
+    var ks = [];
+    keyRow.forEach(function (k, i) { if (/^(F_|SCA_)/.test(k) && String(t[i]) === '1') ks.push(k); });
+    ticketMap[normTicket_(t[0])] = ks;
   });
 
-  // 3) 정원·우선 배정 인원
-  var st = ss.getSheetByName(CFG.STATUS_SHEET).getDataRange().getDisplayValues();
-  var cap = {}, capState = {};
-  st.forEach(function (row) {
-    var k = row[21]; // V열 (집계 키)
-    if (!k || !/^(F_|SCA_)/.test(k)) return;
-    var n = function (x) { return +String(x).replace(/[^\d.-]/g, '') || 0; };
-    cap[k] = { cap: n(row[3]), pre: n(row[5]) + n(row[14]) + n(row[15]), has: String(row[3]).trim() !== '' };
+  // 6) 혼잡도 (세션 현황 U열 상태, V열 집계 키)
+  var cong = {};
+  ss.getSheetByName(CFG.STATUS_SHEET).getDataRange().getDisplayValues().forEach(function (row) {
+    var k = row[21]; if (!k || !/^(F_|SCA_)/.test(k)) return;
     var u = String(row[20]);
-    capState[k] = u.indexOf('임박') > -1 ? 'near' : (u.indexOf('마감') > -1 || u.indexOf('초과') > -1) ? 'full' : 'ok';
+    cong[k] = u.indexOf('임박') > -1 ? 'near' : (u.indexOf('마감') > -1 || u.indexOf('초과') > -1) ? 'full' : 'ok';
   });
 
-  // 4) 세션별 배정 (② 유료 MB → ③ 무료 초청, 각 그룹 안에서는 세션 선택 시각 순)
-  var standing = {};
-  Object.keys(cap).forEach(function (k) {
-    var c = cap[k], list = people.filter(function (pp) { return pp.keys[k]; });
-    if (/^SCA_/.test(k)) list = list.filter(function (pp) { return pp.group !== 'MB 구매자'; });
-    list.sort(function (a, b) {
-      var pa = a.group === 'MB 구매자' ? 2 : 3, pb = b.group === 'MB 구매자' ? 2 : 3;
-      return pa - pb || (a.since[k] || 0) - (b.since[k] || 0);
-    });
-    var avail = c.cap - c.pre, cum = 0, w = 0, m = standing[k] = {};
-    list.forEach(function (pp) {
-      if (!c.has) { m[pp.id] = { state: 'none' }; return; }
-      var before = cum; cum += pp.ppl;
-      if (cum <= avail) m[pp.id] = { state: 'ok' };
-      else if (before < avail) m[pp.id] = { state: 'part', n: avail - before };
-      else m[pp.id] = { state: 'wait', rank: ++w };
-    });
-  });
-
-  return { people: people, standing: standing, capState: capState };
+  return { people: people, ticketRows: ticketRows, inviteRows: inviteRows, ticketMap: ticketMap, cong: cong };
 }
 
 // ---------------------------------------------------------------- helpers
@@ -304,6 +318,8 @@ function keyOfHeader_(h) {
 }
 function q1Of_(s) { s = String(s); return s.indexOf('참석하지') > -1 || s === '불참' ? '불참' : s.indexOf('참석') > -1 ? '참석' : '미정'; }
 function normName_(s) { return String(s || '').replace(/\s+/g, '').toLowerCase(); }
+function normTicket_(s) { return String(s || '').replace(/\s+/g, '').toLowerCase(); }
+function sameTicket_(a, b) { return normTicket_(a) === normTicket_(b); }
 function normPhone_(s) {
   var d = String(s || '').replace(/\D/g, '');
   if (/^82(10\d{8})$/.test(d)) d = '0' + d.slice(2);
@@ -318,8 +334,8 @@ function fmt_(d) { return Utilities.formatDate(d, CFG.TZ, 'MM.dd HH:mm'); }
 function maskPhone_(d) { return d.length >= 10 ? d.slice(0, 3) + '-****-' + d.slice(-4) : '****'; }
 function maskEmail_(e) { var i = e.indexOf('@'); return i > 1 ? e.charAt(0) + '***' + e.slice(i) : e; }
 
-// 편집기에서 실행해 보는 테스트: 로그에 첫 응답자의 조회 결과가 찍힌다
-function testLookup() {
+// 편집기에서 실행: 첫 응답자로 로그인했을 때의 결과를 로그로 확인
+function testLogin() {
   var m = load_(), p = m.people[0];
-  Logger.log(JSON.stringify(result_(m, p), null, 1));
+  Logger.log(JSON.stringify(login_({ name: p.row.name, phone: p.row.phone, email: p.row.email }), null, 1));
 }
