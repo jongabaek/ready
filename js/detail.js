@@ -60,9 +60,7 @@
       '<div><dt>장소</dt><dd>' + esc(pg.room) + '</dd></div>' +
       (x.speakers.length ? '<div><dt>' + (x.metaLabel ? x.metaLabel : x.speakerLabel ? x.speakerLabel : x.prog === 'futures' ? '심사' : x.prog === 'sca' ? '강사' : '연사') + '</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
-    if (x.key && !me()) {
-      html += '<a class="my-st off" href="planner.html"><span>세션 플래너에 로그인하면 내 티켓으로 참관할 수 있는지 확인할 수 있습니다</span><i aria-hidden="true">›</i></a>';
-    } else if (x.key) {
+    if (x.key && me()) {
       var ok = can(x.key), m = me();
       html += '<a class="my-st" href="planner.html"><span class="acc-l"><span class="dot ' + (ok ? 'on' : 'off') + '"></span>' +
         (ok ? '내 티켓으로 참관 가능' : '내 티켓으로는 참관할 수 없습니다') + '</span>' + (ok ? cong(x.key) : '') + '<i aria-hidden="true">›</i></a>';
