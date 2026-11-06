@@ -66,7 +66,7 @@
   dr.className = 'drawer'; dr.id = 'drawer'; dr.setAttribute('aria-hidden', 'true');
   dr.innerHTML = '<div class="scrim" data-close></div><nav class="dr-panel" aria-label="' + (EN ? 'Menu' : '전체 메뉴') + '">' +
     '<div class="dr-top"><span>15th World Coffee Forum</span><button class="dr-x" data-close aria-label="' + (EN ? 'Close menu' : '메뉴 닫기') + '">×</button></div>' +
-    '<ul>' + items + '</ul><p class="dr-foot">' + (EN ? 'Nov. 11–14, 2026 · Conference Rooms 3F & 4F, Coex' : '2026.11.11 – 14 · 코엑스 컨퍼런스룸 3, 4층') + '</p></nav>';
+    '<ul>' + items + '</ul></nav>';
   document.body.appendChild(dr);
 
   var hb = document.getElementById('hb');
