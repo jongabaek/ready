@@ -703,3 +703,4 @@ body.dr-open .dr-panel{transform:none}
 .sched time i{font-style:normal;color:var(--mut);font-weight:400}
 .sched span{font-size:14.5px}
 .sched-n{margin:10px 0 6px}.sched-n a{color:inherit}
+.sched-n a{text-decoration:underline;text-underline-offset:2px;color:var(--k)}

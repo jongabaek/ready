@@ -932,7 +932,7 @@ window.WCF_SESSIONS = [
   ],
   "scheduleNotes": [
    "세부 일정은 현장 운영에 따라 변동될 수 있습니다.",
-   "취재 및 참관 문의: <a href=\"tel:0260006710\">02-6000-6710</a>"
+   "취재 및 참관 문의: <a href=\"tel:0260006710\">전화</a> · <a href=\"mailto:bja0419@exporum.com\">이메일</a>"
   ]
  },
  {
