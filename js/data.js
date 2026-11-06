@@ -584,13 +584,13 @@ window.WCF_SESSIONS = [
   "speakers": [
    {
     "name": "박수인",
-    "role": "SCA AST (ITC)",
+    "role": "스페셜 커피 협회(SCA) · ITC Spotlighted SCA Educator",
     "photo": "",
     "bio": "수작 커피공방(Swim in Coffee LAP)을 운영하며 커피 교육과 카페 컨설팅을 하고 있다. 요리아카데미 교육부 학과장, 대형 카페 총괄 실장 등을 거쳤으며 청주 지역 다수 카페의 오픈 컨설팅을 맡았다."
    },
    {
     "name": "오동준",
-    "role": "SCA AST (Barista Skills)",
+    "role": "스페셜 커피 협회(SCA) · Barista Skills Spotlighted SCA Educator",
     "photo": "",
     "bio": "㈜엔타로 대표이사이자 Quantify CVA TEAM 프로젝트 디렉터다. SCA 공인 트레이너(AST)와 Q Instructor로 커피 교육을 하고 있으며, KNBC·KCRC·KCIGS 심사위원으로 활동했다."
    }
@@ -612,13 +612,13 @@ window.WCF_SESSIONS = [
   "speakers": [
    {
     "name": "김나연",
-    "role": "SCA AST (Sensory)",
+    "role": "스페셜 커피 협회(SCA) · Sensory Skills Spotlighted SCA Educator",
     "photo": "",
     "bio": "파이브씨 커피웍스 교육부원장으로 SCA Q Instructor, AST, CVA for Cuppers Trainer로 활동하고 있다. 프랜차이즈 본사와 공공기관, 직업전문학교 등에서 커피 교육을 해 왔으며, 2026 KCRC 헤드 저지를 맡았다."
    },
    {
     "name": "이재원",
-    "role": "SCA AST (Green Coffee)",
+    "role": "스페셜 커피 협회(SCA) · Green Coffee Spotlighted SCA Educator",
     "photo": "",
     "bio": "해비치호텔앤리조트 라운지 파트장으로 일하고 있다. 바리스타학원 전임강사를 거쳐 SCA CSP AST(바리스타 스킬·브루잉·센서리·로스팅)와 Q-Grader로 활동하고 있다."
    }
@@ -640,13 +640,13 @@ window.WCF_SESSIONS = [
   "speakers": [
    {
     "name": "김경태",
-    "role": "SCA AST (Roasting)",
+    "role": "스페셜 커피 협회(SCA) · Roasting Spotlighted SCA Educator",
     "photo": "",
     "bio": "경희커피바리스타학원 원장이자 계명문화대학교 커피문화경영학과 겸임교수다. 스타벅스커피코리아 수퍼바이저, 베토벤하우스 헤드 바리스타 등을 거쳤으며, SCA AST와 Q-Grader로 (사)한국커피협회 실기평가위원을 맡고 있다."
    },
    {
     "name": "허정민",
-    "role": "SCA AST (Brewing)",
+    "role": "스페셜 커피 협회(SCA) · Brewing Spotlighted SCA Educator",
     "photo": "",
     "bio": "케빈의 커피연구소를 운영하는 커피 교육자다. 호주 멜버른 Three Little Monkeys에서 헤드 바리스타로 일했고 윌리앤잭 커피를 운영했으며, 현재 SCA CSP Full-module AST와 Q Instructor로 활동하고 있다."
    }
