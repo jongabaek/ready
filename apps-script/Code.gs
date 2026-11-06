@@ -5,10 +5,11 @@
  *   실행 사용자: 나 / 액세스 권한: 모든 사용자
  *
  * 로그인: 이름 + 휴대전화(숫자) 또는 이메일
- *   본인 확인 출처 → ① 「티켓 명단」 탭(유료 구매자, 권종 포함)  ② 「초청 MB 명단」 탭  ③ 수요조사 응답자(모두 MB 소지자)
+ *   본인 확인 출처 → ① 「티켓 명단」 탭(유료 구매자, 권종 포함)  ② 「초청 MB 명단」 탭  ③ 「초청 단권 명단」 탭  ④ 수요조사 응답자(모두 MB 소지자)
  * 권한:
  *   MB(유료·초청) → All About Q를 뺀 전 세션 참관 가능, 수요조사 조회·수정·신규 응답 가능
  *   단권          → 「권종 관리」 탭 매핑에 1 표시된 세션만 참관 가능, 수요조사 없음
+ *   단권 초청     → 「초청 단권 명단」의 초청 권종(권종명 또는 집계 키) 세션만 참관 가능, 표시는 「○○ (초청)」
  * 혼잡도: 「세션 현황」 탭 상태(여유 / 마감 임박 / 마감·초과) → ok / near / full
  * 수정·신규 응답: 「수정 응답」 탭에 한 줄 추가 (원본·통합 탭은 건드리지 않음)
  */
@@ -20,6 +21,7 @@ var CFG = {
   TICKET_MAP_SHEET: '권종 관리',
   TICKET_SHEET: '티켓 명단',          // 유료 구매자 명단 (없으면 자동 생성, 예약자 정보 받으면 채움)
   INVITE_MB_SHEET: '초청 MB 명단',
+  INVITE_SINGLE_SHEET: '초청 단권 명단', // 더 스테이지·오리진 참가사 초청 등 (없으면 자동 생성)
   EDIT_SHEET: '수정 응답',
   MB_TICKET: 'Master Blend Pass',
   MB_EXCLUDE: ['SCA_AAQ'],
@@ -68,6 +70,8 @@ var Q1_TEXT = { '참석': '참석', '미정': '아직 결정하지 않음', '불
 var EDIT_HEADER = ['응답 시각', '구분', '방문자 성함', '동반 1인', '참고 (예매자·팀)', '소속 / 직함', '휴대전화', '이메일',
   'Q1 원문', 'Q2 원문', 'Q3 원문', 'Q4 원문', 'Q5 SCA 교육 원문', '의견', '세션 키', '최초 응답 시각', '수정 경로'];
 var TICKET_HEADER = ['채널', '권종', '이름', '휴대전화', '이메일', '예매번호', '비고'];
+// 초청 권종: 「권종 관리」의 권종명(예: The Stage, Origin Discovery 11/11) 또는 집계 키(예: F_O2 = El Injerto 세션만)
+var INVITE_SINGLE_HEADER = ['초청처', '초청 권종', '표시 이름', '이름', '휴대전화', '이메일', '비고'];
 
 // ---------------------------------------------------------------- entry
 function doGet(e) {
@@ -113,24 +117,32 @@ function identify_(m, c) {
   var tickets = [], src = null;
   m.ticketRows.forEach(function (t) { if (match_(c, t.nameN, t.phoneN, t.emailN)) { tickets.push(t.ticket); src = src || t; } });
   var invited = m.inviteRows.filter(function (t) { return match_(c, t.nameN, t.phoneN, t.emailN); })[0];
+  var singleInv = m.singleInviteRows.filter(function (t) { return match_(c, t.nameN, t.phoneN, t.emailN); });
   var surveys = m.people.filter(function (pp) { return match_(c, pp.nameN, pp.phoneN, pp.emailN); })
     .sort(function (a, b) { return b.lastTs - a.lastTs; });
   var sv = surveys[0] || null;
   var paidMB = tickets.some(function (t) { return sameTicket_(t, CFG.MB_TICKET); });
   var isMB = paidMB || !!invited || !!sv;
-  if (!tickets.length && !isMB) return null;
+  if (!tickets.length && !isMB && !singleInv.length) return null;
   if (isMB && !paidMB) tickets.unshift(CFG.MB_TICKET + (invited || (sv && sv.group !== 'MB 구매자') ? ' (초청)' : ''));
 
   var access = {};
   if (isMB) ALL_KEYS.forEach(function (k) { if (CFG.MB_EXCLUDE.indexOf(k) < 0) access[k] = 1; });
   tickets.forEach(function (t) { (m.ticketMap[normTicket_(t)] || []).forEach(function (k) { access[k] = 1; }); });
+  // 단권 초청: 권종명이면 권종 매핑, 집계 키(F_○○/SCA_○○)면 그 세션만
+  singleInv.forEach(function (t) {
+    var keys = /^(F_|SCA_)/.test(t.grant) ? t.grant.split(/[,\s]+/) : (m.ticketMap[normTicket_(t.grant)] || []);
+    keys.forEach(function (k) { if (k) access[k] = 1; });
+    var lab = (t.label || t.grant) + ' (초청)';
+    if (!isMB && tickets.indexOf(lab) < 0) tickets.push(lab);
+  });
 
-  var base = sv ? sv.row : src ? { name: src.name, phone: src.phone, email: src.email, comp: '', ref: '', org: '' }
-    : { name: invited.name, phone: invited.phone, email: invited.email, comp: '', ref: '', org: '' };
+  var who = src || invited || singleInv[0];
+  var base = sv ? sv.row : { name: who.name, phone: who.phone, email: who.email, comp: '', ref: '', org: '' };
   return {
     name: base.name, phoneN: normPhone_(base.phone), emailN: String(base.email || '').toLowerCase(),
     tickets: tickets, isMB: isMB, access: access, survey: sv,
-    group: sv ? sv.group : (paidMB ? 'MB 구매자' : '초청장(MB)'), base: base
+    group: sv ? sv.group : (paidMB ? 'MB 구매자' : invited ? '초청장(MB)' : tickets.length && !singleInv.length ? '단권' : '단권 초청'), base: base
   };
 }
 
@@ -274,6 +286,16 @@ function load_() {
     });
   }
 
+  // 4-2) 초청 단권 명단 (더 스테이지·오리진 참가사 초청)
+  var ssh = sheet_(CFG.INVITE_SINGLE_SHEET, INVITE_SINGLE_HEADER), singleInviteRows = [];
+  if (ssh.getLastRow() > 1) {
+    ssh.getRange(2, 1, ssh.getLastRow() - 1, INVITE_SINGLE_HEADER.length).getDisplayValues().forEach(function (t) {
+      if (!t[1] || !t[3]) return;
+      singleInviteRows.push({ org: t[0], grant: String(t[1]).trim(), label: String(t[2]).trim(), name: t[3], phone: t[4], email: t[5],
+        nameN: normName_(t[3]), phoneN: normPhone_(t[4]), emailN: String(t[5]).trim().toLowerCase() });
+    });
+  }
+
   // 5) 권종 → 세션 매핑 (권종 관리: 4행 집계 키, 5행부터 권종)
   var tv = ss.getSheetByName(CFG.TICKET_MAP_SHEET).getDataRange().getDisplayValues(), keyRow = tv[3], ticketMap = {};
   tv.slice(4).forEach(function (t) {
@@ -291,7 +313,7 @@ function load_() {
     cong[k] = u.indexOf('임박') > -1 ? 'near' : (u.indexOf('마감') > -1 || u.indexOf('초과') > -1) ? 'full' : 'ok';
   });
 
-  return { people: people, ticketRows: ticketRows, inviteRows: inviteRows, ticketMap: ticketMap, cong: cong };
+  return { people: people, ticketRows: ticketRows, inviteRows: inviteRows, singleInviteRows: singleInviteRows, ticketMap: ticketMap, cong: cong };
 }
 
 // ---------------------------------------------------------------- helpers

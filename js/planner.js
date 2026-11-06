@@ -69,7 +69,9 @@
         mk(T('MB 구매자 · 수요조사 응답', 'MB pass · responded'), '김커피', '01012345678') +
         mk(T('MB 구매자 · 미응답', 'MB pass · not responded'), '최구매', '01044445555') +
         mk(T('MB 초청자 · 미응답', 'MB pass (invited) · not responded'), '박엠비', '01033334444') +
-        mk(T('단권 구매자', 'Single-program ticket'), '이단권', '01022223333') + '</div>' : '') +
+        mk(T('단권 구매자', 'Single-program ticket'), '이단권', '01022223333') +
+        mk(T('단권 초청 · 더 스테이지', 'Invited · The Stage'), '정스테', '01055556666') +
+        mk(T('단권 초청 · 오리진 특정 세션', 'Invited · one Origin session'), '한오리', '01066667777') + '</div>' : '') +
       '<form class="lk-form" id="lkf" novalidate>' +
       '<div class="fld"><label for="lk-n">' + T('이름', 'Name<small>first name, then last name</small>') + '</label><input id="lk-n" autocomplete="name" placeholder="' + T('김포럼', 'Jane Smith') + '" value="' + esc(c.name) + '"></div>' +
       (EN ? '' : '<div class="fld"><label for="lk-p">' + T('휴대전화', 'Mobile (Korea)') + '</label><input id="lk-p" inputmode="numeric" autocomplete="tel" placeholder="010-0000-0000" value="' + esc(fmtPhone(c.phone)) + '"></div>') +
@@ -116,7 +118,7 @@
       var n = keys.filter(has).length;
       if (!n && !data.person.isMB) return; // 단권: 참관 가능한 프로그램만
       html += '<li><a href="session.html?prog=' + pk + '"><span class="dot ' + (n ? 'on' : 'off') + '"></span><span class="t">' + esc(P[pk].name) + '</span>' +
-        '<span class="m">' + (n ? (n === keys.length ? T('전체 참관 가능', 'All sessions included') : T(n + '개 세션 참관 가능', n + ' sessions included')) : T('참관 불가', 'Not included')) + '</span><i class="go" aria-hidden="true">›</i></a></li>';
+        '<span class="m">' + (n ? (n === keys.length ? T('전체 참관 가능', 'All sessions included') : T(n + '개 세션 참관 가능', n + (n === 1 ? ' session' : ' sessions') + ' included')) : T('참관 불가', 'Not included')) + '</span><i class="go" aria-hidden="true">›</i></a></li>';
     });
     return html + '</ul>';
   }
@@ -213,7 +215,9 @@
     '01044445555': { person: { name: '최구매', contact: '010-****-5555', tickets: ['Master Blend Pass'], isMB: true }, access: MB_ACCESS,
       survey: { responded: false, q1: '', picks: [], lastAt: '', edited: false } },
     '01022223333': { person: { name: '이단권', contact: '010-****-3333', tickets: ['The Sessions (목요일권)', 'Champion Live'], isMB: false },
-      access: ['F_S3', 'F_S4', 'F_S5', 'F_NAS', 'F_PAN'], survey: null }
+      access: ['F_S3', 'F_S4', 'F_S5', 'F_NAS', 'F_PAN'], survey: null },
+    '01055556666': { person: { name: '정스테', contact: '010-****-6666', tickets: ['The Stage (초청)'], isMB: false }, access: ['F_Q1'], survey: null },
+    '01066667777': { person: { name: '한오리', contact: '010-****-7777', tickets: ['Origin Discovery · El Injerto (초청)'], isMB: false }, access: ['F_O2'], survey: null }
   };
   function mockApi(pl) {
     return new Promise(function (res) {
