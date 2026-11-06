@@ -79,7 +79,7 @@
     'origin-1': { ov: [ORIGIN_PH] },
     'origin-2': { title: 'Finca El Injerto', sp: [['Arturo Aguirre Saenz', 'Owner & Producer, Finca El Injerto', '']],
       ov: ['El Injerto, a Cup of Excellence winning farm, shares the core values behind its success across the coffee value chain, introduces its signature varieties and its own experimental processing, followed by an auction coffee cupping.'] },
-    'origin-3': { title: 'Guatemalan Coffees (Anacafé)', sp: [['Mariana Caraveo', 'Senior Instructor, Anacafé Coffee Academy', '']],
+    'origin-3': { title: 'Guatemalan Coffees', sp: [['Mariana Caraveo', 'Senior Instructor, Anacafé Coffee Academy', '']],
       ov: ['Guatemalan coffee is known worldwide for rich aroma, bright acidity, full body and delicate sweetness. Explore the character of high-altitude coffees shaped by two oceans, volcanic lakes and mountain ranges through a cupping of washed, natural and honey coffees.'] },
     'origin-4': { sp: [['Lora Lee', 'Vice President, IWCA Korea', '']], ov: [ORIGIN_PH] },
     'origin-5': { ov: [ORIGIN_PH] },

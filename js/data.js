@@ -616,7 +616,7 @@ window.WCF_SESSIONS = [
   "day": "11.11",
   "s": "16:00",
   "e": "18:00",
-  "title": "Guatemalan Coffees (Anacafé)",
+  "title": "Guatemalan Coffees",
   "speakers": [
    {
     "name": "마리아나 카라베오 Mariana Caraveo",
