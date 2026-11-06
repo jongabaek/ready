@@ -110,7 +110,7 @@
       ov: ['Champion Live with Pan Wei, the 2026 World Barista Champion.'] },
     'futures-1': { title: 'Coffee Futures Challenge Final', speakerLabel: 'Judges', metaLabel: 'Judges',
       sp: [['Wonjin Cho', 'Coffee Columnist', ''], ['Jaehyun Park', 'CEO, Seoul Morning Coffee Club (SMCC)', '']],
-      ov: ['Coffee Futures Challenge is an idea competition that explores the future of the coffee industry and its emerging possibilities. Through creative ideas proposed by the next generation across business, services, culture and technology, it examines how the industry is changing and explores opportunities for sustainable growth and innovation.'] },
+      ov: ['Coffee Futures Challenge is an idea competition that explores the future of the coffee industry and its emerging possibilities. Through creative ideas proposed by the next generation across business, services, culture and technology, it examines how the industry is changing and explores opportunities for sustainable growth and innovation.', 'From the proposals submitted in the preliminary round, eight individual and team entries advanced to the final. Each team presents its idea for 15 minutes, followed by 5 minutes of questions from the judges.', '13:00 Opening · 13:10 Final presentations, part 1 (4 teams) · 15:00 Part 2 (4 teams) · 16:20 Final judging · 16:50 Awards and closing', 'Finalists: 고으니, 마*주, OnAir, 원두ONE, 원두잇, ieda, 커알못, unch (not in presentation order)'] },
     'gala-1': { ov: ['Which are the 100 most exceptional coffee shops in Asia-Pacific? The list will be unveiled for the first time worldwide at Cafe Show Seoul 2026.', 'A partner event held in Room 401 right after The Stage.'] }
   };
 
