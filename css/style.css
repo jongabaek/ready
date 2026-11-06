@@ -487,3 +487,5 @@ body.dr-open .dr-panel{transform:none}
 .tg-e{padding:5px 6px;border-radius:6px}
 .tg-e.sh{justify-content:center;padding:2px 6px}
 .tg-e.sh b{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-e.lunch{background:repeating-linear-gradient(135deg,#F4F4F2 0 6px,#ECECEA 6px 12px);color:var(--mut);align-items:center;justify-content:center}
+.tg-e.lunch b{font-weight:500}

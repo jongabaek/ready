@@ -125,6 +125,23 @@ window.WCF_SESSIONS = [
   "dow": "목"
  },
  {
+  "id": "stage-pair",
+  "prog": "stage",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "14:00",
+  "e": "14:30",
+  "cat": "Pairing Table & Coffee Break",
+  "color": "#D7E8C4",
+  "title": "페어링 테이블 & 커피 브레이크",
+  "speakers": [],
+  "overview": [
+   "페어링 테이블은 더 스테이지 중간에 진행되는 맛과 교류의 시간입니다. 커피 한 잔과 디저트 한 입이 만드는 여유 속에서 새로운 영감과 네트워킹의 기회를 만나 보세요.",
+   "장소: 4F 401호 로비"
+  ]
+ },
+ {
   "id": "stage-5",
   "prog": "stage",
   "key": "F_Q1",
@@ -147,6 +164,38 @@ window.WCF_SESSIONS = [
    "(예시) 세션에서 다룰 핵심 내용과 사례, 참가자가 얻어 갈 수 있는 점을 정리합니다. 문단은 여러 개 넣을 수 있습니다."
   ],
   "dow": "목"
+ },
+ {
+  "id": "stage-fireside",
+  "prog": "stage",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "15:00",
+  "e": "15:40",
+  "cat": "Fireside Chat",
+  "color": "#96C263",
+  "title": "Fireside Chat (패널 토크)",
+  "speakers": [],
+  "overview": [
+   "(예시) 더 스테이지 연사들이 함께하는 패널 토크입니다. 진행자와 참여 연사가 정해지면 업데이트됩니다."
+  ]
+ },
+ {
+  "id": "stage-award",
+  "prog": "stage",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "15:40",
+  "e": "16:30",
+  "cat": "Award",
+  "color": "#96C263",
+  "title": "연사 감사패 수여 및 카페쇼 엑설런스 어워드",
+  "speakers": [],
+  "overview": [
+   "(예시) 더 스테이지 연사 감사패 수여와 카페쇼 엑설런스 어워드 시상이 진행됩니다."
+  ]
  },
  {
   "id": "session-1",
