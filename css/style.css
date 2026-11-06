@@ -679,3 +679,7 @@ body.dr-open .dr-panel{transform:none}
 .rooms.reg .rm small{display:block;font-size:12.5px;color:var(--mut);margin-top:2px}
 .rooms.reg li{align-items:flex-start}
 #registration{scroll-margin-top:70px}
+.park.nb{margin:10px 0 0}
+.park.nb + .park.nb{margin-top:8px}
+.park.nb b{display:block;font-size:13.5px;font-weight:600;color:var(--k);margin-bottom:4px}
+#registration ~ .park.nb:last-of-type{margin-bottom:8px}
