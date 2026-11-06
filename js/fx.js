@@ -17,7 +17,10 @@
   var PROG = { stage: '🎤', champion: '🏆', origin: '🌐', sessions: '🔎', session: '🔎', sca: '📚', futures: '🚀' };
   function progOf(el) {
     var a = el && el.closest && el.closest('a[href]'); if (!a) return null;
-    var h = a.getAttribute('href'), m = h.match(/[?&]prog=([a-z]+)/) || h.match(/[?&]id=([a-z]+)-/);
+    var h = a.getAttribute('href');
+    if (/[?&]id=stage-pair\b/.test(h)) return '🍭';
+    if (/[?&]partner=kewleaves\b/.test(h)) return '🫖';
+    var m = h.match(/[?&]prog=([a-z]+)/) || h.match(/[?&]id=([a-z]+)-/);
     return m && PROG[m[1]] ? PROG[m[1]] : null;
   }
   function spawn(x, y, cls, emo) {
