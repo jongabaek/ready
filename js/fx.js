@@ -13,10 +13,17 @@
     '@keyframes cfxTr{0%{transform:translate(-50%,-50%) scale(.6);opacity:.9}100%{transform:translate(-50%,-140%) scale(.4);opacity:0}}';
   document.head.appendChild(st);
 
-  function spawn(x, y, cls) {
+  // 프로그램 링크는 프로그램별 이모지
+  var PROG = { stage: '🎤', champion: '🏆', origin: '🌐', sessions: '🔎', session: '🔎', sca: '📚', futures: '🚀' };
+  function progOf(el) {
+    var a = el && el.closest && el.closest('a[href]'); if (!a) return null;
+    var h = a.getAttribute('href'), m = h.match(/[?&]prog=([a-z]+)/) || h.match(/[?&]id=([a-z]+)-/);
+    return m && PROG[m[1]] ? PROG[m[1]] : null;
+  }
+  function spawn(x, y, cls, emo) {
     if (live >= MAX) return;
     var e = document.createElement('span');
-    e.className = 'cfx ' + cls; e.textContent = EMO; e.setAttribute('aria-hidden', 'true');
+    e.className = 'cfx ' + cls; e.textContent = emo || EMO; e.setAttribute('aria-hidden', 'true');
     e.style.left = x + 'px'; e.style.top = y + 'px';
     e.style.setProperty('--r', (Math.random() * 30 - 15).toFixed(0) + 'deg');
     e.style.setProperty('--dx', (Math.random() * 30 - 15).toFixed(0) + 'px');
@@ -25,7 +32,20 @@
   }
 
   var down = false, lx = 0, ly = 0, lt = 0;
-  addEventListener('pointerdown', function (ev) { down = true; lx = ev.clientX; ly = ev.clientY; spawn(ev.clientX, ev.clientY, 'pop'); }, { passive: true });
+  addEventListener('pointerdown', function (ev) {
+    down = true; lx = ev.clientX; ly = ev.clientY;
+    var pe = progOf(ev.target);
+    spawn(ev.clientX, ev.clientY, 'pop', pe);
+    if (pe) { spawn(ev.clientX - 18, ev.clientY + 6, 'pop', pe); spawn(ev.clientX + 18, ev.clientY + 6, 'pop', pe); }
+  }, { passive: true });
+  // 프로그램 링크는 이모지가 보이도록 잠깐 기다렸다가 이동
+  addEventListener('click', function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    var a = ev.target.closest && ev.target.closest('a[href]');
+    if (!a || a.target === '_blank' || !progOf(a)) return;
+    ev.preventDefault(); var href = a.href;
+    setTimeout(function () { location.href = href; }, 320);
+  });
   addEventListener('pointerup', function () { down = false; }, { passive: true });
   addEventListener('pointercancel', function () { down = false; }, { passive: true });
   function trail(x, y) {
