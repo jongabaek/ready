@@ -49,7 +49,7 @@
   function viewDetail(x) {
     var pg = P[x.prog];
     document.title = x.title + ' · ' + pg.name;
-    var sibs = S.filter(function (y) { return y.prog === x.prog; }), i = sibs.indexOf(x);
+    var sibs = S.filter(function (y) { return y.prog === x.prog && (!me() || me().person.isMB || !y.key || can(y.key) || y === x); }), i = sibs.indexOf(x);
     var prev = sibs[i - 1], next = sibs[i + 1];
 
     var html = '<a class="back" href="session.html?prog=' + esc(x.prog) + '">‹ ' + esc(pg.name) + '</a>' + (me() && can(x.key) ? LEGEND : '');
