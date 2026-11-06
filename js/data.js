@@ -877,7 +877,7 @@ window.WCF_SESSIONS = [
   "day": "11.13",
   "dow": "금",
   "s": "13:00",
-  "e": "17:20",
+  "e": "18:00",
   "title": "Coffee Futures Challenge 본선",
   "speakers": [
    {
@@ -929,6 +929,10 @@ window.WCF_SESSIONS = [
     "17:20",
     "시상식 및 폐회"
    ]
+  ],
+  "scheduleNotes": [
+   "세부 일정은 현장 운영에 따라 변동될 수 있습니다.",
+   "취재 및 참관 문의: <a href=\"tel:0260006710\">02-6000-6710</a>"
   ]
  },
  {

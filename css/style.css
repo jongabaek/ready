@@ -702,3 +702,4 @@ body.dr-open .dr-panel{transform:none}
 .sched time{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
 .sched time i{font-style:normal;color:var(--mut);font-weight:400}
 .sched span{font-size:14.5px}
+.sched-n{margin:10px 0 6px}.sched-n a{color:inherit}
