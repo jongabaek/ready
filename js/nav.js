@@ -14,7 +14,7 @@
     ['', 'Origin Discovery', 'session.html?prog=origin'],
     ['', 'Champion Live', 'session.html?prog=champion'],
     ['', 'SCA Education', 'session.html?prog=sca'],
-    ['', 'Coffee Futures Challenge', '#futures'],
+    ['', 'Coffee Futures Challenge', 'session.html?prog=futures'],
     ['h', '연계 행사'],
     ['', "Asia-Pacific's 100 Best Coffee Shops GALA", '#gala'],
     ['h', '안내'],

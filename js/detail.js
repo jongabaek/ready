@@ -57,7 +57,7 @@
       '<h1 class="dt-t">' + esc(x.title) + '</h1>' +
       '<dl class="dt-m"><div><dt>일시</dt><dd>' + x.day + ' (' + x.dow + ') ' + x.s + ' – ' + x.e + '</dd></div>' +
       '<div><dt>장소</dt><dd>' + esc(pg.room) + '</dd></div>' +
-      (x.speakers.length ? '<div><dt>연사</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
+      (x.speakers.length ? '<div><dt>' + (x.prog === 'futures' ? '심사' : x.prog === 'sca' ? '강사' : '연사') + '</dt><dd>' + esc(speakersLine(x)) + '</dd></div>' : '') + '</dl>';
 
     if (x.key && !me()) {
       html += '<a class="my-st off" href="planner.html"><span>세션 플래너에 로그인하면 내 티켓으로 참관할 수 있는지 확인할 수 있어요</span><i aria-hidden="true">›</i></a>';
@@ -68,11 +68,11 @@
       if (ok && m.person.isMB && m.survey) html += '<p class="my-sub">' + (picked(x.key) ? '수요조사에 담은 세션이에요.' : '수요조사에 담지 않은 세션이에요. 세션 플래너에서 추가할 수 있어요.') + '</p>';
     }
 
-    html += '<h2 class="dt-h">' + (x.prog === 'origin' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
+    html += '<h2 class="dt-h">' + (x.prog === 'origin' || x.prog === 'futures' ? '소개' : x.prog === 'sca' ? '교육 소개' : '발표 개요') + '</h2>' +
       '<div class="dt-body">' + x.overview.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('') + '</div>';
 
     if (x.speakers.length) {
-      html += '<h2 class="dt-h">' + (x.prog === 'sca' ? '강사' : '연사') + '</h2><ul class="spk">';
+      html += '<h2 class="dt-h">' + (x.prog === 'sca' ? '강사' : x.prog === 'futures' ? '심사위원' : '연사') + '</h2><ul class="spk">';
       x.speakers.forEach(function (p) {
         html += '<li>' + (p.photo ? '<img src="' + esc(p.photo) + '" alt="" width="64" height="64">' : '<span class="spk-ph" aria-hidden="true">' + esc(p.name.charAt(0)) + '</span>') +
           '<div><b>' + esc(p.name) + '</b><small>' + esc(p.role) + '</small><p>' + esc(p.bio || '') + '</p></div></li>';

@@ -25,6 +25,11 @@ window.WCF_PROG = {
   "name": "Champion Live",
   "room": "3F · 컨퍼런스룸 318호",
   "anchor": "champion"
+ },
+ "futures": {
+  "name": "Coffee Futures Challenge",
+  "room": "3F · 컨퍼런스룸 300호",
+  "anchor": "futures"
  }
 };
 window.WCF_SESSIONS = [
@@ -754,5 +759,32 @@ window.WCF_SESSIONS = [
    "(예시) 세션에서 다룰 핵심 내용과 사례, 참가자가 얻어 갈 수 있는 점을 정리합니다. 문단은 여러 개 넣을 수 있습니다."
   ],
   "dow": "토"
+ },
+ {
+  "id": "futures-1",
+  "prog": "futures",
+  "key": null,
+  "day": "11.13",
+  "dow": "금",
+  "s": "13:00",
+  "e": "17:00",
+  "title": "Coffee Futures Challenge 본선",
+  "speakers": [
+   {
+    "name": "조원진",
+    "role": "커피 칼럼니스트",
+    "photo": "",
+    "bio": "(예시) 심사위원 소개 문구가 들어갈 자리입니다."
+   },
+   {
+    "name": "박재현",
+    "role": "서울모닝커피클럽(SMCC) 대표",
+    "photo": "",
+    "bio": "(예시) 심사위원 소개 문구가 들어갈 자리입니다."
+   }
+  ],
+  "overview": [
+   "커피 퓨처스 챌린지는 커피 산업의 미래와 새로운 가능성을 탐색하는 프로그램입니다. 비즈니스, 서비스, 문화, 기술 등 다양한 분야에서 미래 세대가 제안하는 창의적인 아이디어를 통해 변화하는 커피 산업의 흐름을 살펴보고, 지속 가능한 성장과 혁신의 가능성을 모색합니다."
+  ]
  }
 ];
