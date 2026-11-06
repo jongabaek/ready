@@ -29,6 +29,22 @@ window.WCF_PROG = {
 };
 window.WCF_SESSIONS = [
  {
+  "id": "stage-open",
+  "prog": "stage",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "10:00",
+  "e": "10:30",
+  "cat": "개회",
+  "color": "#96C263",
+  "title": "개회",
+  "speakers": [],
+  "overview": [
+   "(예시) 제15회 월드커피포럼 더 스테이지 개회가 진행됩니다."
+  ]
+ },
+ {
   "id": "stage-1",
   "prog": "stage",
   "key": "F_Q1",
@@ -173,9 +189,9 @@ window.WCF_SESSIONS = [
   "dow": "목",
   "s": "15:00",
   "e": "15:40",
-  "cat": "Fireside Chat",
+  "cat": "패널 토크",
   "color": "#96C263",
-  "title": "Fireside Chat (패널 토크)",
+  "title": "패널 토크",
   "speakers": [],
   "overview": [
    "(예시) 더 스테이지 연사들이 함께하는 패널 토크입니다. 진행자와 참여 연사가 정해지면 업데이트됩니다."
@@ -195,6 +211,22 @@ window.WCF_SESSIONS = [
   "speakers": [],
   "overview": [
    "(예시) 더 스테이지 연사 감사패 수여와 카페쇼 엑설런스 어워드 시상이 진행됩니다."
+  ]
+ },
+ {
+  "id": "stage-dj",
+  "prog": "stage",
+  "key": null,
+  "day": "11.12",
+  "dow": "목",
+  "s": "16:30",
+  "e": "17:00",
+  "cat": "DJing",
+  "color": "#D7E8C4",
+  "title": "도덕과 규범 디제잉",
+  "speakers": [],
+  "overview": [
+   "(예시) 카페쇼 엑설런스 어워드 이후, 도덕과 규범의 디제잉이 이어집니다."
   ]
  },
  {
