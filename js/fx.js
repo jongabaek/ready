@@ -1,7 +1,18 @@
-/* 탭·클릭하면 ☕ 이 톡 튀어 오르고, 드래그·스크롤하면 손가락을 따라 작은 ☕ 이 남는다 */
+/* 모바일: 탭·클릭하면 ☕ 이 톡 튀어 오르고, 드래그·스크롤하면 손가락을 따라 작은 ☕ 이 남는다 */
 (function () {
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var EMO = '☕️', live = 0, MAX = 40;
+  // PC(마우스): 커서 자체를 ☕ 로, 이모지가 지정된 항목을 누르면 커서가 그 이모지로 바뀐다
+  var DESK = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var cst;
+  function cur(emo) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text x="1" y="26" font-size="26">' + emo + '</text></svg>';
+    var u = 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '") 6 4';
+    if (!cst) { cst = document.createElement('style'); document.head.appendChild(cst); }
+    cst.textContent = 'html,html *{cursor:' + u + ',auto!important}' +
+      'html input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]),html textarea{cursor:text!important}';
+  }
+  if (DESK) { cur('☕️'); addEventListener('pageshow', function () { cur('☕️'); }); }
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches && !DESK) return;
+  var EMO = '☕️', live = 0, MAX = 40, ct;
   var st = document.createElement('style');
   st.textContent =
     '.cfx{position:fixed;left:0;top:0;pointer-events:none;z-index:9999;line-height:1;user-select:none;will-change:transform,opacity}' +
@@ -41,6 +52,12 @@
   addEventListener('pointerdown', function (ev) {
     down = true; lx = ev.clientX; ly = ev.clientY;
     var pe = progOf(ev.target);
+    if (DESK) {
+      if (ev.pointerType !== 'mouse') return;
+      clearTimeout(ct);
+      if (pe) { cur(pe); ct = setTimeout(function () { cur('☕️'); }, 1600); }
+      return;
+    }
     spawn(ev.clientX, ev.clientY, 'pop', pe);
   }, { passive: true });
   // 프로그램 링크는 이모지가 보이도록 잠깐 기다렸다가 이동
@@ -55,7 +72,7 @@
   addEventListener('pointercancel', function () { down = false; }, { passive: true });
   var HOME = document.body.classList.contains('home-page');
   function trail(x, y) {
-    if (!HOME) return; // 드래그·스크롤 커피는 홈 화면에서만
+    if (!HOME || DESK) return; // 드래그·스크롤 커피는 모바일 홈 화면에서만
     var now = Date.now(), dx = x - lx, dy = y - ly;
     if (now - lt < 80 || dx * dx + dy * dy < 40 * 40) return;
     lt = now; lx = x; ly = y; spawn(x, y, 'tr');
